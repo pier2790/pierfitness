@@ -2969,7 +2969,8 @@ function exportPDFCoach(mode){
 
   var win=window.open('','_blank');
   if(!win){alert('Abilita i popup per esportare PDF');return;}
-  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Report Scheda #'+sc.id+'</title><style>'+css+'</style></head><body>'+body+'<script>window.onload=function(){window.print();}<\/script></body></html>');
+  win.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Report Scheda #'+sc.id+'</title><style>'+css+'</style><!-- PierFitness PWA v6 build=20260318224400 -->
+</head><body>'+body+'<script>window.onload=function(){window.print();}<\/script></body></html>');
   win.document.close();
 }
 
