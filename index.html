@@ -1808,7 +1808,40 @@ function buildWeight(){
   html+='<div class="w-stat-row" style="grid-template-columns:1fr 1fr 1fr 1fr;">';
   html+='<div class="w-stat"><div class="w-stat-val" style="color:var(--accent);font-size:20px;">'+(avg||'—')+'</div><div class="w-stat-lbl">MEDIA SETT</div></div>';
   html+='<div class="w-stat"><div class="w-stat-val" style="font-size:20px;color:'+(delta===null?'var(--muted)':delta>0?'var(--red)':'var(--green)')+'">'+(delta!==null?(delta>0?'+':'')+delta:'—')+'</div><div class="w-stat-lbl">Δ SETT.</div></div>';
-  if(allDailyEntries.length>0){
+  // Chart 4: media settimanale
+  if(S.weightChart===3&&allDailyEntries.length>=2){
+    var weekMap4={};
+    allDailyEntries.forEach(function(e){
+      var d4=new Date(e.date);var dow4=d4.getDay()||7;
+      var mon4=new Date(d4);mon4.setDate(d4.getDate()-(dow4-1));
+      var wk4=mon4.toISOString().slice(0,10);
+      if(!weekMap4[wk4])weekMap4[wk4]=[];weekMap4[wk4].push(e.kg);
+    });
+    var weeks4=Object.keys(weekMap4).sort();
+    var weekAvgs4=weeks4.map(function(w){var v=weekMap4[w];return{wk:w,avg:Math.round(v.reduce(function(a,b){return a+b;},0)/v.length*100)/100,n:v.length};});
+    if(weekAvgs4.length>=2){
+      var waMin4=Math.min.apply(null,weekAvgs4.map(function(x){return x.avg;}))-0.3;
+      var waMax4=Math.max.apply(null,weekAvgs4.map(function(x){return x.avg;}))+0.3;
+      var waRange4=waMax4-waMin4||0.1;
+      var waPts4=weekAvgs4.map(function(x,i){return{x:i/(weekAvgs4.length-1)*300,y:80-(((x.avg-waMin4)/waRange4)*78),avg:x.avg,wk:x.wk,n:x.n};});
+      var waPoly4=waPts4.map(function(p){return p.x+','+p.y;}).join(' ');
+      var waArea4=waPoly4+' '+waPts4[waPts4.length-1].x+',80 0,80';
+      var waDelta4=Math.round((weekAvgs4[weekAvgs4.length-1].avg-weekAvgs4[0].avg)*100)/100;
+      html+='<div class="chart-box"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">';
+      html+='<div class="chart-lbl" style="margin-bottom:0;">Media sett. ('+weekAvgs4.length+' sett.)</div>';
+      html+='<div style="font-size:12px;font-weight:700;color:'+(waDelta4>0?'var(--red)':waDelta4<0?'var(--green)':'var(--muted)')+';">'+(waDelta4>0?'↑ +':'↓ ')+Math.abs(waDelta4)+' kg</div></div>';
+      html+='<svg width="100%" viewBox="0 0 300 90" preserveAspectRatio="none" style="display:block;">';
+      for(var yi4=0;yi4<=4;yi4++){var yy4=80/4*yi4;var yv4=Math.round((waMax4-(yi4/4)*waRange4)*10)/10;html+='<line x1="0" y1="'+yy4+'" x2="300" y2="'+yy4+'" stroke="#252530" stroke-width="1"/><text x="3" y="'+(yy4+9)+'" fill="#666680" font-size="8">'+yv4+'</text>';}
+      html+='<polygon points="'+waArea4+'" fill="rgba(255,107,53,.08)"/>';
+      html+='<polyline points="'+waPoly4+'" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+      waPts4.forEach(function(p,i){html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3.5" fill="var(--accent)" stroke="var(--bg)" stroke-width="1.5"/>';if(i===0||i===waPts4.length-1||waPts4.length<=6){html+='<text x="'+p.x+'" y="'+(p.y-8)+'" fill="#EEEEF2" font-size="8" text-anchor="middle">'+p.avg+'</text>';}});
+      html+='</svg><div style="margin-top:8px;display:flex;gap:4px;overflow-x:auto;">';
+      weekAvgs4.slice(-6).forEach(function(x){html+='<div style="flex:0 0 auto;background:var(--bg3);border-radius:8px;padding:6px 8px;text-align:center;min-width:48px;"><div style="font-family:Bebas Neue,sans-serif;font-size:15px;">'+x.avg+'</div><div style="font-size:9px;color:var(--muted);">'+x.wk.slice(5)+'</div><div style="font-size:8px;color:var(--muted2);">'+x.n+' mis.</div></div>';});
+      html+='</div></div>';
+    }
+  }
+
+    if(allDailyEntries.length>0){
     var allKgs=allDailyEntries.map(function(e){return e.kg;});
     var minA=Math.min.apply(null,allKgs),maxA=Math.max.apply(null,allKgs);
     html+='<div class="w-stat"><div class="w-stat-val" style="font-size:20px;color:var(--green);">'+minA+'</div><div class="w-stat-lbl">MIN</div></div>';
@@ -1818,7 +1851,7 @@ function buildWeight(){
 
   // ── CHART TABS ───────────────────────────────────────────────────────────
   html+='<div style="display:flex;gap:6px;padding:14px 18px 0;overflow-x:auto;">';
-  ['Settimanale','Giornaliero','Variazione'].forEach(function(t,i){
+  ['Settimanale','Giornaliero','Variazione','Media sett.'].forEach(function(t,i){
     html+='<div class="filter-tab'+(S.weightChart===i?' active':'')+'" data-wchart="'+i+'">'+t+'</div>';
   });
   html+='</div>';
@@ -1843,12 +1876,12 @@ function buildWeight(){
 
   // Chart 2: Daily entries
   if(S.weightChart===1&&allDailyEntries.length>=2){
-    var ent2=allDailyEntries.slice().reverse();
+    var ent2=allDailyEntries.slice(0,30).reverse();
     var kgs2=ent2.map(function(e){return e.kg;});
     var mn2=Math.min.apply(null,kgs2)-0.2,mx2=Math.max.apply(null,kgs2)+0.2;
     var pts2=kgs2.map(function(v,i){return[i/(kgs2.length-1)*320,100-(((v-mn2)/(mx2-mn2))*100)];});
     var poly2=pts2.map(function(p){return p[0]+','+p[1];}).join(' ');
-    html+='<div class="chart-box"><div class="chart-lbl">Peso giornaliero ('+(ent2.length)+' misurazioni)</div>';
+    html+='<div class="chart-box"><div class="chart-lbl">Peso giornaliero - ultimi 30gg ('+(ent2.length)+' mis.)</div>';
     html+='<svg width="100%" viewBox="0 0 320 110" preserveAspectRatio="none" style="display:block;">';
     for(var yi2=0;yi2<=4;yi2++){var yy2=100/4*yi2;var yv2=Math.round((mx2-(yi2/4)*(mx2-mn2))*10)/10;html+='<line x1="0" y1="'+yy2+'" x2="320" y2="'+yy2+'" stroke="#252530" stroke-width="1"/><text x="3" y="'+(yy2+9)+'" fill="#666680" font-size="8">'+yv2+'</text>';}
     html+='<polygon points="'+( poly2+' ')+pts2[pts2.length-1][0]+',100 0,100" fill="rgba(78,205,196,.07)"/><polyline points="'+poly2+'" fill="none" stroke="#4ECDC4" stroke-width="1.5" stroke-linejoin="round"/>';
@@ -1858,7 +1891,7 @@ function buildWeight(){
 
   // Chart 3: Daily variation bars
   if(S.weightChart===2&&allDailyEntries.length>=3){
-    var ent3=allDailyEntries.slice().reverse();
+    var ent3=allDailyEntries.slice(0,30).reverse();
     var deltas=[];for(var di=1;di<ent3.length;di++){deltas.push(Math.round((ent3[di].kg-ent3[di-1].kg)*100)/100);}
     var maxR=Math.max.apply(null,deltas.map(Math.abs))||0.3;
     html+='<div class="chart-box"><div class="chart-lbl">Variazione giornaliera peso</div>';
@@ -3037,53 +3070,46 @@ function renderModal(){
       for(var gw=1;gw<=sc2.settimane;gw++){
         var gwl=getExLog(ex.id,gw);
         if(gwl&&gwl.serie){
-          var gTop=null;
+          var gTop=null,gTR=0,gRC=0;
           gwl.serie.forEach(function(gs){
             var gk=parseFloat(String(gs.kg||'').replace(',','.'));
             if(!isNaN(gk)&&gk>0&&(gTop===null||gk>gTop))gTop=gk;
+            var gr=parseInt(gs.reps||'0');
+            if(!isNaN(gr)&&gr>0){gTR+=gr;gRC++;}
           });
-          if(gTop!==null)graphPts.push({w:gw,kg:gTop});
+          if(gTop!==null||gRC>0)graphPts.push({w:gw,kg:gTop,reps:gRC>0?Math.round(gTR/gRC):null});
         }
       }
-      if(graphPts.length>=2){
-        var gMin=Math.min.apply(null,graphPts.map(function(p){return p.kg;}))-1;
-        var gMax=Math.max.apply(null,graphPts.map(function(p){return p.kg;}))+1;
-        var gRange=gMax-gMin||1;
-        var gW=300,gH=100;
-        var gPts2=graphPts.map(function(p,i){
-          return{x:20+i/(graphPts.length-1)*(gW-40),y:gH-10-((p.kg-gMin)/gRange)*(gH-24),kg:p.kg,w:p.w};
-        });
-        var gPoly=gPts2.map(function(p){return p.x+','+p.y;}).join(' ');
-        var gArea=gPoly+' '+gPts2[gPts2.length-1].x+','+(gH-4)+' '+gPts2[0].x+','+(gH-4);
-        var firstKg=graphPts[0].kg,lastKg=graphPts[graphPts.length-1].kg;
-        var gDelta=Math.round((lastKg-firstKg)*10)/10;
-
+      var graphKgPts=graphPts.filter(function(p){return p.kg!==null;});
+      var graphRepPts=graphPts.filter(function(p){return p.reps!==null;});
+      if(graphKgPts.length>=1){
+        var gMin=Math.min.apply(null,graphKgPts.map(function(p){return p.kg;}))-1;
+        var gMax=Math.max.apply(null,graphKgPts.map(function(p){return p.kg;}))+1;
+        var gRange=gMax-gMin||1;var gW=300,gH=110;
+        var rMin2=0,rRange2=1;
+        if(graphRepPts.length>=1){var rMaxV=Math.max.apply(null,graphRepPts.map(function(p){return p.reps;}));rMin2=Math.max(0,Math.min.apply(null,graphRepPts.map(function(p){return p.reps;}))-2);rRange2=rMaxV-rMin2+2||1;}
+        var gPts2=graphKgPts.map(function(p){var xi=20+(p.w-1)/(sc2.settimane-1||1)*(gW-40);return{x:xi,y:gH-10-((p.kg-gMin)/gRange)*(gH-24),kg:p.kg,w:p.w};});
+        var rPts2=graphRepPts.map(function(p){var xi=20+(p.w-1)/(sc2.settimane-1||1)*(gW-40);return{x:xi,y:gH-10-((p.reps-rMin2)/rRange2)*(gH-24),reps:p.reps,w:p.w};});
+        var gPoly=gPts2.length>1?gPts2.map(function(p){return p.x+','+p.y;}).join(' '):'';
+        var gArea=gPts2.length>1?(gPoly+' '+gPts2[gPts2.length-1].x+','+(gH-4)+' '+gPts2[0].x+','+(gH-4)):'';
+        var rPoly=rPts2.length>1?rPts2.map(function(p){return p.x+','+p.y;}).join(' '):'';
+        var firstKg=graphKgPts[0].kg,lastKg=graphKgPts[graphKgPts.length-1].kg;
+        var gDelta=Math.round((lastKg-firstKg)*10)/10;var colReps='#FFD060';
         html+='<div style="padding:12px 18px 14px;">';
         html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
-        html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📈 Progressione Peso</div>';
+        html+='<div style="display:flex;gap:12px;align-items:center;">';
+        html+='<div style="display:flex;align-items:center;gap:4px;"><div style="width:12px;height:3px;border-radius:2px;background:'+col2+'"></div><div style="font-size:9px;color:var(--muted);">KG</div></div>';
+        html+='<div style="display:flex;align-items:center;gap:4px;"><div style="width:12px;height:0;border-top:2px dashed '+colReps+'"></div><div style="font-size:9px;color:var(--muted);">REPS</div></div>';
+        html+='</div>';
         html+='<div style="font-size:12px;font-weight:700;color:'+(gDelta>0?'var(--green)':gDelta<0?'var(--red)':'var(--muted)')+';">'+(gDelta>0?'↑ +':'↓ ')+Math.abs(gDelta)+' kg</div>';
         html+='</div>';
-
         html+='<svg width="100%" viewBox="0 0 '+gW+' '+(gH+14)+'" preserveAspectRatio="xMidYMid meet" style="display:block;">';
-        // Y-axis labels
-        for(var gy=0;gy<=3;gy++){
-          var gyy=gH-10-(gy/3)*(gH-24);
-          var gyv=Math.round((gMin+gy/3*gRange)*10)/10;
-          html+='<line x1="18" y1="'+gyy+'" x2="'+gW+'" y2="'+gyy+'" stroke="#1E1E28" stroke-width="0.5"/>';
-          html+='<text x="2" y="'+(gyy+3)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif">'+gyv+'</text>';
-        }
-        // Area fill
-        html+='<polygon points="'+gArea+'" fill="'+col2+'10"/>';
-        // Line
-        html+='<polyline points="'+gPoly+'" fill="none" stroke="'+col2+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
-        // Points + labels
-        gPts2.forEach(function(p,i){
-          var isMax2=p.kg===gMax-1;
-          html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="'+col2+'" stroke="var(--bg2)" stroke-width="2"/>';
-          html+='<text x="'+p.x+'" y="'+(p.y-8)+'" fill="#EEEEF2" font-size="8" font-family="Bebas Neue,sans-serif" text-anchor="middle" letter-spacing="0.5">'+p.kg+'</text>';
-          // Week label below
-          html+='<text x="'+p.x+'" y="'+(gH+10)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">W'+p.w+'</text>';
-        });
+        for(var gy=0;gy<=3;gy++){var gyy=gH-10-(gy/3)*(gH-24);var gyv=Math.round((gMin+gy/3*gRange)*10)/10;html+='<line x1="18" y1="'+gyy+'" x2="'+gW+'" y2="'+gyy+'" stroke="#1E1E28" stroke-width="0.5"/><text x="2" y="'+(gyy+3)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif">'+gyv+'</text>';}
+        if(gArea)html+='<polygon points="'+gArea+'" fill="'+col2+'10"/>';
+        if(rPoly)html+='<polyline points="'+rPoly+'" fill="none" stroke="'+colReps+'" stroke-width="1.5" stroke-dasharray="4,3" stroke-linejoin="round" stroke-linecap="round"/>';
+        if(gPoly)html+='<polyline points="'+gPoly+'" fill="none" stroke="'+col2+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+        rPts2.forEach(function(p){html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="'+colReps+'" stroke="var(--bg2)" stroke-width="1.5"/><text x="'+p.x+'" y="'+(p.y-7)+'" fill="'+colReps+'" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">'+p.reps+'</text>';});
+        gPts2.forEach(function(p){html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="'+col2+'" stroke="var(--bg2)" stroke-width="2"/><text x="'+p.x+'" y="'+(p.y-9)+'" fill="#EEEEF2" font-size="8" font-family="Bebas Neue,sans-serif" text-anchor="middle" letter-spacing="0.5">'+p.kg+'</text><text x="'+p.x+'" y="'+(gH+10)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">W'+p.w+'</text>';});
         html+='</svg></div>';
         html+='<div style="height:1px;background:var(--border2);margin:0 18px;"></div>';
       }
