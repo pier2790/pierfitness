@@ -662,6 +662,21 @@ function timerBeep(done){
   else if(navigator.vibrate){navigator.vibrate(50);}
 }
 
+function timerCountdownBeep(secsLeft){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var freqs={5:700,4:800,3:900,2:1050,1:1300};
+    var freq=freqs[secsLeft]||900;
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.frequency.value=freq;o.type='square';
+    g.gain.setValueAtTime(0.0,ctx.currentTime);
+    g.gain.linearRampToValueAtTime(0.7,ctx.currentTime+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.18);
+    o.start(ctx.currentTime);o.stop(ctx.currentTime+0.22);
+  }catch(e){}
+  if(navigator.vibrate){navigator.vibrate(secsLeft===1?[60,30,60]:40);}
+}
 function timerRequestNotifPerm(){
   if('Notification' in window&&Notification.permission==='default'){
     Notification.requestPermission();
@@ -677,6 +692,7 @@ function timerStart(t){
     S.timerSecs--;
     // Avviso a 10 secondi dalla fine
     if(S.timerSecs===10){timerBeep(false);}
+    if(S.timerSecs<=5&&S.timerSecs>0){timerCountdownBeep(S.timerSecs);}
     if(S.timerSecs<=0){
       clearInterval(S.timerIv);S.timerRun=false;S.timerDone=true;S.timerSecs=0;
       timerBeep(true);
@@ -695,7 +711,13 @@ function refreshTimerPill(){
   var pill=document.querySelector('.tmr-pill'),num=document.querySelector('.tmr-num');
   var col=S.giorno?S.giorno.colore:'var(--accent)';
   if(pill)pill.className='tmr-pill'+(S.timerRun?' running':S.timerDone?' tdone':'');
-  if(num){num.textContent=fmtT(S.timerSecs);num.style.color=S.timerDone?'var(--green)':S.timerRun?col:'var(--muted)';}
+  var isCountdown=S.timerRun&&S.timerSecs>0&&S.timerSecs<=5;
+  if(num){
+    num.textContent=(S.timerSecs<=5&&S.timerSecs>0&&S.timerRun)?String(S.timerSecs):fmtT(S.timerSecs);
+    num.style.color=S.timerDone?'var(--green)':isCountdown?'var(--red)':S.timerRun?col:'var(--muted)';
+    num.style.fontSize=isCountdown?'22px':'';
+    num.style.fontWeight=isCountdown?'900':'';
+  }
 }
 
 // ─── AI ───────────────────────────────────────────────────────────────────────
