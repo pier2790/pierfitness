@@ -661,6 +661,20 @@ function timerBeep(done){
   if(done&&navigator.vibrate){navigator.vibrate([200,100,200,100,400]);}
   else if(navigator.vibrate){navigator.vibrate(50);}
 }
+function timerBeepCount(secsLeft){
+  // Suono acuto crescente per gli ultimi 5 secondi (square wave, 700→→→→→→1300Hz)
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var freq=700+(5-secsLeft)*150; // 5→700, 4→850, 3→1000, 2→1150, 1→1300
+    var o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.frequency.value=freq;o.type='square';
+    g.gain.setValueAtTime(0.25,ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.12);
+    o.start(ctx.currentTime);o.stop(ctx.currentTime+0.15);
+  }catch(e){}
+  if(navigator.vibrate){navigator.vibrate(30);}
+}
 
 function timerRequestNotifPerm(){
   if('Notification' in window&&Notification.permission==='default'){
@@ -677,6 +691,8 @@ function timerStart(t){
     S.timerSecs--;
     // Avviso a 10 secondi dalla fine
     if(S.timerSecs===10){timerBeep(false);}
+    // Countdown sonoro ultimi 5 secondi
+    if(S.timerSecs>=1&&S.timerSecs<=5){timerBeepCount(S.timerSecs);}
     if(S.timerSecs<=0){
       clearInterval(S.timerIv);S.timerRun=false;S.timerDone=true;S.timerSecs=0;
       timerBeep(true);
@@ -695,7 +711,12 @@ function refreshTimerPill(){
   var pill=document.querySelector('.tmr-pill'),num=document.querySelector('.tmr-num');
   var col=S.giorno?S.giorno.colore:'var(--accent)';
   if(pill)pill.className='tmr-pill'+(S.timerRun?' running':S.timerDone?' tdone':'');
-  if(num){num.textContent=fmtT(S.timerSecs);num.style.color=S.timerDone?'var(--green)':S.timerRun?col:'var(--muted)';}
+  if(num){
+    var isCount=(S.timerRun&&S.timerSecs>=1&&S.timerSecs<=5);
+    num.textContent=isCount?String(S.timerSecs):fmtT(S.timerSecs);
+    num.style.color=S.timerDone?'var(--green)':isCount?'#FF3B30':S.timerRun?col:'var(--muted)';
+    num.style.fontSize=isCount?'20px':'';
+  }
 }
 
 // âââ AI âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
@@ -1818,7 +1839,7 @@ function buildWeight(){
 
   // ââ CHART TABS âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
   html+='<div style="display:flex;gap:6px;padding:14px 18px 0;overflow-x:auto;">';
-  ['Settimanale','Giornaliero','Variazione'].forEach(function(t,i){
+  ['Settimanale','Giornaliero','Variazione','Media sett.'].forEach(function(t,i){
     html+='<div class="filter-tab'+(S.weightChart===i?' active':'')+'" data-wchart="'+i+'">'+t+'</div>';
   });
   html+='</div>';
@@ -1841,9 +1862,9 @@ function buildWeight(){
     }
   }
 
-  // Chart 2: Daily entries
+  // Chart 2: Daily entries (ultimi 30)
   if(S.weightChart===1&&allDailyEntries.length>=2){
-    var ent2=allDailyEntries.slice().reverse();
+    var ent2=allDailyEntries.slice(0,30).reverse();
     var kgs2=ent2.map(function(e){return e.kg;});
     var mn2=Math.min.apply(null,kgs2)-0.2,mx2=Math.max.apply(null,kgs2)+0.2;
     var pts2=kgs2.map(function(v,i){return[i/(kgs2.length-1)*320,100-(((v-mn2)/(mx2-mn2))*100)];});
@@ -1856,9 +1877,9 @@ function buildWeight(){
     html+='</svg></div>';
   }
 
-  // Chart 3: Daily variation bars
+  // Chart 3: Daily variation bars (ultimi 30)
   if(S.weightChart===2&&allDailyEntries.length>=3){
-    var ent3=allDailyEntries.slice().reverse();
+    var ent3=allDailyEntries.slice(0,30).reverse();
     var deltas=[];for(var di=1;di<ent3.length;di++){deltas.push(Math.round((ent3[di].kg-ent3[di-1].kg)*100)/100);}
     var maxR=Math.max.apply(null,deltas.map(Math.abs))||0.3;
     html+='<div class="chart-box"><div class="chart-lbl">Variazione giornaliera peso</div>';
@@ -1879,6 +1900,73 @@ function buildWeight(){
     var net=Math.round((ent3[ent3.length-1].kg-ent3[0].kg)*100)/100;
     html+='<div style="flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center;"><div style="font-size:13px;color:'+(net>0?'var(--red)':net<0?'var(--green)':'var(--muted)')+';font-weight:700;">'+(net>0?'+':'')+net+'</div><div style="font-size:10px;color:var(--muted);">Î totale</div></div>';
     html+='</div></div>';
+
+  // Chart 4: Media settimanale ISO - ultime 6 settimane
+  if(S.weightChart===3){
+    var isoWeeks={};
+    allDailyEntries.forEach(function(e){
+      var d=new Date(e.date);
+      var tmp=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+      tmp.setUTCDate(tmp.getUTCDate()+4-(tmp.getUTCDay()||7));
+      var yearStart=new Date(Date.UTC(tmp.getUTCFullYear(),0,1));
+      var wn=Math.ceil((((tmp-yearStart)/86400000)+1)/7);
+      var wk=tmp.getUTCFullYear()+'-W'+(wn<10?'0':'')+wn;
+      if(!isoWeeks[wk])isoWeeks[wk]=[];
+      isoWeeks[wk].push(e.kg);
+    });
+    var wkKeys=Object.keys(isoWeeks).sort();
+    var wkData=wkKeys.map(function(wk){
+      var vals=isoWeeks[wk];
+      var avg=Math.round(vals.reduce(function(a,b){return a+b;},0)/vals.length*10)/10;
+      return{wk:wk,avg:avg,n:vals.length};
+    });
+    var last6=wkData.slice(-6);
+    if(last6.length>=2){
+      var avgs=last6.map(function(x){return x.avg;});
+      var mn4=Math.min.apply(null,avgs)-0.3,mx4=Math.max.apply(null,avgs)+0.3;
+      var rng4=mx4-mn4||0.5;
+      var pts4=avgs.map(function(v,i){return[i/(avgs.length>1?avgs.length-1:1)*300,90-(((v-mn4)/rng4)*80)];});
+      var poly4=pts4.map(function(p){return p[0]+','+p[1];}).join(' ');
+      var area4=poly4+' '+pts4[pts4.length-1][0]+',90 0,90';
+      html+='<div class="chart-box">';
+      html+='<div class="chart-lbl">Media settimanale ISO \u2014 ultime '+last6.length+' settimane</div>';
+      html+='<svg width="100%" viewBox="0 0 300 104" preserveAspectRatio="none" style="display:block;">';
+      for(var yi4=0;yi4<=3;yi4++){var yy4=Math.round(90/3*yi4);var yv4=Math.round((mx4-(yi4/3)*rng4)*10)/10;html+='<line x1="0" y1="'+yy4+'" x2="300" y2="'+yy4+'" stroke="#252530" stroke-width="1"/><text x="2" y="'+(yy4+8)+'" fill="#666680" font-size="8">'+yv4+'</text>';}
+      html+='<polygon points="'+area4+'" fill="rgba(255,208,96,.1)"/>';
+      html+='<polyline points="'+poly4+'" fill="none" stroke="#FFD060" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+      pts4.forEach(function(p,i){
+        html+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#FFD060" stroke="var(--bg2)" stroke-width="2"/>';
+        html+='<text x="'+p[0]+'" y="'+(p[1]-8)+'" fill="#EEEEF2" font-size="9" font-family="Bebas Neue,sans-serif" text-anchor="middle">'+avgs[i]+'</text>';
+        var wlabel=last6[i].wk.replace(/\d{4}-/,'');
+        html+='<text x="'+p[0]+'" y="101" fill="#666680" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">'+wlabel+'</text>';
+      });
+      html+='</svg>';
+      html+='<div style="margin-top:10px;border-top:1px solid var(--border2);padding-top:8px;">';
+      html+='<table style="width:100%;border-collapse:collapse;font-size:11px;">';
+      html+='<thead><tr style="color:var(--muted);">';
+      html+='<th style="padding:4px 8px;font-weight:600;font-size:10px;text-align:left;">Settimana</th>';
+      html+='<th style="padding:4px 8px;font-weight:600;font-size:10px;text-align:right;">Media</th>';
+      html+='<th style="padding:4px 8px;font-weight:600;font-size:10px;text-align:right;">N</th>';
+      html+='<th style="padding:4px 8px;font-weight:600;font-size:10px;text-align:right;">\u0394</th>';
+      html+='</tr></thead><tbody>';
+      last6.forEach(function(row,i){
+        var prev=i>0?last6[i-1]:null;
+        var delta=prev?Math.round((row.avg-prev.avg)*10)/10:null;
+        var isLast=i===last6.length-1;
+        var dCol=delta===null?'var(--muted)':delta>0?'var(--red)':delta<0?'var(--green)':'var(--muted)';
+        html+='<tr style="border-top:1px solid var(--border2);'+(isLast?'background:rgba(255,208,96,.06);':'')+'">';
+        html+='<td style="padding:6px 8px;color:'+(isLast?'#FFD060':'var(--text)')+';font-weight:'+(isLast?'700':'400')+';">'+row.wk.replace(/(\d{4})-W/,'W')+'<\/\u200btd>';
+        html+='<td style="padding:6px 8px;text-align:right;font-family:Bebas Neue,sans-serif;font-size:14px;color:'+(isLast?'#FFD060':'var(--text)')+';">'+row.avg+' <span style="font-size:9px;font-family:DM Sans,sans-serif;color:var(--muted);">kg<\/\u200bspan><\/\u200btd>';
+        html+='<td style="padding:6px 8px;text-align:right;color:var(--muted2);">'+row.n+'<\/\u200btd>';
+        html+='<td style="padding:6px 8px;text-align:right;font-weight:700;color:'+dCol+';">'+(delta===null?'\u2014':(delta>0?'+':'')+delta)+'<\/\u200btd>';
+        html+='<\/\u200btr>';
+      });
+      html+='<\/\u200btbody><\/\u200btable><\/\u200bdiv>';
+      html+='<\/\u200bdiv>';
+    } else {
+      html+='<div style="padding:24px 18px;text-align:center;color:var(--muted);font-size:13px;">Servono almeno 2 settimane di misurazioni.</div>';
+    }
+  }
   }
 
   // ââ DAILY HISTORY LIST ââââââââââââââââââââââââââââââââââââââââââââââââââ
@@ -3001,7 +3089,7 @@ function renderModal(){
   // TIMER
   if(S.showTimer){
     var col=S.giorno?S.giorno.colore:'var(--accent)';
-    html+='<div class="overlay" id="tmr-overlay"><div class="timer-box"><div style="display:flex;justify-content:space-between;align-items:center;width:100%;"><div style="font-size:12px;font-weight:600;color:var(--muted)">RECUPERO</div><button class="t-btn" id="t-close" style="background:var(--bg3);color:var(--muted);padding:5px 10px;font-size:12px;">â</button></div><div class="timer-big" style="color:'+(S.timerDone?'var(--green)':S.timerRun?col:'var(--text)')+'">'+fmtT(S.timerSecs)+'</div><div class="timer-presets">'
+    html+='<div class="overlay" id="tmr-overlay"><div class="timer-box"><div style="display:flex;justify-content:space-between;align-items:center;width:100%;"><div style="font-size:12px;font-weight:600;color:var(--muted)">RECUPERO</div><button class="t-btn" id="t-close" style="background:var(--bg3);color:var(--muted);padding:5px 10px;font-size:12px;">â</button></div><div class="timer-big" style="color:'+(S.timerDone?'var(--green)':(S.timerRun&&S.timerSecs>=1&&S.timerSecs<=5)?'#FF3B30':S.timerRun?col:'var(--text)')+'" data-countdown="'+(S.timerRun&&S.timerSecs>=1&&S.timerSecs<=5?'1':'0')+'">'+((S.timerRun&&S.timerSecs>=1&&S.timerSecs<=5)?String(S.timerSecs):fmtT(S.timerSecs))+'</div><div class="timer-presets">'
       +'<button class="t-pre" data-preset="45">45s</button><button class="t-pre" data-preset="60">1m</button><button class="t-pre" data-preset="90">1m30</button><button class="t-pre" data-preset="120">2m</button><button class="t-pre" data-preset="150">2m30</button><button class="t-pre" data-preset="180">3m</button>'
       +'</div><div class="t-btns">'
       +(S.timerRun?'<button class="t-btn" id="t-pause" style="background:var(--bg3);color:var(--text);">Pausa</button>':'<button class="t-btn" id="t-start" style="background:'+col+';color:#fff;">â¶ Start</button>')
@@ -3038,11 +3126,15 @@ function renderModal(){
         var gwl=getExLog(ex.id,gw);
         if(gwl&&gwl.serie){
           var gTop=null;
+          var repsTotal=0,repsCount=0;
           gwl.serie.forEach(function(gs){
             var gk=parseFloat(String(gs.kg||'').replace(',','.'));
             if(!isNaN(gk)&&gk>0&&(gTop===null||gk>gTop))gTop=gk;
+            var gr=parseInt(gs.reps||'');
+            if(!isNaN(gr)&&gr>0){repsTotal+=gr;repsCount++;}
           });
-          if(gTop!==null)graphPts.push({w:gw,kg:gTop});
+          var gAvgReps=repsCount>0?Math.round(repsTotal/repsCount*10)/10:null;
+          if(gTop!==null)graphPts.push({w:gw,kg:gTop,avgReps:gAvgReps});
         }
       }
       if(graphPts.length>=2){
@@ -3057,15 +3149,33 @@ function renderModal(){
         var gArea=gPoly+' '+gPts2[gPts2.length-1].x+','+(gH-4)+' '+gPts2[0].x+','+(gH-4);
         var firstKg=graphPts[0].kg,lastKg=graphPts[graphPts.length-1].kg;
         var gDelta=Math.round((lastKg-firstKg)*10)/10;
+        // Reps avg line
+        var repsPts=graphPts.filter(function(p){return p.avgReps!==null;});
+        var hasReps=repsPts.length>=2;
+        var rMin=0,rMax=1,rRange2=1,rPts2=[],rPoly='';
+        if(hasReps){
+          rMin=Math.min.apply(null,repsPts.map(function(p){return p.avgReps;}))-1;
+          rMax=Math.max.apply(null,repsPts.map(function(p){return p.avgReps;}))+1;
+          rRange2=rMax-rMin||1;
+          rPts2=repsPts.map(function(p){
+            var xi=graphPts.indexOf(p);
+            return{x:20+xi/(graphPts.length-1)*(gW-40),y:gH-10-((p.avgReps-rMin)/rRange2)*(gH-24),r:p.avgReps,w:p.w};
+          });
+          rPoly=rPts2.map(function(p){return p.x+','+p.y;}).join(' ');
+        }
 
         html+='<div style="padding:12px 18px 14px;">';
-        html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">';
-        html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">ð Progressione Peso</div>';
-        html+='<div style="font-size:12px;font-weight:700;color:'+(gDelta>0?'var(--green)':gDelta<0?'var(--red)':'var(--muted)')+';">'+(gDelta>0?'â +':'â ')+Math.abs(gDelta)+' kg</div>';
+        html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">';
+        html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">ð Progressione</div>';
+        html+='<div style="font-size:12px;font-weight:700;color:'+(gDelta>0?'var(--green)':gDelta<0?'var(--red)':'var(--muted)')+';">'+(gDelta>0?'↑ +':'↓ ')+Math.abs(gDelta)+' kg</div>';
+        html+='</div>';
+        html+='<div style="display:flex;gap:12px;margin-bottom:8px;">';
+        html+='<div style="display:flex;align-items:center;gap:5px;"><svg width="18" height="6" style="overflow:visible"><line x1="0" y1="3" x2="18" y2="3" stroke="'+col2+'" stroke-width="2.5" stroke-linecap="round"/></svg><span style="font-size:9px;color:var(--muted);">Kg</span></div>';
+        if(hasReps)html+='<div style="display:flex;align-items:center;gap:5px;"><svg width="18" height="6" style="overflow:visible"><line x1="0" y1="3" x2="18" y2="3" stroke="#FFD060" stroke-width="2" stroke-dasharray="4,2" stroke-linecap="round"/></svg><span style="font-size:9px;color:var(--muted);">Reps medie</span></div>';
         html+='</div>';
 
         html+='<svg width="100%" viewBox="0 0 '+gW+' '+(gH+14)+'" preserveAspectRatio="xMidYMid meet" style="display:block;">';
-        // Y-axis labels
+        // Y-axis labels (kg scale left)
         for(var gy=0;gy<=3;gy++){
           var gyy=gH-10-(gy/3)*(gH-24);
           var gyv=Math.round((gMin+gy/3*gRange)*10)/10;
@@ -3074,14 +3184,20 @@ function renderModal(){
         }
         // Area fill
         html+='<polygon points="'+gArea+'" fill="'+col2+'10"/>';
-        // Line
+        // Kg Line
         html+='<polyline points="'+gPoly+'" fill="none" stroke="'+col2+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
-        // Points + labels
+        // Reps dashed yellow line (scaled independently on right axis)
+        if(hasReps&&rPoly){
+          html+='<polyline points="'+rPoly+'" fill="none" stroke="#FFD060" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>';
+          rPts2.forEach(function(p){
+            html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="#FFD060" stroke="var(--bg2)" stroke-width="1.5"/>';
+            html+='<text x="'+p.x+'" y="'+(p.y-7)+'" fill="#FFD060" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">'+p.r+'</text>';
+          });
+        }
+        // Kg Points + labels
         gPts2.forEach(function(p,i){
-          var isMax2=p.kg===gMax-1;
           html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="'+col2+'" stroke="var(--bg2)" stroke-width="2"/>';
           html+='<text x="'+p.x+'" y="'+(p.y-8)+'" fill="#EEEEF2" font-size="8" font-family="Bebas Neue,sans-serif" text-anchor="middle" letter-spacing="0.5">'+p.kg+'</text>';
-          // Week label below
           html+='<text x="'+p.x+'" y="'+(gH+10)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">W'+p.w+'</text>';
         });
         html+='</svg></div>';
@@ -3751,7 +3867,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // âââ PWA SERVICE WORKER âââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v3";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v4";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
