@@ -3186,20 +3186,20 @@ function renderModal(){
         html+='<polygon points="'+gArea+'" fill="'+col2+'10"/>';
         // Kg Line
         html+='<polyline points="'+gPoly+'" fill="none" stroke="'+col2+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
-        // Reps dashed yellow line (scaled independently on right axis)
-        if(hasReps&&rPoly){
-          html+='<polyline points="'+rPoly+'" fill="none" stroke="#FFD060" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>';
-          rPts2.forEach(function(p){
-            html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="#FFD060" stroke="var(--bg2)" stroke-width="1.5"/>';
-            html+='<text x="'+p.x+'" y="'+(p.y-7)+'" fill="#FFD060" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">'+p.r+'</text>';
-          });
-        }
         // Kg Points + labels
         gPts2.forEach(function(p,i){
           html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="4" fill="'+col2+'" stroke="var(--bg2)" stroke-width="2"/>';
           html+='<text x="'+p.x+'" y="'+(p.y-8)+'" fill="#EEEEF2" font-size="8" font-family="Bebas Neue,sans-serif" text-anchor="middle" letter-spacing="0.5">'+p.kg+'</text>';
           html+='<text x="'+p.x+'" y="'+(gH+10)+'" fill="#666680" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">W'+p.w+'</text>';
         });
+        // Reps dashed yellow line (drawn after kg so visible on top)
+        if(hasReps&&rPoly){
+          html+='<polyline points="'+rPoly+'" fill="none" stroke="#FFD060" stroke-width="2" stroke-dasharray="5,3" stroke-linejoin="round" stroke-linecap="round"/>';
+          rPts2.forEach(function(p){
+            html+='<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="#FFD060" stroke="var(--bg2)" stroke-width="1.5"/>';
+            html+='<text x="'+p.x+'" y="'+(p.y+14)+'" fill="#FFD060" font-size="7" font-family="DM Sans,sans-serif" text-anchor="middle">'+p.r+'</text>';
+          });
+        }
         html+='</svg></div>';
         html+='<div style="height:1px;background:var(--border2);margin:0 18px;"></div>';
       }
@@ -3867,7 +3867,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v4";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v5";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
