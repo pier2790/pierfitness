@@ -3146,11 +3146,16 @@ function renderModal(){
       // ── PROGRESSION GRAPH ──
       var graphPts=[];
       for(var gw=1;gw<=sc2.settimane;gw++){
+        // Solo settimane effettivamente salvate
+        var gwSaved=S.weekLogs[gw]&&S.weekLogs[gw].savedAt;
+        if(!gwSaved)continue;
         var gwl=getExLog(ex.id,gw);
         if(gwl&&gwl.serie){
           var gTop=null;
           var repsTotal=0,repsCount=0;
           gwl.serie.forEach(function(gs){
+            // Solo serie completate (done=true)
+            if(!gs.done)return;
             var gk=parseFloat(String(gs.kg||'').replace(',','.'));
             if(!isNaN(gk)&&gk>0&&(gTop===null||gk>gTop))gTop=gk;
             var gr=parseInt(gs.reps||'');
