@@ -99,7 +99,7 @@ input[type=number]{-moz-appearance:textfield;}
 .perf-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
 .perf-ttl{font-weight:600;font-size:14px;flex:1;}
 .perf-x{color:var(--muted);font-size:14px;cursor:pointer;padding:5px 9px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);}
-.perf-body{padding:16px 18px 24px;overflow-y:auto;}
+.perf-body{padding:8px 0 24px;overflow-y:auto;flex:1;min-height:0;}
 .perf-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border2);}
 .perf-row:last-child{border-bottom:none;}
 .perf-wk{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--muted);width:28px;flex-shrink:0;}
@@ -223,8 +223,8 @@ input[type=number]{-moz-appearance:textfield;}
 <script>
 // Auto-update: forza aggiornamento se SW vecchio
 (function(){
-  var TARGET='pierfitness-v9';
-  var KEY='pf_sw_updated_v9';
+  var TARGET='pierfitness-v10';
+  var KEY='pf_sw_updated_v10';
   if(sessionStorage.getItem(KEY))return; // già fatto in questa sessione
   if(!navigator.serviceWorker)return;
   navigator.serviceWorker.getRegistrations().then(function(regs){
@@ -3218,7 +3218,7 @@ function renderModal(){
       var col2=g?g.colore:'var(--accent)';
       html+='<div class="perf-wrap" id="perf-overlay"><div class="perf-sheet"><div class="perf-handle"></div>';
       html+='<div class="perf-hdr"><div class="perf-ttl">'+htmlEsc(ex.nome)+'</div><button class="perf-x" id="perf-close">✕</button></div>';
-      html+='<div class="perf-body" style="padding:8px 0 24px;">';
+      html+='<div class="perf-body">';
 
       // ── PROGRESSION GRAPH ──
       var graphPts=[];
@@ -3985,7 +3985,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v9";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v10";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
