@@ -1321,7 +1321,7 @@ function renderWorkout(){
           if(!isWOpen&&wTot2)hdr2+='<div style="font-size:10px;color:'+(wDone2===wTot2?'var(--green)':'var(--muted)')+';flex-shrink:0;">'+wDone2+'/'+wTot2+'</div>';
           hdr2+='<span style="font-size:16px;color:var(--muted2);flex-shrink:0;">'+(isWOpen?'▲':'▼')+'</span>';
           html+='<div data-wktog="'+wkKey+'" style="display:flex;align-items:center;gap:7px;padding:8px 0;cursor:pointer;">'+hdr2+'</div>';
-          if(isWOpen){
+          if(isWOpen&&isSaved2){
             var isEditMode=!!S.openWeeksEdit[wkKey];
             html+='<div style="padding-bottom:12px;">';
             if(!isEditMode){
@@ -3275,6 +3275,8 @@ function renderModal(){
         var prescrColor=prescrChanged?'var(--yellow)':col2;
 
         // UNA SOLA RIGA: W1  3×7  ·  30kg 7 6 6
+        // Salta settimane non salvate e non attive
+        if(!isSaved&&!isActive){prevPrescr=prescr;continue;}
         html+='<div style="display:flex;align-items:baseline;gap:0;padding:7px 18px;background:'+rowBg+';border-left:2px solid '+(prescrChanged?'var(--yellow)':isActive?'var(--accent)':'transparent')+';white-space:nowrap;overflow:hidden;">';
 
         // W badge
