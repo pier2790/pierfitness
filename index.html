@@ -223,8 +223,8 @@ input[type=number]{-moz-appearance:textfield;}
 <script>
 // Auto-update: forza aggiornamento se SW vecchio
 (function(){
-  var TARGET='pierfitness-v7';
-  var KEY='pf_sw_updated_v7';
+  var TARGET='pierfitness-v8';
+  var KEY='pf_sw_updated_v8';
   if(sessionStorage.getItem(KEY))return; // già fatto in questa sessione
   if(!navigator.serviceWorker)return;
   navigator.serviceWorker.getRegistrations().then(function(regs){
@@ -558,7 +558,8 @@ function serieColor(exId,w,si,field){
 }
 
 // ─── COMPACT WEEK DISPLAY ────────────────────────────────────────────────────
-function compactWeekHtml(exId,w){
+function compactWeekHtml(exId,w,isSaved){
+  if(!isSaved)return '<span style="color:var(--muted2);font-size:12px;">—</span>';
   var log=getExLog(exId,w);
   if(!log||!log.serie||!log.serie.length)return '<span style="color:var(--muted2);font-size:12px;">—</span>';
   var prevLog=w>1?getExLog(exId,w-1):null;
@@ -1290,7 +1291,7 @@ function renderWorkout(){
       // ── 4. STORICO ALTRE SETTIMANE (collassabile) ──
       var otherWeeks=[];
       for(var w=1;w<=sc.settimane;w++){if(w!==aw)otherWeeks.push(w);}
-      var hasOtherData=otherWeeks.some(function(w2){var wl2=getExLog(ex.id,w2);return wl2&&wl2.serie&&wl2.serie.some(function(s2){return s2.kg||s2.reps;});});
+      var hasOtherData=otherWeeks.some(function(w2){var isSv=!!(S.weekLogs[w2]&&S.weekLogs[w2].savedAt);return isSv;});
       var isAllOpen=!!S.openAllWeeks[ex.id];
       if(hasOtherData){
         html+='<div style="margin-top:6px;">';
@@ -1326,7 +1327,7 @@ function renderWorkout(){
             if(!isEditMode){
               // ── COMPACT READ-ONLY VIEW ──
               html+='<div style="background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:10px 12px;margin-bottom:8px;">';
-              html+=compactWeekHtml(ex.id,w);
+              html+=compactWeekHtml(ex.id,w,isSaved2);
               html+='</div>';
               html+='<button data-wkedit="'+wkKey+'" style="width:100%;padding:7px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;">✏️ Modifica W'+w+'</button>';
             } else {
@@ -3247,9 +3248,11 @@ function renderModal(){
         var prescrChanged=(prevPrescr!==''&&prescr!==prevPrescr);
 
         // Dati kg+reps -> stringa inline "30kg 7 6 6  |  24kg 13"
+        // Solo per settimane effettivamente salvate
         var kgGroups={};
-        if(wl&&wl.serie){
+        if(isSaved&&wl&&wl.serie){
           wl.serie.forEach(function(s){
+            if(!s.done)return; // solo serie completate
             var kg=s.kg||'?';
             if(!kgGroups[kg])kgGroups[kg]=[];
             if(s.reps)kgGroups[kg].push(s.reps);
@@ -3895,7 +3898,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v7";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v8";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
