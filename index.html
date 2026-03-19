@@ -223,8 +223,8 @@ input[type=number]{-moz-appearance:textfield;}
 <script>
 // Auto-update: forza aggiornamento se SW vecchio
 (function(){
-  var TARGET='pierfitness-v8';
-  var KEY='pf_sw_updated_v8';
+  var TARGET='pierfitness-v9';
+  var KEY='pf_sw_updated_v9';
   if(sessionStorage.getItem(KEY))return; // già fatto in questa sessione
   if(!navigator.serviceWorker)return;
   navigator.serviceWorker.getRegistrations().then(function(regs){
@@ -434,7 +434,7 @@ var S={
   tab:'home',schedaId:'26',giorno:null,
   activeWeek:1,openExId:null,openWeeks:{},openAllWeeks:{},openWeeksEdit:{},noteOpen:false,
   weekLogs:{},
-  showTimer:false,showAI:false,showPerf:null,showSchedaPicker:false,showImport:false,
+  showTimer:false,showAI:false,showPerf:null,showSchedaPicker:false,showImport:false,prSearch:'',
   timerSecs:0,timerRun:false,timerDone:false,timerTarget:90,timerIv:null,
   aiMsgs:[],aiLoad:false,
   exSearch:'',exMuscle:'',exDetail:null,exTab:0,
@@ -1367,11 +1367,17 @@ function renderWorkout(){
     }
     html+='</div>';
   });
-  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost" id="btn-export">💾</button><button class="btn btn-ghost" id="btn-calc-open">🧮</button><button class="btn btn-ghost" id="btn-tmr-open">⏱</button><button class="btn btn-ghost" id="btn-coach">🤖</button><button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
+  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost" id="btn-export">💾</button><button class="btn btn-ghost" id="btn-calc-open">🧮</button><button class="btn btn-ghost" id="btn-tmr-open">⏱</button><button class="btn btn-ghost" id="btn-coach">🤖</button>'+(S.weekLogs[aw]&&S.weekLogs[aw].savedAt?'<button class="btn btn-ghost" id="btn-unsave" style="color:var(--red);border-color:rgba(255,77,106,.3);font-size:12px;flex:0.6;">✕ W'+aw+'</button>':'')+'<button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
   html+='</div>';
   screen.innerHTML=html;
   var ws=document.getElementById('wk-scroll');
   if(ws){ws.scrollTop=S.scrollY;}
+  // PR search: re-attach listener and restore focus
+  var prSrInput=document.getElementById('pr-search');
+  if(prSrInput){
+    prSrInput.addEventListener('input',function(){S.prSearch=this.value;render();});
+    if(document.activeElement!==prSrInput){prSrInput.focus();var vl=prSrInput.value.length;prSrInput.setSelectionRange(vl,vl);}
+  }
 }
 
 // ─── WEIGHT SCREEN ────────────────────────────────────────────────────────────
@@ -2437,6 +2443,76 @@ function buildPRWall(){
   names.sort(function(a,b){return prs[b].bestKg-prs[a].bestKg;});
 
   var html='<div style="padding:18px 18px 0;"><div class="eyebrow">Personal Records</div><div class="big-title" style="font-size:42px;">🏆 <span style="color:var(--accent)">HALL</span> OF PR</div></div>';
+  // Search bar
+  html+='<div style="padding:12px 18px 0;"><div style="display:flex;align-items:center;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:13px;padding:10px 14px;"><span style="font-size:16px;">🔍</span><input id="pr-search" type="text" placeholder="Cerca esercizio... (es. leg extension)" value="'+htmlEsc(S.prSearch||'')+'" style="flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:14px;font-family:DM Sans,sans-serif;"/>'+(S.prSearch?'<button id="pr-search-clear" style="background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;">✕</button>':'')+' </div></div>';
+  // Search results
+  if(S.prSearch&&S.prSearch.length>=2){
+    var srQuery=S.prSearch.trim();
+    var allKeys2=LS.keys('pier_s').filter(function(k){return /pier_s\w+_g\d+_w\d+/.test(k);});
+    var srResults={};
+    allKeys2.forEach(function(k){
+      var m2=k.match(/pier_s(\w+)_g(\d+)_w(\d+)/);if(!m2)return;
+      var sid2=m2[1],gid2=parseInt(m2[2]),wnum2=parseInt(m2[3]);
+      var d2=LS.get(k);if(!d2||!d2.esercizi||!d2.savedAt)return;
+      d2.esercizi.forEach(function(ex2){
+        if(!ex2.nome)return;
+        var n1=ex2.nome.toLowerCase().replace(/[^a-z0-9]/g,'');
+        var n2=srQuery.toLowerCase().replace(/[^a-z0-9]/g,'');
+        if(n1.indexOf(n2)<0&&n2.indexOf(n1)<0)return;
+        var exKey=ex2.nome;
+        if(!srResults[exKey])srResults[exKey]={nome:ex2.nome,weeks:[]};
+        var doneSerie=(ex2.serie||[]).filter(function(s){return s.done&&(s.kg||s.reps);});
+        if(doneSerie.length){
+          var topKg2=null;doneSerie.forEach(function(s){var kv=parseFloat(String(s.kg||'').replace(',','.'));if(!isNaN(kv)&&kv>0&&(topKg2===null||kv>topKg2))topKg2=kv;});
+          var rTot=0,rCnt=0;doneSerie.forEach(function(s){var rv=parseInt(s.reps||'');if(!isNaN(rv)&&rv>0){rTot+=rv;rCnt++;}});
+          var avgR2=rCnt>0?Math.round(rTot/rCnt*10)/10:null;
+          srResults[exKey].weeks.push({sid:sid2,gid:gid2,w:wnum2,topKg:topKg2,avgReps:avgR2,doneSerie:doneSerie});
+        }
+      });
+    });
+    var srNames=Object.keys(srResults);
+    if(srNames.length===0){
+      html+='<div style="padding:24px 18px;text-align:center;color:var(--muted);font-size:13px;">Nessun risultato per "'+htmlEsc(srQuery)+'"</div>';
+    } else {
+      html+='<div style="padding:12px 18px 0;">';
+      srNames.forEach(function(name){
+        var sr=srResults[name];
+        var allKgs=sr.weeks.map(function(w){return w.topKg;}).filter(Boolean);
+        var bestKgSr=allKgs.length?Math.max.apply(null,allKgs):null;
+        html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;margin-bottom:10px;overflow:hidden;">';
+        html+='<div style="padding:12px 14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px;">';
+        html+='<span style="font-size:16px;">💪</span>';
+        html+='<div style="flex:1;"><div style="font-size:14px;font-weight:700;">'+htmlEsc(name)+'</div>';
+        if(bestKgSr)html+='<div style="font-size:11px;color:var(--accent);margin-top:1px;">Best: '+bestKgSr+' kg</div>';
+        html+='</div></div>';
+        // Week rows
+        sr.weeks.sort(function(a,b){return a.w-b.w;});
+        sr.weeks.forEach(function(wk){
+          var sc3=SCHEDE[wk.sid];
+          var scName=sc3?sc3.nome:'#'+wk.sid;
+          // Build kg/reps string
+          var kgGroups3={};
+          wk.doneSerie.forEach(function(s){
+            var kg=s.kg||'?';
+            if(!kgGroups3[kg])kgGroups3[kg]=[];
+            if(s.reps)kgGroups3[kg].push(s.reps);
+          });
+          var kgStr=Object.keys(kgGroups3).map(parseFloat).filter(Boolean).sort(function(a,b){return b-a;}).map(function(kg){
+            var reps=kgGroups3[String(kg)]||kgGroups3[kg]||[];
+            return kg+'kg '+reps.join(' ');
+          }).join(' | ');
+          html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--border2);">';
+          html+='<span style="font-family:Bebas Neue,sans-serif;font-size:12px;color:var(--muted2);min-width:30px;">W'+wk.w+'</span>';
+          html+='<span style="font-size:11px;color:var(--muted);flex:1;">'+kgStr+'</span>';
+          html+='<span style="font-size:10px;color:var(--muted2);">'+scName+'</span>';
+          html+='</div>';
+        });
+        html+='</div>';
+      });
+      html+='</div>';
+    }
+    return html;
+  }
 
   if(!names.length){
     html+='<div class="empty" style="margin-top:40px;"><div class="empty-icon">🏆</div>';
@@ -3699,6 +3775,12 @@ document.addEventListener('click',function(e){
     setTimeout(function(){renderWorkout();},1200);return;
   }
   // save bar
+  var un=e.target.closest('#btn-unsave');if(un){
+    var uKey=K.session(S.schedaId,S.giorno.id,S.activeWeek);
+    var uLog=LS.get(uKey);
+    if(uLog){pushUndo('Resetta W'+S.activeWeek,uKey,uLog);uLog.savedAt=null;LS.set(uKey,uLog);}
+    S.weekLogs=loadAllWeeks(S.giorno.id);renderWorkout();return;
+  }
   var sv=e.target.closest('#btn-save');if(sv){
     saveWeek(S.activeWeek);S.weekLogs=loadAllWeeks(S.giorno.id);
     sv.textContent='✓ Salvato!';setTimeout(function(){var b=document.getElementById('btn-save');if(b)b.textContent='Salva W'+S.activeWeek;},2500);
@@ -3796,6 +3878,9 @@ document.addEventListener('click',function(e){
   // delete custom scheda
   var dsc=e.target.closest('[data-delscheda]');if(dsc){deleteScheda(dsc.dataset.delscheda);return;}
   // weight chart tabs
+  // PR search input
+  if(e.target.id==='pr-search'){S.prSearch=e.target.value;render();return;}
+  if(e.target.id==='pr-search-clear'){S.prSearch='';render();return;}
   var wct=e.target.closest('[data-wchart]');if(wct){S.weightChart=parseInt(wct.dataset.wchart);render();return;}
   // calendar navigation
   var caldir=e.target.closest('[data-caldir]');if(caldir){var dir=parseInt(caldir.dataset.caldir);S.calMonth+=dir;if(S.calMonth>11){S.calMonth=0;S.calYear++;}if(S.calMonth<0){S.calMonth=11;S.calYear--;}render();return;}
@@ -3900,7 +3985,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v8";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v9";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
