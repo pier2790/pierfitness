@@ -94,7 +94,7 @@ input[type=number]{-moz-appearance:textfield;}
 .ex-nota-inp:focus{outline:none;border-color:var(--yellow);}
 .ex-nota-inp::placeholder{color:var(--muted2);}
 .perf-wrap{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:flex;align-items:flex-end;}
-.perf-sheet{width:100%;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;border-top:1px solid var(--border);max-height:80vh;display:flex;flex-direction:column;}
+.perf-sheet{width:100%;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;border-top:1px solid var(--border);height:90vh;display:flex;flex-direction:column;}
 .perf-handle{width:34px;height:4px;background:var(--border);border-radius:2px;margin:11px auto 0;}
 .perf-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
 .perf-ttl{font-weight:600;font-size:14px;flex:1;}
@@ -223,8 +223,8 @@ input[type=number]{-moz-appearance:textfield;}
 <script>
 // Auto-update: forza aggiornamento se SW vecchio
 (function(){
-  var TARGET='pierfitness-v10';
-  var KEY='pf_sw_updated_v10';
+  var TARGET='pierfitness-v11';
+  var KEY='pf_sw_updated_v11';
   if(sessionStorage.getItem(KEY))return; // già fatto in questa sessione
   if(!navigator.serviceWorker)return;
   navigator.serviceWorker.getRegistrations().then(function(regs){
@@ -3985,7 +3985,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v10";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v11";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
