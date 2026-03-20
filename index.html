@@ -220,29 +220,7 @@ input[type=number]{-moz-appearance:textfield;}
 </style>
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22PierFitness%22%2C%22short_name%22%3A%22PierFit%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230A0A0C%22%2C%22theme_color%22%3A%22%230A0A0C%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520100%2520100%27%253E%253Ctext%2520y%3D%27.9em%27%2520font-size%3D%2790%27%253E%25F0%259F%2594%25A5%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D"/>
 <body>
-<script>
-// Auto-update: forza aggiornamento se SW vecchio
-(function(){
-  var TARGET='pierfitness-v12';
-  var KEY='pf_sw_updated_v12';
-  if(sessionStorage.getItem(KEY))return; // già fatto in questa sessione
-  if(!navigator.serviceWorker)return;
-  navigator.serviceWorker.getRegistrations().then(function(regs){
-    if(regs.length===0)return;
-    // Controlla se il SW attivo è già v5
-    caches.keys().then(function(keys){
-      var hasNew=keys.some(function(k){return k===TARGET;});
-      if(hasNew)return; // già aggiornato
-      // SW vecchio trovato: aggiorna
-      sessionStorage.setItem(KEY,'1');
-      Promise.all(
-        regs.map(function(r){return r.unregister();}).concat(
-        keys.map(function(k){return caches.delete(k);}))
-      ).then(function(){ location.reload(true); });
-    });
-  });
-})();
-</script>
+
 <div id="app"><div class="screen" id="screen"></div><nav class="nav" id="nav"></nav></div>
 <div id="modal"></div>
 <script>
@@ -3985,7 +3963,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 if(!localStorage.getItem('pier_drive_url'))localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbyZz86Sb9Xcw-tDvevBqfzTO2fMmPwSCWyVGaU4sIyw0pYlturtmNWPYbghxogbX9Og/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v12";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
+  var swCode='var CACHE="pierfitness-v13";self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(caches.match(e.request).then(function(r){return r||fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return r})}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 render();
