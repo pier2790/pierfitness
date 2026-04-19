@@ -2045,14 +2045,14 @@ function buildWeight(){
         var isLast=i===last6.length-1;
         var dCol=delta===null?'var(--muted)':delta>0?'var(--red)':delta<0?'var(--green)':'var(--muted)';
         html+='<tr style="border-top:1px solid var(--border2);'+(isLast?'background:rgba(255,208,96,.06);':'')+'">';
-        html+='<td style="padding:6px 8px;color:'+(isLast?'#FFD060':'var(--text)')+';font-weight:'+(isLast?'700':'400')+';">'+row.wk.replace(/(\d{4})-W/,'W')+'<\/\u200btd>';
-        html+='<td style="padding:6px 8px;text-align:right;font-family:Bebas Neue,sans-serif;font-size:14px;color:'+(isLast?'#FFD060':'var(--text)')+';">'+row.avg+' <span style="font-size:9px;font-family:DM Sans,sans-serif;color:var(--muted);">kg<\/\u200bspan><\/\u200btd>';
-        html+='<td style="padding:6px 8px;text-align:right;color:var(--muted2);">'+row.n+'<\/\u200btd>';
-        html+='<td style="padding:6px 8px;text-align:right;font-weight:700;color:'+dCol+';">'+(delta===null?'\u2014':(delta>0?'+':'')+delta)+'<\/\u200btd>';
-        html+='<\/\u200btr>';
+        html+='<td style="padding:6px 8px;color:'+(isLast?'#FFD060':'var(--text)')+';font-weight:'+(isLast?'700':'400')+';">'+row.wk.replace(/(\d{4})-W/,'W')+'<\/td>';
+        html+='<td style="padding:6px 8px;text-align:right;font-family:Bebas Neue,sans-serif;font-size:14px;color:'+(isLast?'#FFD060':'var(--text)')+';">'+row.avg+' <span style="font-size:9px;font-family:DM Sans,sans-serif;color:var(--muted);">kg<\/span><\/td>';
+        html+='<td style="padding:6px 8px;text-align:right;color:var(--muted2);">'+row.n+'<\/td>';
+        html+='<td style="padding:6px 8px;text-align:right;font-weight:700;color:'+dCol+';">'+(delta===null?'\u2014':(delta>0?'+':'')+delta)+'<\/td>';
+        html+='<\/tr>';
       });
-      html+='<\/\u200btbody><\/\u200btable><\/\u200bdiv>';
-      html+='<\/\u200bdiv>';
+      html+='<\/tbody><\/table><\/div>';
+      html+='<\/div>';
     } else {
       html+='<div style="padding:24px 18px;text-align:center;color:var(--muted);font-size:13px;">Servono almeno 2 settimane di misurazioni.</div>';
     }
@@ -4053,7 +4053,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v16";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v17";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
