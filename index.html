@@ -1280,17 +1280,12 @@ function renderWorkout(){
 
       // ── 1.5. NOTE SETTIMANA SCORSA (W N-1) ──
       if(aw>1){
-        var prevNotaBase=ex.note||'';
-        var prevNotaW=ex.noteW&&ex.noteW[aw-1]?ex.noteW[aw-1]:'';
-        if(prevNotaBase||prevNotaW){
+        var prevNotaLog=getExLog(ex.id,aw-1);
+        var prevNotaTesto=prevNotaLog&&prevNotaLog.nota?prevNotaLog.nota:'';
+        if(prevNotaTesto){
           html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:var(--bg3);border:1px dashed var(--border2);">';
           html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;">📝 Note settimana scorsa (W'+(aw-1)+')</div>';
-          if(prevNotaBase){
-            html+='<div style="font-size:12px;color:var(--muted);'+(prevNotaW?'margin-bottom:3px;':'')+'">'+htmlEsc(prevNotaBase)+'</div>';
-          }
-          if(prevNotaW){
-            html+='<div style="font-size:12px;color:var(--yellow);font-style:italic;">'+htmlEsc(prevNotaW)+'</div>';
-          }
+          html+='<div style="font-size:12px;color:var(--text);font-style:italic;">'+htmlEsc(prevNotaTesto)+'</div>';
           html+='</div>';
         }
       }
@@ -4070,7 +4065,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v20";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v21";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
