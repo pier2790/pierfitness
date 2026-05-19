@@ -3615,25 +3615,20 @@ function exportLogbook(){
     g.esercizi.forEach(function(ex){
       var row = [null, ex.nome, 'LIBERO'];
 
-      // W1 = always the trainer prescription note
-      row.push(ex.note || '');
+      // W1: prescrizione + peso usato se loggato
+      var w1Kgs = getWeekKgs(g.id, ex.id, 1);
+      var w1Note = ex.note || '';
+      row.push(w1Kgs ? (w1Note ? w1Note + ' → ' + fmtKg(w1Kgs) : fmtKg(w1Kgs)) : w1Note);
 
-      // W2..W7: compute pesi usati logic
-      var prevKgs = getWeekKgs(g.id, ex.id, 1); // W1 baseline
-
+      // W2..W7: prescrizione + peso usato se loggato
       for(var w=2; w<=W; w++){
         var trainerNote = (ex.noteW && ex.noteW[w]) ? ex.noteW[w].replace(/^\[W\d+\]\s*/,'') : (ex.note||'');
         var curKgs = getWeekKgs(g.id, ex.id, w);
-
-        if(curKgs && !kgsEqual(curKgs, prevKgs)){
-          // Weight changed (or first appearance) — show weight
-          row.push(fmtKg(curKgs));
-          prevKgs = curKgs;
-        } else if(curKgs && kgsEqual(curKgs, prevKgs) && w===2 && prevKgs){
-          // W2: show weight even if same as W1 (baseline reference, as in your example)
-          row.push(fmtKg(curKgs));
+        if(curKgs){
+          // Mostra prescrizione → peso usato
+          row.push(trainerNote ? trainerNote + ' → ' + fmtKg(curKgs) : fmtKg(curKgs));
         } else {
-          // No change or no data — show trainer note for this week
+          // Nessun peso loggato — solo prescrizione
           row.push(trainerNote);
         }
       }
@@ -4088,7 +4083,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v27";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v28";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
