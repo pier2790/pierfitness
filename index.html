@@ -476,6 +476,7 @@ var S={
   activeWeek:1,openExId:null,openWeeks:{},openAllWeeks:{},openWeeksEdit:{},noteOpen:false,
   weekLogs:{},
   showTimer:false,showAI:false,showPerf:null,showSchedaPicker:false,showImport:false,prSearch:'',
+  cercaOpen:false,cercaQ:'',cercaEx:null,
   timerSecs:0,timerRun:false,timerDone:false,timerTarget:90,timerIv:null,
   aiMsgs:[],aiLoad:false,calMonthOffset:0,
   exSearch:'',exMuscle:'',exDetail:null,exTab:0,
@@ -1240,6 +1241,7 @@ function render(){
   nav.innerHTML=tabs.map(function(t){
     return '<button class="nav-btn'+(S.tab===t.id?' active':'')+'" data-nav="'+t.id+'"><span class="nav-icon">'+t.icon+'</span><span class="nav-lbl" style="'+(S.tab===t.id?'color:var(--accent)':'')+'">'+t.lbl+'</span></button>';
   }).join('');
+  nav.innerHTML+='<button class="nav-btn'+(S.cercaOpen?' active':'')+'" id="btn-cerca-nav"><span class="nav-icon">🔍</span><span class="nav-lbl" style="'+(S.cercaOpen?'color:var(--accent)':'')+'">Cerca</span></button>';
   if(S.giorno){
     screen.style.cssText='flex:1;overflow:hidden;padding:0;display:flex;flex-direction:column;';
     try{renderWorkout();}catch(err){screen.innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><div style="font-size:14px;font-weight:600;">Errore rendering workout</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">'+htmlEsc(err.message)+'</div><button onclick="S.giorno=null;render();" style="margin-top:12px;padding:10px 20px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:13px;cursor:pointer;">← Torna alla home</button></div>';console.error(err);}
@@ -1421,7 +1423,11 @@ function renderWorkout(){
         html+='</div>';
       }
       html+='<button class="add-serie-btn" data-addserie="'+ex.id+'" data-addseriew="'+aw+'">+ Serie</button>';
-      html+='<div style="margin-top:8px;"><div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">💬 Nota W'+aw+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+aw+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog&&wlog.nota||'')+'</textarea></div>';
+      var prevNotesHtml='';
+      for(var pnw=1;pnw<aw;pnw++){var pnLog=getExLog(ex.id,pnw);if(pnLog&&pnLog.nota){prevNotesHtml+='<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border2);"><span style="color:var(--accent);font-family:Bebas Neue,sans-serif;font-size:10px;flex-shrink:0;">W'+pnw+'</span><span style="color:var(--muted);font-size:10px;font-style:italic;">'+htmlEsc(pnLog.nota)+'</span></div>';}}
+      html+='<div style="margin-top:8px;">';
+      if(prevNotesHtml){html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">📋 Note sett. precedenti</div>';html+='<div style="margin-bottom:8px;padding:6px 8px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);">'+prevNotesHtml+'</div>';}
+      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">💬 Nota W'+aw+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+aw+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog&&wlog.nota||'')+'</textarea></div>';
       html+='</div>';
 
       // ── 4. STORICO ALTRE SETTIMANE (collassabile) ──
@@ -1503,7 +1509,7 @@ function renderWorkout(){
     }
     html+='</div>';
   });
-  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost" id="btn-export">💾</button><button class="btn btn-ghost" id="btn-calc-open">🧮</button><button class="btn btn-ghost" id="btn-tmr-open">⏱</button><button class="btn btn-ghost" id="btn-coach">🤖</button>'+(S.weekLogs[aw]&&S.weekLogs[aw].savedAt?'<button class="btn btn-ghost" id="btn-unsave" style="color:var(--red);border-color:rgba(255,77,106,.3);font-size:12px;flex:0.6;">✕ W'+aw+'</button>':'')+'<button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
+  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost" id="btn-export">💾</button><button class="btn btn-ghost" id="btn-calc-open">🧮</button><button class="btn btn-ghost" id="btn-tmr-open">⏱</button><button class="btn btn-ghost" id="btn-coach">🤖</button><button class=\"btn btn-ghost\" id=\"btn-cerca\">🔍</button>'+(S.weekLogs[aw]&&S.weekLogs[aw].savedAt?'<button class="btn btn-ghost" id="btn-unsave" style="color:var(--red);border-color:rgba(255,77,106,.3);font-size:12px;flex:0.6;">✕ W'+aw+'</button>':'')+'<button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
   html+='</div>';
   screen.innerHTML=html;
   var ws=document.getElementById('wk-scroll');
@@ -3195,10 +3201,88 @@ function exportPDFCoach(mode){
 }
 
 // ─── MODAL ────────────────────────────────────────────────────────────────────
+// ─── CERCA STORICO ────────────────────────────────────
+function buildCercaListHTML(q){
+  var allEx={};
+  Object.values(SCHEDE).forEach(function(sc){sc.giorni.forEach(function(g){g.esercizi.forEach(function(e){allEx[e.nome]=true;});});});
+  var names=Object.keys(allEx).sort();
+  if(q&&q.trim()){var ql=q.trim().toLowerCase();names=names.filter(function(n){return n.toLowerCase().indexOf(ql)!==-1;});}
+  if(!names.length)return '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Nessun esercizio trovato</div>';
+  return names.map(function(n){
+    return '<div data-cercanome="'+encodeURIComponent(n)+'" style="padding:13px 6px;border-bottom:1px solid var(--border);cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between;">'+htmlEsc(n)+'<span style="color:var(--muted);font-size:18px;">›</span></div>';
+  }).join('');
+}
+function buildCercaHistory(nome){
+  var allKeys=LS.keys('pier_s').filter(function(k){return /pier_s\w+_g\d+_w\d+/.test(k);});
+  var byScheda={};
+  allKeys.forEach(function(k){
+    var m=k.match(/pier_s(\w+)_g(\d+)_w(\d+)/);if(!m)return;
+    var sid=m[1],gid=parseInt(m[2]),wk=parseInt(m[3]);
+    var data=LS.get(k);if(!data||!data.esercizi)return;
+    data.esercizi.forEach(function(ex){
+      if(!ex||!ex.nome||ex.nome.toLowerCase()!==nome.toLowerCase())return;
+      if(!ex.serie||!ex.serie.some(function(s){return s&&s.reps;}))return;
+      var sc=SCHEDE[sid];
+      var giorno=sc?sc.giorni.filter(function(g){return g.id===gid;})[0]:null;
+      var exDef=giorno?giorno.esercizi.filter(function(e){return e.nome===ex.nome;})[0]:null;
+      var prescr=exDef?(exDef.noteW&&exDef.noteW[wk]?exDef.noteW[wk]:exDef.note):'';
+      if(!byScheda[sid])byScheda[sid]={};
+      byScheda[sid][wk]={prescr:prescr,serie:ex.serie};
+    });
+  });
+  return byScheda;
+}
+function buildCercaHistoryHTML(nome){
+  var history=buildCercaHistory(nome);
+  var sids=Object.keys(history).sort(function(a,b){return parseInt(a)-parseInt(b);});
+  if(!sids.length)return '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Nessun dato registrato</div>';
+  var html='';
+  sids.forEach(function(sid){
+    var sc=SCHEDE[sid];var scNome=sc?sc.nome:'Scheda #'+sid;var scCol=sc?sc.colore:'var(--accent)';
+    var weeks=history[sid];
+    var wNums=Object.keys(weeks).map(Number).sort(function(a,b){return a-b;});
+    html+='<div style="margin-bottom:18px;">';
+    html+='<div style="font-size:12px;font-weight:700;color:'+scCol+';padding:7px 10px;background:'+scCol+'22;border-radius:8px;border-left:3px solid '+scCol+';margin-bottom:2px;">📋 '+htmlEsc(scNome)+'</div>';
+    wNums.forEach(function(wk){
+      var wd=weeks[wk];var serie=wd.serie;var firstKg='';var repsArr=[];
+      serie.forEach(function(s){if(s&&!firstKg&&s.kg)firstKg=s.kg;if(s&&s.reps)repsArr.push(s.reps);});
+      if(!repsArr.length)return;
+      html+='<div style="display:grid;grid-template-columns:30px 55px 1fr auto;gap:4px 8px;align-items:baseline;padding:8px 10px;border-bottom:1px solid var(--border);">';
+      html+='<span style="color:var(--accent);font-size:12px;font-weight:700;">W'+wk+'</span>';
+      html+='<span style="font-size:13px;color:var(--text);">'+(firstKg?firstKg+'kg':'—')+'</span>';
+      html+='<span style="font-size:14px;font-weight:700;color:var(--text);letter-spacing:1px;">'+repsArr.join(' ')+'</span>';
+      html+='<span style="font-size:10px;color:var(--muted);text-align:right;">'+(wd.prescr?htmlEsc(wd.prescr):'')+'</span>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  return html;
+}
 function renderModal(){
   var m=document.getElementById('modal');if(!m)return;
   try{
   var html='';
+  // CERCA STORICO
+  if(S.cercaOpen){
+    var cHtml='<div class="perf-wrap" id="cerca-overlay"><div class="perf-sheet" style="height:88vh;display:flex;flex-direction:column;">';
+    cHtml+='<div class="perf-handle"></div>';
+    cHtml+='<div class="perf-hdr"><div class="perf-ttl">🔍 Cerca Esercizio</div><button class="perf-x" id="cerca-close">✕</button></div>';
+    if(!S.cercaEx){
+      cHtml+='<input id="cerca-input" type="text" autocomplete="off" placeholder="Es. Panca Piana…" value="'+htmlEsc(S.cercaQ)+'" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:15px;box-sizing:border-box;margin-bottom:10px;font-family:DM Sans,sans-serif;">';
+      cHtml+='<div id="cerca-list" style="overflow-y:auto;flex:1;">'+buildCercaListHTML(S.cercaQ)+'</div>';
+    }else{
+      cHtml+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
+      cHtml+='<button id="cerca-back" style="background:none;border:none;color:var(--accent);font-size:14px;cursor:pointer;padding:0;">← Indietro</button>';
+      cHtml+='<div style="flex:1;font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+htmlEsc(S.cercaEx)+'</div>';
+      cHtml+='</div>';
+      cHtml+='<div style="overflow-y:auto;flex:1;">'+buildCercaHistoryHTML(S.cercaEx)+'</div>';
+    }
+    cHtml+='</div></div>';
+    m.innerHTML=cHtml;
+    var ci=document.getElementById('cerca-input');
+    if(ci){ci.focus();var vl=ci.value.length;ci.setSelectionRange(vl,vl);}
+    return;
+  }
   // SCHEDA PICKER
   if(S.showSchedaPicker){
     html+='<div class="overlay-bottom" id="sp-overlay"><div class="sheet"><div class="sheet-handle"></div>';
@@ -3491,27 +3575,17 @@ function renderModal(){
           }).join('  |  ');
         }
 
-        // Colori riga
-        var rowBg=prescrChanged?'rgba(255,208,96,.1)':isActive?'rgba(255,107,53,.07)':'';
-        var prescrColor=prescrChanged?'var(--yellow)':col2;
-
-        // UNA SOLA RIGA: W1  3×7  ·  30kg 7 6 6
-        // Salta settimane non salvate e non attive
-        if(!isSaved&&!isActive){prevPrescr=prescr;continue;}
-        html+='<div style="display:flex;align-items:baseline;gap:0;padding:7px 18px;background:'+rowBg+';border-left:2px solid '+(prescrChanged?'var(--yellow)':isActive?'var(--accent)':'transparent')+';white-space:nowrap;overflow:hidden;">';
-
-        // W badge
-        html+='<span style="font-family:Bebas Neue,sans-serif;font-size:13px;min-width:26px;color:'+(isActive?'var(--accent)':isSaved?'var(--green)':'var(--muted2)')+';">W'+w+'</span>';
-
-        // Prescrizione
-        html+='<span style="font-family:Bebas Neue,sans-serif;font-size:14px;color:'+prescrColor+';min-width:80px;">'+htmlEsc(prescr)+'</span>';
-
-        // Separatore + dati
-        if(hasData){
+        // Colori riga - mostra TUTTE le settimane W1-W7
+        var rowBg2=isActive?'rgba(255,107,53,.10)':prescrChanged?'rgba(255,208,96,.06)':'';
+        var borderCol=isActive?'var(--accent)':prescrChanged?'var(--yellow)':isSaved?col2+'50':'transparent';
+        var wLabelCol=isActive?'var(--accent)':isSaved?'var(--green)':'var(--muted2)';
+        var prescrCol=isSaved?(prescrChanged?'var(--yellow)':col2):'var(--muted)';
+        html+='<div style="display:flex;align-items:baseline;gap:0;padding:7px 18px;background:'+rowBg2+';border-left:3px solid '+borderCol+';white-space:nowrap;overflow:hidden;">';
+        html+='<span style="font-family:Bebas Neue,sans-serif;font-size:13px;min-width:26px;color:'+wLabelCol+';">W'+w+'</span>';
+        html+='<span style="font-family:Bebas Neue,sans-serif;font-size:14px;color:'+prescrCol+';min-width:80px;">'+htmlEsc(prescr)+'</span>';
+        if(isSaved&&hasData){
           html+='<span style="color:var(--muted2);margin:0 6px;font-size:11px;">·</span>';
           html+='<span style="font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;">'+htmlEsc(dataStr)+'</span>';
-        } else {
-          html+='<span style="font-size:11px;color:var(--muted2);margin-left:8px;">—</span>';
         }
 
         html+='</div>';
@@ -3942,6 +4016,10 @@ document.addEventListener('click',function(e){
   var pre=e.target.closest('[data-preset]');if(pre){var preVal=parseInt(pre.dataset.preset);timerStart(preVal);if(S.openExId)saveExTimerPref(S.openExId,preVal);renderModal();return;}
   // ai
   if(e.target.closest('#btn-coach')){S.showAI=true;S.aiMsgs=[];renderModal();return;}
+  if(e.target.closest('#btn-cerca')||e.target.closest('#btn-cerca-nav')){S.cercaOpen=true;S.cercaQ='';S.cercaEx=null;renderModal();return;}
+  if(e.target.closest('#cerca-close')){S.cercaOpen=false;S.cercaEx=null;renderModal();return;}
+  if(e.target.closest('[data-cercanome]')){S.cercaEx=decodeURIComponent(e.target.closest('[data-cercanome]').dataset.cercanome);renderModal();return;}
+  if(e.target.closest('#cerca-back')){S.cercaEx=null;renderModal();return;}
   if(e.target.closest('#ai-close')){S.showAI=false;renderModal();return;}
   var aov=e.target.closest('#ai-overlay');if(aov&&!e.target.closest('.ai-sheet')){S.showAI=false;renderModal();return;}
   if(e.target.closest('#ai-send')){var ta=document.getElementById('ai-inp');if(ta)sendAI(ta.value);return;}
@@ -4092,6 +4170,12 @@ document.addEventListener('input',function(e){
     if(res)res.innerHTML=buildExResultsHTML(t.value);
     return;
   }
+  if(t.id==='cerca-input'){
+    S.cercaQ=t.value;
+    var clist=document.getElementById('cerca-list');
+    if(clist)clist.innerHTML=buildCercaListHTML(t.value);
+    return;
+  }
 },false);
 
 document.addEventListener('change',function(e){
@@ -4132,7 +4216,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v35";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v36";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
