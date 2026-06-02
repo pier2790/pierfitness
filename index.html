@@ -2249,6 +2249,16 @@ function htmlEsc(s){
 // ─── DASHBOARD ────────────────────────────────────────────────────────────────
 
 // ─── PROGRESSIONE ─────────────────────────────────────────────────────────────
+function abbrevPrescr(note){
+  if(!note)return '';
+  var s=note.replace(/\([^)]+\)/g,'').replace(/\*\s*$/,'').trim();
+  s=s.replace(/(\d+)\s*[Xx]\s*MAX[\w%-]*/gi,function(m,n){return n+'×MAX';});
+  s=s.replace(/(\d+)\s*[Xx]\s*(\d+(?:[,.]\d+)?%?(?:RM)?)/gi,function(m,n,r){return n+'×'+r;});
+  s=s.replace(/\s+(\d+×)/g,'+$1');
+  s=s.replace(/\s*\*$/,'').trim();
+  if(s.length>15)s=s.slice(0,14)+'…';
+  return s;
+}
 function buildProgressione(){
   var dispId=S.progSchedaId||S.schedaId;
   var sc=SCHEDE[dispId];if(!sc)return '<div class="empty"><div>Nessuna scheda</div></div>';
@@ -4064,6 +4074,7 @@ document.addEventListener('click',function(e){
   // Cloud sync
   if(e.target.closest('#btn-cloud-save')){saveCloudSettings();return;}
   var progfilter=e.target.closest('[data-progfilter]');if(progfilter){S.progFilter=progfilter.dataset.progfilter;render();return;}
+  var ps=e.target.closest('[data-progscheda]');if(ps){S.progSchedaId=ps.dataset.progscheda;S.progFilter='all';render();return;}
   if(e.target.closest('#btn-mac-edit')){S.macEditOpen=!S.macEditOpen;render();return;}
   if(e.target.closest('#btn-save-macros')){
     var p=parseFloat(document.getElementById('mac-prot').value)||0;
@@ -4179,7 +4190,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v37";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v38";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
