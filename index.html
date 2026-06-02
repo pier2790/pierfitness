@@ -476,7 +476,7 @@ var S={
   activeWeek:1,openExId:null,openWeeks:{},openAllWeeks:{},openWeeksEdit:{},noteOpen:false,
   weekLogs:{},
   showTimer:false,showAI:false,showPerf:null,showSchedaPicker:false,showImport:false,prSearch:'',
-  cercaOpen:false,cercaQ:'',cercaEx:null,
+  cercaOpen:false,cercaQ:'',cercaEx:null,progSchedaId:null,
   timerSecs:0,timerRun:false,timerDone:false,timerTarget:90,timerIv:null,
   aiMsgs:[],aiLoad:false,calMonthOffset:0,
   exSearch:'',exMuscle:'',exDetail:null,exTab:0,
@@ -2250,114 +2250,77 @@ function htmlEsc(s){
 
 // ─── PROGRESSIONE ─────────────────────────────────────────────────────────────
 function buildProgressione(){
-  var sc=SCHEDE[S.schedaId];if(!sc)return '<div class="empty"><div>Nessuna scheda</div></div>';
-  var col=sc.colore;
-  var html='<div style="padding:18px 18px 0;"><div class="eyebrow">Scheda #'+sc.id+'</div><div class="big-title" style="font-size:38px;">📈 <span style="color:'+col+'">PROG</span></div></div>';
-
-  // Filtro per giorno
+  var dispId=S.progSchedaId||S.schedaId;
+  var sc=SCHEDE[dispId];if(!sc)return '<div class="empty"><div>Nessuna scheda</div></div>';
+  var col=sc.colore;var nW=sc.settimane;
+  var html='<div style="padding:18px 18px 0;"><div class="eyebrow">Progressione</div><div class="big-title" style="font-size:38px;">📈 <span style="color:'+col+'">PROG</span></div></div>';
+  html+='<div style="display:flex;gap:6px;padding:8px 18px 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">';
+  Object.values(SCHEDE).forEach(function(sc2){
+    var isA=dispId===sc2.id;
+    html+='<button data-progscheda="'+sc2.id+'" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid '+(isA?sc2.colore:'var(--border)')+';background:'+(isA?sc2.colore:'transparent')+';color:'+(isA?'#fff':'var(--muted)')+';font-size:11px;font-weight:700;cursor:pointer;">'+htmlEsc(sc2.nome)+'</button>';
+  });
+  html+='</div>';
   var filterG=S.progFilter||'all';
-  html+='<div style="display:flex;gap:6px;padding:10px 18px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">';
-  html+='<button data-progfilter="all" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid '+(filterG==='all'?col:'var(--border)')+';background:'+(filterG==='all'?col:'transparent')+';color:'+(filterG==='all'?'white':'var(--muted)')+';font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;">Tutti</button>';
+  html+='<div style="display:flex;gap:6px;padding:4px 18px 6px;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">';
+  html+='<button data-progfilter="all" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid '+(filterG==='all'?col:'var(--border)')+';background:'+(filterG==='all'?col:'transparent')+';color:'+(filterG==='all'?'white':'var(--muted)')+';font-size:11px;font-weight:700;cursor:pointer;">Tutti</button>';
   sc.giorni.forEach(function(g){
     var active=filterG===String(g.id);
-    html+='<button data-progfilter="'+g.id+'" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid '+(active?g.colore:'var(--border)')+';background:'+(active?g.colore:'transparent')+';color:'+(active?'white':'var(--muted)')+';font-size:11px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;">G'+g.id+'</button>';
+    html+='<button data-progfilter="'+g.id+'" style="flex-shrink:0;padding:5px 12px;border-radius:20px;border:1px solid '+(active?g.colore:'var(--border)')+';background:'+(active?g.colore:'transparent')+';color:'+(active?'white':'var(--muted)')+';font-size:11px;font-weight:700;cursor:pointer;">'+g.nome+'</button>';
   });
   html+='</div>';
-
-  // Legenda giorni
-  html+='<div style="display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 10px;">';
-  sc.giorni.forEach(function(g){
-    html+='<div style="display:flex;align-items:center;gap:4px;"><div style="width:8px;height:8px;border-radius:50%;background:'+g.colore+';flex-shrink:0;"></div><span style="font-size:10px;color:var(--muted);">G'+g.id+' '+g.nome+'</span></div>';
-  });
-  html+='</div>';
-
   var giorni=filterG==='all'?sc.giorni:sc.giorni.filter(function(g){return String(g.id)===String(filterG);});
-  var nW=sc.settimane;
-
   giorni.forEach(function(g){
-    html+='<div style="margin:0 18px 18px;">';
-    // Giorno header
+    html+='<div style="margin:0 18px 20px;">';
     html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
-    html+='<div style="width:10px;height:10px;border-radius:50%;background:'+g.colore+';flex-shrink:0;"></div>';
-    html+='<div style="font-size:12px;font-weight:800;color:'+g.colore+';letter-spacing:.5px;">G'+g.id+' · '+g.nome+'</div>';
+    html+='<div style="width:10px;height:10px;border-radius:50%;background:'+g.colore+'"></div>';
+    html+='<div style="font-size:12px;font-weight:800;color:'+g.colore+';">G'+g.id+' · '+g.nome+'</div>';
     html+='</div>';
-
-    html+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;">';
-
-    // Tabella header: ESERCIZIO | W1..W7 | Δ
-    html+='<div style="display:grid;grid-template-columns:1fr'+' 36px'.repeat(nW)+' 36px;background:var(--bg3);border-bottom:1px solid var(--border2);">';
-    html+='<div style="padding:7px 10px;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.5px;">ESERCIZIO</div>';
-    for(var wi=1;wi<=nW;wi++){
-      var hasSaved=false;
-      g.esercizi.forEach(function(ex){var d=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi);if(d&&d.savedAt)hasSaved=true;});
-      html+='<div style="padding:7px 0;font-size:9px;font-weight:700;color:'+(hasSaved?'var(--green)':'var(--muted)')+';text-align:center;letter-spacing:.3px;">W'+wi+'</div>';
-    }
-    html+='<div style="padding:7px 0;font-size:9px;font-weight:700;color:var(--yellow);text-align:center;">Δ</div>';
+    var colW=54,nameW=90,dW=36;
+    html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">';
+    html+='<div style="min-width:'+(nameW+nW*colW+dW)+'px;">';
+    html+='<div style="display:grid;grid-template-columns:'+nameW+'px'+Array(nW+1).join(' '+colW+'px')+' '+dW+'px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px 10px 0 0;">';
+    html+='<div style="padding:7px 8px;font-size:9px;font-weight:700;color:var(--muted);">ESERCIZIO</div>';
+    for(var wi=1;wi<=nW;wi++){var hs=false;g.esercizi.forEach(function(ex){var dd=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi);if(dd&&dd.savedAt)hs=true;});html+='<div style="padding:7px 2px;font-size:9px;font-weight:700;color:'+(hs?'var(--green)':'var(--muted)')+';text-align:center;">W'+wi+'</div>';}
+    html+='<div style="padding:7px 2px;font-size:9px;font-weight:700;color:var(--yellow);text-align:center;">Δ</div>';
     html+='</div>';
-
-    // Righe esercizi
     g.esercizi.forEach(function(ex,ei){
-      // Recupera kg per ogni settimana
-      var wKgs=[];
-      for(var wi=1;wi<=nW;wi++){
-        var log=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi);
-        var kg=null;
-        if(log&&log.esercizi){
-          var exLog=log.esercizi.filter(function(e){return e.id===ex.id;})[0];
-          if(exLog&&exLog.serie&&exLog.serie.length){
-            // Prendi il primo kg non vuoto
-            for(var si=0;si<exLog.serie.length;si++){
-              var v=exLog.serie[si].kg;
-              if(v!==null&&v!==undefined&&v!==''){kg=parseFloat(v)||v;break;}
-            }
-          }
-        }
-        wKgs.push(kg);
+      var wData=[];
+      for(var wi2=1;wi2<=nW;wi2++){
+        var log=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi2);
+        var exLog=log&&log.esercizi?log.esercizi.filter(function(e){return e.id===ex.id;})[0]:null;
+        var kg=null,repsArr=[];
+        if(exLog&&exLog.serie){exLog.serie.forEach(function(s){if(kg===null&&s.kg!==null&&s.kg!==undefined&&s.kg!=='')kg=s.kg;if(s.reps)repsArr.push(s.reps);});}
+        var prescr=ex.noteW&&ex.noteW[wi2]?ex.noteW[wi2]:ex.note;
+        wData.push({kg:kg,reps:repsArr,isSaved:!!(log&&log.savedAt),prescr:prescr,hasData:kg!==null||repsArr.length>0});
       }
-
-      // Calcola Δ (primo vs ultimo non-null)
-      var firstV=null,lastV=null;
-      wKgs.forEach(function(v){if(v!==null&&!isNaN(parseFloat(v))){if(firstV===null)firstV=parseFloat(v);lastV=parseFloat(v);}});
-      var delta=null;
-      if(firstV!==null&&lastV!==null&&firstV!==lastV)delta=Math.round((lastV-firstV)*10)/10;
-
-      var isEven=ei%2===0;
-      html+='<div style="display:grid;grid-template-columns:1fr'+' 36px'.repeat(nW)+' 36px;border-top:1px solid var(--border2);background:'+(isEven?'transparent':'var(--bg3)20')+';align-items:center;">';
-
-      // Nome esercizio
-      html+='<div style="padding:8px 10px;font-size:11px;font-weight:600;color:var(--text);line-height:1.3;">'+htmlEsc(ex.nome)+'</div>';
-
-      // Celle W1..W7
-      for(var wi2=0;wi2<nW;wi2++){
-        var v=wKgs[wi2];
-        var isEmpty=v===null||v===undefined||v==='';
-        var numV=isEmpty?null:parseFloat(v);
-        // Colore: verde se aumentato vs settimana prima, rosso se calato
-        var prevV=null;
-        for(var pi=wi2-1;pi>=0;pi--){if(wKgs[pi]!==null&&!isNaN(parseFloat(wKgs[pi]))){prevV=parseFloat(wKgs[pi]);break;}}
-        var cellCol='var(--muted2)';
-        var bgCell='transparent';
-        if(!isEmpty){
-          cellCol='var(--text)';
-          if(prevV!==null){
-            if(numV>prevV){cellCol='var(--green)';bgCell='rgba(80,200,120,.08)';}
-            else if(numV<prevV){cellCol='var(--red,#FF6B6B)';bgCell='rgba(255,107,107,.06)';}
-          }
+      var firstKg=null,lastKg=null;
+      wData.forEach(function(d){if(d.kg!==null&&!isNaN(parseFloat(d.kg))){if(firstKg===null)firstKg=parseFloat(d.kg);lastKg=parseFloat(d.kg);}});
+      var delta=(firstKg!==null&&lastKg!==null&&firstKg!==lastKg)?Math.round((lastKg-firstKg)*10)/10:null;
+      html+='<div style="display:grid;grid-template-columns:'+nameW+'px'+Array(nW+1).join(' '+colW+'px')+' '+dW+'px;border:1px solid var(--border2);border-top:none;background:'+(ei%2?'rgba(255,255,255,.02)':'transparent')+';align-items:stretch;">';
+      html+='<div style="padding:6px 8px;font-size:10px;font-weight:600;color:var(--text);line-height:1.3;border-right:1px solid var(--border2);">'+htmlEsc(ex.nome)+'</div>';
+      for(var wi3=1;wi3<=nW;wi3++){
+        var wd=wData[wi3-1];var ab=abbrevPrescr(wd.prescr);
+        var prevN=null;for(var pi=wi3-2;pi>=0;pi--){if(wData[pi].kg!==null&&!isNaN(parseFloat(wData[pi].kg))){prevN=parseFloat(wData[pi].kg);break;}}
+        var numK=wd.kg!==null?parseFloat(wd.kg):null;
+        var kc='var(--text)';if(numK!==null&&!isNaN(numK)&&prevN!==null){if(numK>prevN)kc='var(--green)';else if(numK<prevN)kc='#FF6B6B';}
+        html+='<div style="padding:4px 2px;text-align:center;border-left:1px solid var(--border2);">';
+        if(wd.hasData){
+          html+='<div style="font-size:11px;font-weight:700;color:'+kc+'">'+(wd.kg!==null?wd.kg+'kg':'—')+'</div>';
+          if(wd.reps.length)html+='<div style="font-size:9px;font-weight:600;color:var(--text);">'+wd.reps.join(' ')+'</div>';
+          html+='<div style="font-size:8px;color:var(--muted);margin-top:1px;">'+ab+'</div>';
+        }else{
+          html+='<div style="font-size:8px;color:var(--muted);line-height:1.3;padding-top:2px;">'+ab+'</div>';
         }
-        html+='<div style="padding:8px 2px;text-align:center;font-size:11px;font-weight:'+(isEmpty?'400':'700')+';color:'+cellCol+';background:'+bgCell+';">'+(isEmpty?'·':(Number.isInteger(numV)?String(numV):String(v)))+'</div>';
+        html+='</div>';
       }
-
-      // Δ
-      var deltaStr=delta===null?'·':((delta>0?'+':'')+delta);
-      var deltaCol=delta===null?'var(--muted2)':delta>0?'var(--green)':'var(--red,#FF6B6B)';
-      html+='<div style="padding:8px 2px;text-align:center;font-size:11px;font-weight:700;color:'+deltaCol+';">'+deltaStr+'</div>';
-
+      var dStr=delta===null?'·':((delta>0?'+':'')+delta);
+      var dC=delta===null?'var(--muted2)':delta>0?'var(--green)':'#FF6B6B';
+      html+='<div style="padding:4px 2px;text-align:center;font-size:10px;font-weight:700;color:'+dC+';display:flex;align-items:center;justify-content:center;">'+dStr+'</div>';
       html+='</div>';
     });
-
-    html+='</div></div>';
+    html+='<div style="height:2px;background:var(--border2);border-radius:0 0 10px 10px;"></div>';
+    html+='</div></div></div>';
   });
-
   html+='<div style="height:20px"></div>';
   return html;
 }
@@ -4216,7 +4179,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v36";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v37";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
