@@ -1324,7 +1324,26 @@ function renderWorkout(){
   if(!S.noteOpen&&log&&log.noteAllenamento)html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">'+log.noteAllenamento+'</div>';
   else if(!S.noteOpen)html+='<div style="font-size:11px;color:var(--muted2);margin-top:1px">Tocca per aggiungere...</div>';
   html+='</div><span style="color:var(--muted);font-size:16px;transform:'+(S.noteOpen?'rotate(180deg)':'none')+'">⌄</span></div>';
-  if(S.noteOpen)html+='<div class="note-card-body"><textarea class="note-inp" id="note-all" rows="3" placeholder="Come ti sei sentito, cosa migliorare...">'+( log&&log.noteAllenamento||'')+'</textarea></div>';
+  if(S.noteOpen){
+    var prevAllenHtml='';
+    for(var paw=1;paw<aw;paw++){
+      var plog=LS.get('pier_s'+S.schedaId+'_g'+S.giorno.id+'_w'+paw);
+      if(plog&&plog.noteAllenamento){
+        prevAllenHtml+='<div style="display:flex;gap:6px;padding:5px 0;border-bottom:1px solid var(--border2);">';
+        prevAllenHtml+='<span style="color:var(--accent);font-family:Bebas Neue,sans-serif;font-size:11px;flex-shrink:0;min-width:22px;">W'+paw+'</span>';
+        prevAllenHtml+='<span style="color:var(--muted);font-size:11px;line-height:1.4;">'+htmlEsc(plog.noteAllenamento)+'</span>';
+        prevAllenHtml+='</div>';
+      }
+    }
+    if(prevAllenHtml){
+      html+='<div style="padding:8px 12px 4px;background:var(--bg3);border-radius:10px 10px 0 0;border:1px solid var(--border2);border-bottom:none;">';
+      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;">📋 Note sessioni precedenti</div>';
+      html+=prevAllenHtml;
+      html+='</div>';
+    }
+    html+='<div class="note-card-body">';
+    html+='<textarea class="note-inp" id="note-all" rows="3" placeholder="Come ti sei sentito, cosa migliorare...">'+( log&&log.noteAllenamento||'')+'</textarea></div>';
+  }
   html+='</div>';
   g.esercizi.forEach(function(ex,idx){
     var isOpen=S.openExId===ex.id;
@@ -4190,7 +4209,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v38";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v39";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
