@@ -470,13 +470,31 @@ var K={
   weight:'pier_weights'
 };
 
+// ─── MIGRAZIONE v40: ripara trainedDate malformati (bug padding '0'+slice) ───
+(function(){try{
+  if(localStorage.getItem('pier_fix_tdate_v40'))return;
+  LS.keys('pier_s').forEach(function(k){
+    if(!/pier_s\w+_g\d+_w\d+/.test(k))return;
+    var d=LS.get(k);
+    if(!d||!d.trainedDate)return;
+    var td=String(d.trainedDate);
+    if(/^\d{4}-\d{2}-\d{2}$/.test(td))return;
+    var p=td.split('-');
+    if(p.length===3){
+      var fixed=p[0]+'-'+('0'+p[1].slice(-2)).slice(-2)+'-'+('0'+p[2].slice(-2)).slice(-2);
+      if(/^\d{4}-\d{2}-\d{2}$/.test(fixed)){d.trainedDate=fixed;LS.set(k,d);}
+    }
+  });
+  localStorage.setItem('pier_fix_tdate_v40','1');
+}catch(e){console.error('migration v40:',e);}})();
+
 // ─── STATE ────────────────────────────────────────────────────────────────────
 var S={
   tab:'home',schedaId:'27',giorno:null,
   activeWeek:1,openExId:null,openWeeks:{},openAllWeeks:{},openWeeksEdit:{},noteOpen:false,
   weekLogs:{},
   showTimer:false,showAI:false,showPerf:null,showSchedaPicker:false,showImport:false,prSearch:'',
-  cercaOpen:false,cercaQ:'',cercaEx:null,progSchedaId:null,
+  cercaOpen:false,cercaQ:'',cercaEx:null,progSchedaId:null,showGymPick:false,
   timerSecs:0,timerRun:false,timerDone:false,timerTarget:90,timerIv:null,
   aiMsgs:[],aiLoad:false,calMonthOffset:0,
   exSearch:'',exMuscle:'',exDetail:null,exTab:0,
@@ -560,7 +578,8 @@ function saveWeek(week){
     });
   });
   log.savedAt=new Date().toISOString();
-  var _ld=new Date();log.trainedDate=_ld.getFullYear()+'-'+'0'+((_ld.getMonth()+1)).toString().slice(-2)+'-'+'0'+_ld.getDate().toString().slice(-2);
+  var _ld=new Date();log.trainedDate=_ld.getFullYear()+'-'+('0'+(_ld.getMonth()+1)).slice(-2)+'-'+('0'+_ld.getDate()).slice(-2);
+  if(!log.gym){var _lg=localStorage.getItem('pier_gym_last');if(_lg)log.gym=_lg;}
   LS.set(key,log);
   clearDraft();
   showUndoToast('Settimana '+week+' salvata');
@@ -752,18 +771,42 @@ function timerRequestNotifPerm(){
   }
 }
 
+// ─── WAKE LOCK: schermo attivo durante il workout (il tasto power funziona sempre) ───
+var _wakeLock=null;
+function wakeAcquire(){
+  if(!('wakeLock' in navigator)||_wakeLock)return;
+  navigator.wakeLock.request('screen').then(function(l){
+    _wakeLock=l;
+    l.addEventListener('release',function(){_wakeLock=null;});
+  }).catch(function(){});
+}
+function wakeRelease(){
+  if(_wakeLock){try{_wakeLock.release();}catch(e){}_wakeLock=null;}
+}
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'){
+    if(S.giorno)wakeAcquire();
+    if(S.timerRun){refreshTimerPill();if(S.showTimer)renderModal();}
+  }
+});
+
 function timerStart(t){
   if(S.timerIv)clearInterval(S.timerIv);
   timerRequestNotifPerm();
   var v=t!==undefined?t:S.timerTarget;
   S.timerTarget=v;S.timerSecs=v;S.timerRun=true;S.timerDone=false;
+  // Timestamp-based: immune al throttling dei setInterval in background
+  S.timerEnd=Date.now()+v*1000;
+  var prevSecs=v+1;
   S.timerIv=setInterval(function(){
-    S.timerSecs--;
-    // Avviso a 10 secondi dalla fine
-    if(S.timerSecs===10){timerBeep(false);}
+    var secs=Math.max(0,Math.ceil((S.timerEnd-Date.now())/1000));
+    if(secs===prevSecs)return;
+    S.timerSecs=secs;
+    // Avviso quando si attraversa la soglia dei 10 secondi
+    if(prevSecs>10&&secs<=10&&secs>5){timerBeep(false);}
     // Countdown sonoro ultimi 5 secondi
-    if(S.timerSecs>=1&&S.timerSecs<=5){timerBeepCount(S.timerSecs);}
-    if(S.timerSecs<=0){
+    if(secs>=1&&secs<=5){timerBeepCount(secs);}
+    if(secs<=0){
       clearInterval(S.timerIv);S.timerRun=false;S.timerDone=true;S.timerSecs=0;
       timerBeep(true);
       // Notifica push se app in background
@@ -771,9 +814,10 @@ function timerStart(t){
         try{new Notification('PierFitness ⏱',{body:'Recupero finito! Prossima serie 💪',icon:'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⏱</text></svg>',silent:true});}catch(e){}
       }
     }
+    prevSecs=secs;
     refreshTimerPill();
     if(S.showTimer)renderModal();
-  },1000);
+  },250);
 }
 function timerStop(){clearInterval(S.timerIv);S.timerRun=false;}
 function timerReset(){clearInterval(S.timerIv);S.timerRun=false;S.timerDone=false;S.timerSecs=0;}
@@ -1229,13 +1273,13 @@ function toggleWeek(wkKey){
 
 // ─── RENDER ROOT ──────────────────────────────────────────────────────────────
 function render(){
+  if(S.giorno)wakeAcquire();else wakeRelease();
   var nav=document.getElementById('nav');
   var screen=document.getElementById('screen');
   var tabs=[
     {id:'home',icon:'🏠',lbl:'Home'},
     {id:'progressione',icon:'📈',lbl:'Prog'},
     {id:'weight',icon:'⚖️',lbl:'Peso'},
-    {id:'pr',icon:'🏆',lbl:'PR'},
     {id:'storico',icon:'⚙️',lbl:'Altro'}
   ];
   nav.innerHTML=tabs.map(function(t){
@@ -1320,6 +1364,12 @@ function renderWorkout(){
     +'<div class="aw-arrows"><button class="aw-btn" id="aw-next">›</button></div>'
     +'<div style="font-size:10px;color:var(--muted);margin-left:4px">'+(S.weekLogs[aw]&&S.weekLogs[aw].savedAt?'✓ Salvata':'Non salvata')+'</div>'
     +'</div>';
+  // Chip palestra (solo indicazione, nessun impatto sui calcoli)
+  var _gyms=[];try{_gyms=JSON.parse(localStorage.getItem('pier_gyms')||'[]');}catch(e){}
+  if(_gyms.length){
+    var _gymShown=(S.weekLogs[aw]&&S.weekLogs[aw].gym)||localStorage.getItem('pier_gym_last')||'';
+    html+='<div style="display:flex;align-items:center;margin:8px 0 0;"><span id="gym-chip" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:14px;background:var(--bg3);border:1px solid var(--border2);font-size:11px;font-weight:600;color:var(--text);cursor:pointer;">🏋️ '+(_gymShown?htmlEsc(_gymShown):'<span style="color:var(--muted);font-weight:400;">Scegli palestra</span>')+'<span style="color:var(--muted);font-size:9px;">▾</span></span></div>';
+  }
   html+='<div class="note-card"><div class="note-card-hdr" id="toggle-note"><span style="font-size:14px">📝</span><div style="flex:1"><div style="font-size:13px;font-weight:600">Note sett. '+aw+'</div>';
   if(!S.noteOpen&&log&&log.noteAllenamento)html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">'+log.noteAllenamento+'</div>';
   else if(!S.noteOpen)html+='<div style="font-size:11px;color:var(--muted2);margin-top:1px">Tocca per aggiungere...</div>';
@@ -1331,7 +1381,8 @@ function renderWorkout(){
       if(plog&&plog.noteAllenamento){
         prevAllenHtml+='<div style="display:flex;gap:6px;padding:5px 0;border-bottom:1px solid var(--border2);">';
         prevAllenHtml+='<span style="color:var(--accent);font-family:Bebas Neue,sans-serif;font-size:11px;flex-shrink:0;min-width:22px;">W'+paw+'</span>';
-        prevAllenHtml+='<span style="color:var(--muted);font-size:11px;line-height:1.4;">'+htmlEsc(plog.noteAllenamento)+'</span>';
+        prevAllenHtml+='<span style="color:var(--muted);font-size:11px;line-height:1.4;flex:1;">'+htmlEsc(plog.noteAllenamento)+'</span>';
+        if(plog.gym)prevAllenHtml+='<span style="color:var(--muted2);font-size:10px;flex-shrink:0;">🏋️ '+htmlEsc(plog.gym)+'</span>';
         prevAllenHtml+='</div>';
       }
     }
@@ -1372,10 +1423,11 @@ function renderWorkout(){
       if(aw>1){
         var prevNotaLog=getExLog(ex.id,aw-1);
         var prevNotaTesto=prevNotaLog&&prevNotaLog.nota?prevNotaLog.nota:'';
-        if(prevNotaTesto){
+        var prevRpe=prevNotaLog&&prevNotaLog.rpe?({1:'😫 dura',2:'😐 ok',3:'💪 facile'})[prevNotaLog.rpe]||'':'';
+        if(prevNotaTesto||prevRpe){
           html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:var(--bg3);border:1px dashed var(--border2);">';
           html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;">📝 Note settimana scorsa (W'+(aw-1)+')</div>';
-          html+='<div style="font-size:12px;color:var(--text);font-style:italic;">'+htmlEsc(prevNotaTesto)+'</div>';
+          html+='<div style="font-size:12px;color:var(--text);font-style:italic;">'+(prevRpe?'<span style="font-style:normal;margin-right:6px;">'+prevRpe+'</span>':'')+htmlEsc(prevNotaTesto)+'</div>';
           html+='</div>';
         }
       }
@@ -1389,7 +1441,8 @@ function renderWorkout(){
         if(prevLog&&prevLog.serie&&prevLog.serie.length>0&&prevLog.serie.some(function(s){return s.kg||s.reps;})){
           html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);">';
           html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">';
-          html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📊 W'+prevW+' · Ultima settimana allenata</div>';
+          var _pwGym=S.weekLogs[prevW]&&S.weekLogs[prevW].gym;
+          html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📊 W'+prevW+' · Ultima settimana allenata'+(_pwGym?' · 🏋️ '+htmlEsc(_pwGym):'')+'</div>';
           html+='<span style="font-size:9px;color:var(--green);">✓</span>';
           html+='</div>';
           // Compact view of prev week's sets
@@ -1443,9 +1496,16 @@ function renderWorkout(){
       }
       html+='<button class="add-serie-btn" data-addserie="'+ex.id+'" data-addseriew="'+aw+'">+ Serie</button>';
       var prevNotesHtml='';
-      for(var pnw=1;pnw<aw;pnw++){var pnLog=getExLog(ex.id,pnw);if(pnLog&&pnLog.nota){prevNotesHtml+='<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border2);"><span style="color:var(--accent);font-family:Bebas Neue,sans-serif;font-size:10px;flex-shrink:0;">W'+pnw+'</span><span style="color:var(--muted);font-size:10px;font-style:italic;">'+htmlEsc(pnLog.nota)+'</span></div>';}}
+      for(var pnw=1;pnw<aw;pnw++){var pnLog=getExLog(ex.id,pnw);if(pnLog&&(pnLog.nota||pnLog.rpe)){var _pnR=pnLog.rpe?({1:'😫 ',2:'😐 ',3:'💪 '})[pnLog.rpe]||'':'';prevNotesHtml+='<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border2);"><span style="color:var(--accent);font-family:Bebas Neue,sans-serif;font-size:10px;flex-shrink:0;">W'+pnw+'</span><span style="color:var(--muted);font-size:10px;font-style:italic;">'+_pnR+htmlEsc(pnLog.nota||'')+'</span></div>';}}
       html+='<div style="margin-top:8px;">';
       if(prevNotesHtml){html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">📋 Note sett. precedenti</div>';html+='<div style="margin-bottom:8px;padding:6px 8px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);">'+prevNotesHtml+'</div>';}
+      var _rpeCur=wlog&&wlog.rpe;
+      html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;"><span style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Com\'è andata?</span>';
+      [[1,'😫'],[2,'😐'],[3,'💪']].forEach(function(_r){
+        var _on=_rpeCur===_r[0];
+        html+='<button data-rpeex="'+ex.id+'" data-rpew="'+aw+'" data-rpeval="'+_r[0]+'" style="padding:5px 11px;border-radius:10px;border:1px solid '+(_on?col:'var(--border2)')+';background:'+(_on?col+'20':'var(--bg3)')+';font-size:15px;cursor:pointer;line-height:1;">'+_r[1]+'</button>';
+      });
+      html+='</div>';
       html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">💬 Nota W'+aw+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+aw+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog&&wlog.nota||'')+'</textarea></div>';
       html+='</div>';
 
@@ -1478,6 +1538,8 @@ function renderWorkout(){
           var effNote2=wn.override?wn.override.replace(/^\u26a0\ufe0f\s*/,''):wn.base;
           var isChanged2=!!(wn.override);
           if(effNote2)hdr2+='<span style="font-size:12px;padding:2px 7px;border-radius:8px;background:'+(isChanged2?'rgba(255,208,96,.18)':col+'15')+';color:'+(isChanged2?'var(--yellow)':col)+';font-weight:700;white-space:nowrap;">'+effNote2+'</span>';
+          var _wGym2=S.weekLogs[w]&&S.weekLogs[w].gym;
+          if(_wGym2&&isSaved2)hdr2+='<span style="font-size:10px;padding:2px 6px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);white-space:nowrap;">🏋️ '+htmlEsc(_wGym2)+'</span>';
           hdr2+='</div>';
           if(!isWOpen&&wTot2)hdr2+='<div style="font-size:10px;color:'+(wDone2===wTot2?'var(--green)':'var(--muted)')+';flex-shrink:0;">'+wDone2+'/'+wTot2+'</div>';
           hdr2+='<span style="font-size:16px;color:var(--muted2);flex-shrink:0;">'+(isWOpen?'▲':'▼')+'</span>';
@@ -2861,6 +2923,16 @@ function buildStorico(){
   allKeys.forEach(function(k){var m=k.match(/pier_s(\w+)_g/);if(m)schedaIds[m[1]]=true;});
   var ids=Object.keys(schedaIds).sort().reverse();
   var html='<div style="padding:18px 18px 0;"><div class="eyebrow">Archivio</div><div class="big-title" style="font-size:36px;">📋 Storico</div></div>';
+  // ── Le mie palestre ──
+  var _gymsM=[];try{_gymsM=JSON.parse(localStorage.getItem('pier_gyms')||'[]');}catch(e){}
+  html+='<div style="margin:14px 18px 0;padding:14px;border-radius:14px;background:var(--bg2);border:1px solid var(--border);">';
+  html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">🏋️ Le mie palestre</div>';
+  _gymsM.forEach(function(gn,gi){
+    html+='<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--border2);"><span style="flex:1;font-size:13px;font-weight:600;">'+htmlEsc(gn)+'</span><button data-gymdel="'+gi+'" style="background:transparent;border:none;color:var(--red);font-size:14px;cursor:pointer;padding:4px 8px;">🗑</button></div>';
+  });
+  if(!_gymsM.length)html+='<div style="font-size:12px;color:var(--muted);padding:4px 0 8px;">Nessuna palestra. Aggiungine una: la scegli a inizio sessione e resta come indicazione accanto ai pesi delle settimane.</div>';
+  html+='<div style="display:flex;gap:8px;margin-top:10px;"><input id="gym-new" placeholder="Nome palestra..." style="flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-size:13px;"/><button id="gym-add" style="padding:10px 18px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:14px;font-weight:700;cursor:pointer;">+</button></div>';
+  html+='</div>';
   if(!ids.length){
     html+='<div class="empty"><div class="empty-icon">📋</div><div style="font-size:14px;font-weight:600;">Nessuno storico</div><div style="font-size:12px;">Completa e salva le prime settimane</div></div>';
   }else{
@@ -3578,6 +3650,8 @@ function renderModal(){
         if(isSaved&&hasData){
           html+='<span style="color:var(--muted2);margin:0 6px;font-size:11px;">·</span>';
           html+='<span style="font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;">'+htmlEsc(dataStr)+'</span>';
+          var _pmGym=S.weekLogs[w]&&S.weekLogs[w].gym;
+          if(_pmGym)html+='<span style="font-size:10px;color:var(--muted2);margin-left:6px;flex-shrink:0;">🏋️ '+htmlEsc(_pmGym)+'</span>';
         }
 
         html+='</div>';
@@ -3589,6 +3663,19 @@ function renderModal(){
       html+='</div></div></div>';
     }
     m.innerHTML=html;return;
+  }
+  // GYM PICKER
+  if(S.showGymPick){
+    var _gl=[];try{_gl=JSON.parse(localStorage.getItem('pier_gyms')||'[]');}catch(e){}
+    var _gCur=(S.giorno&&S.weekLogs[S.activeWeek]&&S.weekLogs[S.activeWeek].gym)||localStorage.getItem('pier_gym_last')||'';
+    html+='<div class="overlay" id="gym-overlay" style="align-items:flex-end;"><div class="gym-sheet" style="background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-width:500px;padding:20px 20px 40px;">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;"><div style="font-size:16px;font-weight:800;">🏋️ In che palestra sei?</div><button id="gym-close" style="background:var(--bg3);border:1px solid var(--border);border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;color:var(--muted);">✕</button></div>';
+    _gl.forEach(function(gn){
+      var act=(_gCur===gn);
+      html+='<button data-gympick="'+encodeURIComponent(gn)+'" style="width:100%;text-align:left;padding:13px 14px;margin-bottom:8px;border-radius:12px;border:1px solid '+(act?'var(--accent)':'var(--border2)')+';background:'+(act?'rgba(255,107,53,.10)':'var(--bg3)')+';color:var(--text);font-size:14px;font-weight:600;cursor:pointer;">'+(act?'✓ ':'')+htmlEsc(gn)+'</button>';
+    });
+    html+='<div style="font-size:10px;color:var(--muted);margin-top:4px;">La palestra è solo un\'indicazione: non influisce su grafici e calcoli. Gestisci la lista in ⚙️ Altro.</div>';
+    html+='</div></div>';
   }
   // IMPORT SCHEDA MODAL
   if(S.showImport){
@@ -3946,6 +4033,16 @@ document.addEventListener('click',function(e){
   var pf=e.target.closest('[data-perf]');if(pf){e.stopPropagation();S.showPerf=pf.dataset.perf;renderModal();return;}
   if(e.target.closest('#perf-close')){S.showPerf=null;renderModal();return;}
   var pov=e.target.closest('#perf-overlay');if(pov&&!e.target.closest('.perf-sheet')){S.showPerf=null;renderModal();return;}
+  if(e.target.closest('#gym-chip')){S.showGymPick=true;renderModal();return;}
+  var _rp=e.target.closest('[data-rpeex]');
+  if(_rp){var _rw=parseInt(_rp.dataset.rpew);var _rex=S.weekLogs[_rw]&&S.weekLogs[_rw].esercizi.filter(function(e2){return e2.id===_rp.dataset.rpeex;})[0];if(_rex){var _rv=parseInt(_rp.dataset.rpeval);_rex.rpe=_rex.rpe===_rv?null:_rv;var _wsr=document.getElementById('wk-scroll');if(_wsr)S.scrollY=_wsr.scrollTop;renderWorkout();}return;}
+  if(e.target.closest('#gym-close')){S.showGymPick=false;renderModal();return;}
+  var _gp=e.target.closest('[data-gympick]');
+  if(_gp){var _gn=decodeURIComponent(_gp.dataset.gympick);localStorage.setItem('pier_gym_last',_gn);if(S.giorno&&S.weekLogs[S.activeWeek])S.weekLogs[S.activeWeek].gym=_gn;S.showGymPick=false;if(S.giorno){var _wsg=document.getElementById('wk-scroll');if(_wsg)S.scrollY=_wsg.scrollTop;renderWorkout();}renderModal();return;}
+  var _gov=e.target.closest('#gym-overlay');if(_gov&&!e.target.closest('.gym-sheet')){S.showGymPick=false;renderModal();return;}
+  if(e.target.closest('#gym-add')){var _gin=document.getElementById('gym-new');var _gnv=_gin&&_gin.value.trim();if(_gnv){var _ga=[];try{_ga=JSON.parse(localStorage.getItem('pier_gyms')||'[]');}catch(e2){}if(_ga.indexOf(_gnv)<0){_ga.push(_gnv);localStorage.setItem('pier_gyms',JSON.stringify(_ga));}render();}return;}
+  var _gd=e.target.closest('[data-gymdel]');
+  if(_gd){if(!confirm('Rimuovere questa palestra dalla lista? (Le sessioni già salvate mantengono la loro etichetta)'))return;var _gb=[];try{_gb=JSON.parse(localStorage.getItem('pier_gyms')||'[]');}catch(e2){}_gb.splice(parseInt(_gd.dataset.gymdel),1);localStorage.setItem('pier_gyms',JSON.stringify(_gb));render();return;}
   // check
   var cb=e.target.closest('[data-chk]');if(cb){
     var exId=cb.dataset.chk,w=parseInt(cb.dataset.chkw),si=parseInt(cb.dataset.chksi);
@@ -4209,7 +4306,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v39";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v40";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
