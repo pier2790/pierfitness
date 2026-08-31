@@ -419,7 +419,7 @@ SCHEDE["28"]={id:"28",nome:"Scheda #28 · Agosto 2026",settimane:7,colore:"#F59E
     {id:"g1e4",nome:"Pull Over",note:"2 X MAX10RM",noteW:{},serie:[{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]},
     {id:"g1e5",nome:"Chest Press",note:"3 X 7 1 X MAX-20%",noteW:{"1":"3 X 7 (PESO WEEK 7)","2":"3 X 7","6":"3 X 8","7":"3 X 8 1 X MAX-20%"},serie:[{kg:"",reps:"7"},{kg:"",reps:"7"},{kg:"",reps:"7"},{kg:"",reps:"MAX"}]},
     {id:"g1e6",nome:"Panca 45° Al MP / Spinte Manubri Su Panca 45°",note:"2 X 8 1 X MAX-20%",noteW:{},serie:[{kg:"",reps:"8"},{kg:"",reps:"8"},{kg:"",reps:"MAX"}]},
-    {id:"g1e7",nome:"Croci Manubri Su Piana (ult.set → spinte)",note:"2 X MAX8RM",noteW:{},serie:[{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]},
+    {id:"g1e7",nome:"Croci Manubri Su Piana (ultimo Set Dopo La Croce Vai Avanti Con Delle Spinte)",note:"2 X MAX8RM",noteW:{},serie:[{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]},
     {id:"g1e8",nome:"Croci Ai Cavi Alti A 90°",note:"2 X MAX10MRM (MEZZE ULTIMO SET)",noteW:{},serie:[{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]}
 ]},
 {id:2,nome:"Gambe (A)",colore:"#4ECDC4",esercizi:[
@@ -455,7 +455,7 @@ SCHEDE["28"]={id:"28",nome:"Scheda #28 · Agosto 2026",settimane:7,colore:"#F59E
 {id:5,nome:"Gambe (B)",colore:"#C77DFF",esercizi:[
     {id:"g5e1",nome:"Hack Squat",note:"3 X 7",noteW:{"1":"3 X 7 (PESO WEEK 7)","4":"3 X 8","5":"3 X 8","6":"3 X 8 1 X MAX-20%","7":"PIU PESO 3 X 7"},serie:[{kg:"",reps:"7"},{kg:"",reps:"7"},{kg:"",reps:"7"}]},
     {id:"g5e2",nome:"Leg Press",note:"2 X 9 1 X MAX-20%",noteW:{"1":"2 X 8 1 X MAX-20%","2":"2 X 8 1 X MAX-20%","3":"2 X 8 1 X MAX-20%"},serie:[{kg:"",reps:"9"},{kg:"",reps:"9"},{kg:"",reps:"MAX"}]},
-    {id:"g5e3",nome:"Leg Extension (sellino indietro)",note:"2 X 10 1 X MAX-20%",noteW:{},serie:[{kg:"",reps:"10"},{kg:"",reps:"10"},{kg:"",reps:"MAX"}]},
+    {id:"g5e3",nome:"Leg Extension (sposta Il Sellino Tutto Indietro E \"stenditi\" Un Po' Per Ricercare Maggiore Allungamento Del Quad.",note:"2 X 10 1 X MAX-20%",noteW:{},serie:[{kg:"",reps:"10"},{kg:"",reps:"10"},{kg:"",reps:"MAX"}]},
     {id:"g5e4",nome:"Stacco Rumeno Manubri",note:"3 X 10",noteW:{},serie:[{kg:"",reps:"10"},{kg:"",reps:"10"},{kg:"",reps:"10"}]},
     {id:"g5e5",nome:"Leg Curl Seduto",note:"2 X 10 2 X MAX-20%",noteW:{},serie:[{kg:"",reps:"10"},{kg:"",reps:"10"},{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]},
     {id:"g5e6",nome:"Leg Curl Steso",note:"3 X MAX10RM",noteW:{},serie:[{kg:"",reps:"MAX"},{kg:"",reps:"MAX"},{kg:"",reps:"MAX"}]}
@@ -4391,7 +4391,7 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v43";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v44";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
