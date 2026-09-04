@@ -1230,10 +1230,8 @@ loadExTimerPrefs();
   try{
     Object.keys(localStorage).filter(function(k){return k.indexOf('pier_scheda_def_')===0;}).forEach(function(k){
       var sid=k.replace('pier_scheda_def_','');
-      if(!SCHEDE[sid]){
-        var sc=JSON.parse(localStorage.getItem(k));
-        if(sc&&sc.giorni)SCHEDE[sid]=sc;
-      }
+      var sc=JSON.parse(localStorage.getItem(k));
+      if(sc&&sc.giorni&&(!SCHEDE[sid]||sc._edited))SCHEDE[sid]=sc;
     });
   }catch(e){console.error('Error loading custom schede:',e);}
 })();
@@ -3116,6 +3114,10 @@ function buildStorico(){
   html+='<button data-nav="scheda" style="flex:1;padding:11px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;">📋 Scheda completa</button>';
   html+='</div>';
   html+='<div style="margin:6px 18px 0;display:flex;gap:8px;">';
+  html+='<button style="flex:1;padding:11px;border-radius:11px;border:1px solid var(--accent);background:rgba(255,107,53,.08);color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;" id="btn-editor">✏️ Modifica Scheda</button>';
+  html+='<button style="flex:1;padding:11px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;" id="btn-new-scheda">＋ Nuova Scheda</button>';
+  html+='</div>';
+  html+='<div style="margin:6px 18px 0;display:flex;gap:8px;">';
   html+='<button style="flex:1;padding:11px;border-radius:11px;border:1px solid var(--accent);background:rgba(255,107,53,.08);color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;" id="btn-export-logbook">📊 Pesi Usati (Coach)</button>';
   html+='</div>';
   html+='<div style="margin:6px 18px 0;display:flex;gap:8px;">';
@@ -3434,12 +3436,16 @@ function renderModal(){
     html+='<div style="font-family:Bebas Neue,sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:16px;">Scegli Scheda</div>';
     Object.values(SCHEDE).forEach(function(sc){
       var isA=S.schedaId===sc.id;
-      html+='<div class="scheda-picker-item'+(isA?' active-scheda':'')+'" data-pickscheda="'+sc.id+'">';
+      html+='<div style="display:flex;align-items:center;gap:6px;">';
+      html+='<div class="scheda-picker-item'+(isA?' active-scheda':'')+'" data-pickscheda="'+sc.id+'" style="flex:1;">';
       html+='<span style="font-size:28px;">'+sc.icona+'</span>';
       html+='<div style="flex:1"><div style="font-size:16px;font-weight:600;">'+sc.nome+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">'+sc.settimane+' settimane · '+sc.giorni.length+' giorni</div></div>';
       if(isA)html+='<span style="color:var(--accent);font-weight:700;font-size:18px;">✓</span>';
       html+='</div>';
+      html+='<button data-editscheda="'+sc.id+'" style="flex-shrink:0;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);font-size:15px;cursor:pointer;">✏️</button>';
+      html+='</div>';
     });
+    html+='<button id="btn-new-scheda" style="width:100%;margin-top:10px;padding:12px;border-radius:11px;border:1px dashed var(--accent);background:rgba(255,107,53,.06);color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;">＋ Crea nuova scheda</button>';
     html+='</div></div>';
     m.innerHTML=html;return;
   }
@@ -4391,12 +4397,263 @@ if(!localStorage.getItem('pier_cloud_bin'))localStorage.setItem('pier_cloud_bin'
 localStorage.setItem('pier_drive_url','https://script.google.com/macros/s/AKfycbxD4aVbbQiG_uuwdBu8369zBCaJZHl6ye1aU3cKJCuwTD1zeqmUXbCUeHMkTM2VyxyqqQ/exec');
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v44";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v45";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
 window.addEventListener('beforeunload',function(){if(S.giorno)saveDraft();});
 document.addEventListener('visibilitychange',function(){if(document.hidden&&S.giorno)saveDraft();});
+
+// ─── EDITOR SCHEDE ────────────────────────────────────────────────────────────
+S.editorOpen=false;S.editorId=null;S.editorDay=null;S.editorEx=null;
+
+function edSave(sc){sc._edited=true;sc._editedAt=Date.now();LS.set('pier_scheda_def_'+sc.id,sc);SCHEDE[sc.id]=sc;}
+function edCur(){return SCHEDE[S.editorId]||null;}
+function edGetDay(){var sc=edCur();if(!sc||S.editorDay==null)return null;return sc.giorni.filter(function(g){return g.id===S.editorDay;})[0]||null;}
+function edGetEx(){var g=edGetDay();if(!g||!S.editorEx)return null;return g.esercizi.filter(function(x){return x.id===S.editorEx;})[0]||null;}
+function edNewId(){var mx=0;Object.keys(SCHEDE).forEach(function(k){var n=parseInt(k,10);if(!isNaN(n)&&n>mx)mx=n;});var id=String(mx+1);while(SCHEDE[id])id=id+'b';return id;}
+function edNextExId(g){var n=1;while(g.esercizi.filter(function(x){return x.id==='g'+g.id+'e'+n;}).length)n++;return 'g'+g.id+'e'+n;}
+function edHasLogs(sid,gid,w){var d=LS.get(K.session(sid,gid,w));return !!(d&&d.savedAt);}
+
+function edOpen(id){S.editorId=id;S.editorDay=null;S.editorEx=null;S.editorOpen=true;S.showSchedaPicker=false;renderModal();}
+function edClose(){S.editorOpen=false;S.editorId=null;S.editorDay=null;S.editorEx=null;render();}
+
+function edCreateScheda(){
+  var id=edNewId();
+  var giorni=[];for(var i=1;i<=3;i++)giorni.push({id:i,nome:'Giorno '+i,colore:DAY_COLORS[(i-1)%DAY_COLORS.length],esercizi:[]});
+  var sc={id:id,nome:'Nuova scheda',settimane:7,colore:DAY_COLORS[0],icona:'💪',giorni:giorni};
+  edSave(sc);edOpen(id);
+}
+function edDuplicate(id){
+  var src=SCHEDE[id];if(!src)return;
+  var nid=edNewId();
+  var copy=JSON.parse(JSON.stringify(src));
+  copy.id=nid;copy.nome=(src.nome||('Scheda #'+id))+' (copia)';delete copy._editedAt;
+  edSave(copy);edOpen(nid);
+}
+function edSetWeeks(delta){
+  var sc=edCur();if(!sc)return;
+  var nw=sc.settimane+delta;
+  if(nw<1||nw>20)return;
+  if(delta<0){
+    var lost=[];
+    sc.giorni.forEach(function(g){for(var w=nw+1;w<=sc.settimane;w++){if(edHasLogs(sc.id,g.id,w))lost.push('G'+g.id+' W'+w);}});
+    if(lost.length&&!confirm('Attenzione: ci sono allenamenti salvati nelle settimane che stai togliendo ('+lost.join(', ')+').\n\nI dati restano in memoria ma non saranno piu visibili. Procedo?'))return;
+    sc.giorni.forEach(function(g){g.esercizi.forEach(function(x){if(x.noteW)Object.keys(x.noteW).forEach(function(k){if(parseInt(k,10)>nw)delete x.noteW[k];});});});
+  }
+  sc.settimane=nw;edSave(sc);renderModal();
+}
+function edAddDay(){
+  var sc=edCur();if(!sc)return;
+  var mx=0;sc.giorni.forEach(function(g){if(g.id>mx)mx=g.id;});
+  var nid=mx+1;
+  sc.giorni.push({id:nid,nome:'Giorno '+nid,colore:DAY_COLORS[(nid-1)%DAY_COLORS.length],esercizi:[]});
+  edSave(sc);renderModal();
+}
+function edDelDay(gid){
+  var sc=edCur();if(!sc)return;
+  var g=sc.giorni.filter(function(x){return x.id===gid;})[0];if(!g)return;
+  var has=false;for(var w=1;w<=sc.settimane;w++)if(edHasLogs(sc.id,gid,w))has=true;
+  var msg='Elimino "'+(g.nome||('Giorno '+gid))+'" con i suoi '+g.esercizi.length+' esercizi?';
+  if(has)msg+='\n\nATTENZIONE: questo giorno ha allenamenti salvati.';
+  if(!confirm(msg))return;
+  sc.giorni=sc.giorni.filter(function(x){return x.id!==gid;});
+  edSave(sc);S.editorDay=null;S.editorEx=null;renderModal();
+}
+function edMove(arr,idx,dir){var ni=idx+dir;if(ni<0||ni>=arr.length)return false;var t=arr[idx];arr[idx]=arr[ni];arr[ni]=t;return true;}
+function edMoveDay(gid,dir){
+  var sc=edCur();if(!sc)return;
+  var i=sc.giorni.map(function(g){return g.id;}).indexOf(gid);
+  if(i<0||!edMove(sc.giorni,i,dir))return;
+  edSave(sc);renderModal();
+}
+function edAddEx(){
+  var g=edGetDay();var sc=edCur();if(!g||!sc)return;
+  g.esercizi.push({id:edNextExId(g),nome:'Nuovo esercizio',note:'3 X 8',noteW:{},serie:parseNoteToSerie('3 X 8')});
+  edSave(sc);renderModal();
+}
+function edDelEx(exId){
+  var g=edGetDay();var sc=edCur();if(!g||!sc)return;
+  var x=g.esercizi.filter(function(e){return e.id===exId;})[0];if(!x)return;
+  if(!confirm('Elimino "'+x.nome+'"?\n\nI dati gia registrati per questo esercizio non saranno piu visibili.'))return;
+  g.esercizi=g.esercizi.filter(function(e){return e.id!==exId;});
+  edSave(sc);S.editorEx=null;renderModal();
+}
+function edMoveEx(exId,dir){
+  var g=edGetDay();var sc=edCur();if(!g||!sc)return;
+  var i=g.esercizi.map(function(e){return e.id;}).indexOf(exId);
+  if(i<0||!edMove(g.esercizi,i,dir))return;
+  edSave(sc);renderModal();
+}
+function edSetField(what,val,arg){
+  var sc=edCur();if(!sc)return;
+  if(what==='schedaNome'){sc.nome=val||('Scheda #'+sc.id);}
+  else if(what==='schedaIcona'){sc.icona=(val||'💪').slice(0,2);}
+  else if(what==='dayNome'){var g=edGetDay();if(g)g.nome=val||('Giorno '+g.id);}
+  else if(what==='exNome'){var x=edGetEx();if(x)x.nome=val||'Esercizio';}
+  else if(what==='exNote'){var x2=edGetEx();if(x2){x2.note=val||'';x2.serie=parseNoteToSerie(x2.note);}}
+  else if(what==='exNoteW'){
+    var x3=edGetEx();if(x3){
+      if(!x3.noteW)x3.noteW={};
+      var w=String(arg);
+      if(val&&val.trim())x3.noteW[w]=val.trim();else delete x3.noteW[w];
+    }
+  }
+  edSave(sc);renderModal();
+}
+
+function edBtn(id,label,color,extra){
+  return '<button data-ed="'+id+'"'+(extra||'')+' style="padding:8px 12px;border-radius:9px;border:1px solid '+(color||'var(--border)')+';background:var(--bg3);color:'+(color||'var(--text)')+';font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;">'+label+'</button>';
+}
+function edInput(field,val,ph,arg){
+  return '<input type="text" data-edfield="'+field+'"'+(arg!==undefined?' data-edarg="'+arg+'"':'')+' value="'+htmlEsc(val||'')+'" placeholder="'+htmlEsc(ph||'')+'" style="width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:14px;box-sizing:border-box;font-family:DM Sans,sans-serif;">';
+}
+
+function buildEditorHTML(){
+  var sc=edCur();
+  var h='<div class="perf-wrap" id="ed-overlay"><div class="perf-sheet" style="height:92vh;display:flex;flex-direction:column;">';
+  h+='<div class="perf-handle"></div>';
+  if(!sc){
+    h+='<div class="perf-hdr"><div class="perf-ttl">✏️ Editor schede</div><button class="perf-x" id="ed-close">✕</button></div>';
+    h+='<div style="padding:20px 0;color:var(--muted);font-size:13px;">Scheda non trovata.</div></div></div>';
+    return h;
+  }
+  var ex=edGetEx(),g=edGetDay();
+
+  // ── EXERCISE VIEW ──
+  if(ex&&g){
+    h+='<div class="perf-hdr"><div class="perf-ttl" style="font-size:16px;">✏️ Esercizio</div><button class="perf-x" id="ed-close">✕</button></div>';
+    h+='<div style="overflow-y:auto;flex:1;padding-bottom:20px;">';
+    h+='<button data-ed="backday" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;padding:0 0 12px;">← '+htmlEsc(g.nome||('Giorno '+g.id))+'</button>';
+    h+='<div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:1px;">NOME</div>'+edInput('exNome',ex.nome,'Nome esercizio');
+    h+='<div style="font-size:11px;color:var(--muted);margin:14px 0 5px;font-weight:700;letter-spacing:1px;">TECNICA / PRESCRIZIONE BASE</div>';
+    h+=edInput('exNote',ex.note,'Es. 3 X 8 1 X MAX-20%');
+    var pv=parseNoteToSerie(ex.note||'');
+    h+='<div style="font-size:11px;color:var(--muted2);margin-top:6px;">→ '+pv.length+' serie: '+pv.map(function(s){return s.reps||'–';}).join(' · ')+'</div>';
+    h+='<div style="font-size:11px;color:var(--muted);margin:16px 0 5px;font-weight:700;letter-spacing:1px;">VARIAZIONI PER SETTIMANA</div>';
+    h+='<div style="font-size:11px;color:var(--muted2);margin-bottom:8px;">Lascia vuoto per usare la prescrizione base.</div>';
+    for(var w=1;w<=sc.settimane;w++){
+      var ov=(ex.noteW&&ex.noteW[String(w)])?ex.noteW[String(w)]:'';
+      h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
+      h+='<div style="min-width:30px;font-family:Bebas Neue,sans-serif;font-size:15px;color:'+(ov?'var(--accent)':'var(--muted2)')+';">W'+w+'</div>';
+      h+='<div style="flex:1;">'+edInput('exNoteW',ov,ex.note||'—',w)+'</div>';
+      h+='</div>';
+    }
+    h+='<div style="margin-top:18px;">'+edBtn('delex','🗑 Elimina esercizio','var(--red)',' data-exid="'+ex.id+'"')+'</div>';
+    h+='</div></div></div>';
+    return h;
+  }
+
+  // ── DAY VIEW ──
+  if(g){
+    h+='<div class="perf-hdr"><div class="perf-ttl" style="font-size:16px;">✏️ Giorno</div><button class="perf-x" id="ed-close">✕</button></div>';
+    h+='<div style="overflow-y:auto;flex:1;padding-bottom:20px;">';
+    h+='<button data-ed="backscheda" style="background:none;border:none;color:var(--accent);font-size:13px;cursor:pointer;padding:0 0 12px;">← '+htmlEsc(sc.nome)+'</button>';
+    h+='<div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:1px;">NOME DEL GIORNO</div>'+edInput('dayNome',g.nome,'Es. Petto · Bicipiti');
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 8px;">';
+    h+='<div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;">ESERCIZI ('+g.esercizi.length+')</div>';
+    h+=edBtn('addex','＋ Aggiungi','var(--accent)');
+    h+='</div>';
+    if(!g.esercizi.length)h+='<div style="padding:16px;text-align:center;color:var(--muted2);font-size:12px;">Nessun esercizio. Tocca "Aggiungi".</div>';
+    g.esercizi.forEach(function(x,i){
+      h+='<div style="background:var(--bg2);border:1px solid var(--border);border-radius:11px;padding:10px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px;">';
+      h+='<div style="flex:1;min-width:0;cursor:pointer;" data-ed="openex" data-exid="'+x.id+'">';
+      h+='<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+htmlEsc(x.nome)+'</div>';
+      h+='<div style="font-size:11px;color:var(--muted);margin-top:2px;">'+htmlEsc(x.note||'—')+(x.noteW&&Object.keys(x.noteW).length?' · <span style="color:var(--yellow);">'+Object.keys(x.noteW).length+' var.</span>':'')+'</div>';
+      h+='</div>';
+      h+='<button data-ed="upex" data-exid="'+x.id+'" style="background:none;border:none;color:'+(i===0?'var(--muted2)':'var(--muted)')+';font-size:15px;cursor:pointer;padding:2px 4px;">▲</button>';
+      h+='<button data-ed="downex" data-exid="'+x.id+'" style="background:none;border:none;color:'+(i===g.esercizi.length-1?'var(--muted2)':'var(--muted)')+';font-size:15px;cursor:pointer;padding:2px 4px;">▼</button>';
+      h+='<span style="color:var(--muted2);font-size:16px;">›</span>';
+      h+='</div>';
+    });
+    h+='<div style="margin-top:18px;">'+edBtn('delday','🗑 Elimina giorno','var(--red)',' data-gid="'+g.id+'"')+'</div>';
+    h+='</div></div></div>';
+    return h;
+  }
+
+  // ── SCHEDA OVERVIEW ──
+  h+='<div class="perf-hdr"><div class="perf-ttl" style="font-size:16px;">✏️ Modifica scheda</div><button class="perf-x" id="ed-close">✕</button></div>';
+  h+='<div style="overflow-y:auto;flex:1;padding-bottom:20px;">';
+  h+='<div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:1px;">NOME SCHEDA</div>'+edInput('schedaNome',sc.nome,'Nome scheda');
+  h+='<div style="display:flex;gap:10px;margin-top:12px;align-items:flex-end;">';
+  h+='<div style="width:80px;"><div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:1px;">ICONA</div>'+edInput('schedaIcona',sc.icona,'💪')+'</div>';
+  h+='<div style="flex:1;"><div style="font-size:11px;color:var(--muted);margin-bottom:5px;font-weight:700;letter-spacing:1px;">SETTIMANE</div>';
+  h+='<div style="display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:6px 10px;">';
+  h+=edBtn('weekminus','−','var(--text)');
+  h+='<div style="flex:1;text-align:center;font-family:Bebas Neue,sans-serif;font-size:22px;">'+sc.settimane+'</div>';
+  h+=edBtn('weekplus','＋','var(--accent)');
+  h+='</div></div></div>';
+  h+='<div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 8px;">';
+  h+='<div style="font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;">GIORNI ('+sc.giorni.length+')</div>';
+  h+=edBtn('addday','＋ Aggiungi','var(--accent)');
+  h+='</div>';
+  sc.giorni.forEach(function(gg,i){
+    var tot=gg.esercizi.length;
+    h+='<div style="background:var(--bg2);border:1px solid var(--border);border-left:3px solid '+(gg.colore||'var(--accent)')+';border-radius:11px;padding:11px 12px;margin-bottom:7px;display:flex;align-items:center;gap:8px;">';
+    h+='<div style="flex:1;min-width:0;cursor:pointer;" data-ed="openday" data-gid="'+gg.id+'">';
+    h+='<div style="font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">G'+gg.id+' · '+htmlEsc(gg.nome||('Giorno '+gg.id))+'</div>';
+    h+='<div style="font-size:11px;color:var(--muted);margin-top:2px;">'+tot+' esercizi</div>';
+    h+='</div>';
+    h+='<button data-ed="upday" data-gid="'+gg.id+'" style="background:none;border:none;color:'+(i===0?'var(--muted2)':'var(--muted)')+';font-size:15px;cursor:pointer;padding:2px 4px;">▲</button>';
+    h+='<button data-ed="downday" data-gid="'+gg.id+'" style="background:none;border:none;color:'+(i===sc.giorni.length-1?'var(--muted2)':'var(--muted)')+';font-size:15px;cursor:pointer;padding:2px 4px;">▼</button>';
+    h+='<span style="color:var(--muted2);font-size:16px;">›</span>';
+    h+='</div>';
+  });
+  h+='<div style="display:flex;gap:8px;margin-top:20px;">';
+  h+=edBtn('dup','⧉ Duplica scheda','var(--text)');
+  h+=edBtn('delscheda','🗑 Elimina scheda','var(--red)');
+  h+='</div>';
+  h+='<div style="font-size:11px;color:var(--muted2);margin-top:14px;line-height:1.5;">Le modifiche sono salvate automaticamente sul dispositivo.</div>';
+  h+='</div></div></div>';
+  return h;
+}
+
+function renderEditor(){var m=document.getElementById('modal');if(!m)return;m.innerHTML=buildEditorHTML();}
+
+// wrap renderModal so the editor takes precedence
+var _edOrigRenderModal=renderModal;
+renderModal=function(){ if(S.editorOpen){ renderEditor(); return; } return _edOrigRenderModal.apply(this,arguments); };
+
+// commit text fields on change (avoids losing focus while typing)
+document.addEventListener('change',function(e){
+  var f=e.target.closest?e.target.closest('[data-edfield]'):null;
+  if(!f||!S.editorOpen)return;
+  edSetField(f.dataset.edfield,f.value,f.dataset.edarg);
+});
+
+document.addEventListener('click',function(e){
+  if(!e.target.closest)return;
+  // entry points (work even when editor is closed)
+  if(e.target.closest('#btn-editor')){var t=S.editorId||S.schedaId;edOpen(t);return;}
+  if(e.target.closest('#btn-new-scheda')){edCreateScheda();return;}
+  var pe=e.target.closest('[data-editscheda]');
+  if(pe){e.stopPropagation();edOpen(pe.dataset.editscheda);return;}
+  if(!S.editorOpen)return;
+  if(e.target.closest('#ed-close')){edClose();return;}
+  var ov=e.target.closest('#ed-overlay');
+  if(ov&&!e.target.closest('.perf-sheet')){edClose();return;}
+  var b=e.target.closest('[data-ed]');
+  if(!b)return;
+  var a=b.dataset.ed;
+  if(a==='backscheda'){S.editorDay=null;S.editorEx=null;renderModal();}
+  else if(a==='backday'){S.editorEx=null;renderModal();}
+  else if(a==='openday'){S.editorDay=parseInt(b.dataset.gid,10);S.editorEx=null;renderModal();}
+  else if(a==='openex'){S.editorEx=b.dataset.exid;renderModal();}
+  else if(a==='weekplus'){edSetWeeks(1);}
+  else if(a==='weekminus'){edSetWeeks(-1);}
+  else if(a==='addday'){edAddDay();}
+  else if(a==='delday'){edDelDay(parseInt(b.dataset.gid,10));}
+  else if(a==='upday'){edMoveDay(parseInt(b.dataset.gid,10),-1);}
+  else if(a==='downday'){edMoveDay(parseInt(b.dataset.gid,10),1);}
+  else if(a==='addex'){edAddEx();}
+  else if(a==='delex'){edDelEx(b.dataset.exid);}
+  else if(a==='upex'){edMoveEx(b.dataset.exid,-1);}
+  else if(a==='downex'){edMoveEx(b.dataset.exid,1);}
+  else if(a==='dup'){edDuplicate(S.editorId);}
+  else if(a==='delscheda'){var id=S.editorId;S.editorOpen=false;deleteScheda(id);}
+});
+
+
 render();
 </script>
 </body>
