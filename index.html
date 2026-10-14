@@ -219,6 +219,62 @@ input[type=number]{-moz-appearance:textfield;}
 .calc-btn.op{background:rgba(255,107,53,.1);border-color:rgba(255,107,53,.3);color:var(--accent);}
 .calc-btn.eq{background:var(--accent);color:#fff;border-color:var(--accent);}
 .calc-btn.fn{background:rgba(199,125,255,.08);border-color:rgba(199,125,255,.2);color:#C77DFF;font-size:13px;font-family:'DM Sans',sans-serif;font-weight:600;}
+
+/* Anteprima import */
+.imp-ov{position:fixed;inset:0;z-index:2000;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.imp-box{max-width:430px;margin:0 auto;padding:20px 14px 30px;color:var(--text);font-family:'DM Sans',sans-serif;}
+.imp-eb{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#A0A0B2;}
+.imp-tt{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;margin-top:4px;}
+.imp-fn{font-size:12px;color:#A0A0B2;margin-top:2px;word-break:break-word;}
+.imp-chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0;}
+.imp-chips span{padding:5px 10px;border-radius:999px;background:var(--bg3);font-size:12px;font-weight:600;}
+.imp-days{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:6px;margin-bottom:10px;}
+.imp-days button{height:38px;border-radius:10px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:17px;cursor:pointer;}
+.imp-legend{display:flex;gap:12px;font-size:11px;color:#C4C4D2;margin-bottom:8px;align-items:center;}
+.imp-legend span{display:flex;align-items:center;gap:5px;}
+.imp-grid{display:grid;gap:3px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:8px 6px;}
+.imp-h{font-size:10px;font-weight:700;color:#A0A0B2;padding:0 4px 4px;}
+.imp-h.c{text-align:center;}
+.imp-n{font-size:11px;font-weight:600;line-height:1.25;padding:4px;border-top:1px solid var(--border2);}
+.imp-c{min-height:34px;border-radius:6px;background:var(--bg3);display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:2px;padding:3px 1px;cursor:pointer;border:1px solid transparent;margin-top:1px;}
+.imp-c.chg{background:#2A2410;border-color:#5C4B12;}
+.imp-bw,.imp-bm{display:inline-block;width:4px;height:13px;border-radius:2px;background:#C4C4D2;}
+.imp-bm{background:var(--yellow);}
+.imp-chg-sw{display:inline-block;width:12px;height:12px;border-radius:3px;background:#2A2410;border:1px solid #5C4B12;}
+.imp-st{flex-basis:100%;text-align:center;font-size:9px;color:var(--yellow);line-height:1;}
+.imp-q{color:var(--red);font-weight:700;}
+.imp-hint{font-size:11px;color:#A0A0B2;margin:6px 2px;}
+.imp-cellbox{font-size:13px;color:var(--yellow);min-height:18px;margin:0 2px 10px;font-weight:600;}
+.imp-card{display:flex;flex-direction:column;gap:4px;padding:11px 13px;border-radius:12px;background:var(--bg2);border:1px solid var(--border);margin-bottom:8px;font-size:12px;color:#C4C4D2;line-height:1.45;}
+.imp-card b{font-size:13px;color:var(--text);}
+.imp-card.warn{background:#2A2410;border-color:#5C4B12;}
+.imp-card.warn b{color:var(--yellow);}
+.imp-actions{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-top:12px;position:sticky;bottom:10px;}
+/* Progressi */
+.pg-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:12px 10px 10px;margin-bottom:10px;}
+.pg-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding:0 2px 10px;}
+.pg-name{font-size:14px;font-weight:700;line-height:1.25;}
+.pg-delta{font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;white-space:nowrap;background:var(--bg3);color:var(--muted);}
+.pg-delta.up{background:rgba(61,219,122,.12);color:var(--green);}
+.pg-delta.down{background:rgba(255,77,106,.12);color:#FF7A8A;}
+.pg-weeks{display:grid;gap:4px;}
+.pg-w{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 0 7px;border-radius:9px;background:var(--bg3);border:1px solid transparent;min-height:58px;min-width:0;}
+.pg-w.chg{background:#211D10;border-color:#5C4B12;}
+.pg-w.cur{border-color:var(--accent);background:rgba(255,107,53,.08);}
+.pg-wl{font-size:10px;font-weight:700;color:#A0A0B2;}
+.pg-w.chg .pg-wl{color:var(--yellow);}
+.pg-w.cur .pg-wl{color:var(--accent);}
+.pg-kg{font-family:'Bebas Neue',sans-serif;font-size:18px;line-height:1.1;min-height:20px;}
+.pg-kg.up{color:var(--green);}
+.pg-kg.down{color:#FF7A8A;}
+.pg-rp{font-size:10px;color:#C4C4D2;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px;}
+.pg-sch{margin-top:10px;padding:9px 10px;border-radius:11px;background:var(--bg3);display:flex;flex-direction:column;gap:5px;}
+.pg-sch-l{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#A0A0B2;}
+.pg-row{display:flex;gap:10px;align-items:baseline;font-size:13px;line-height:1.35;}
+.pg-rng{flex-shrink:0;width:44px;font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:.5px;color:#C4C4D2;}
+.pg-row.chg .pg-rng{color:var(--yellow);}
+.pg-row.chg .pg-txt{color:#F2E3B0;}
+.pg-foot{font-size:12px;color:var(--yellow);}
 </style>
 <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22PierFitness%22%2C%22short_name%22%3A%22PierFit%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230A0A0C%22%2C%22theme_color%22%3A%22%230A0A0C%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%2520xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%2520viewBox%3D%270%25200%2520100%2520100%27%253E%253Ctext%2520y%3D%27.9em%27%2520font-size%3D%2790%27%253E%25F0%259F%2594%25A5%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%22sizes%22%3A%22any%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D"/>
 <body>
@@ -601,15 +657,10 @@ function loadAllWeeks(giornoId){
       // Pre-fill dai valori dell'ultima settimana salvata
       var prefill=null;
       for(var pw=w-1;pw>=1;pw--){var plog=logs[pw];if(plog&&plog.savedAt){prefill=plog;break;}}
-      if(prefill){
-        logs[w]={noteAllenamento:'',savedAt:null,esercizi:prefill.esercizi.map(function(ex){
-          return{id:ex.id,nome:ex.nome,nota:'',serie:ex.serie.map(function(s){return{kg:s.kg,reps:s.reps,done:false};})};
-        })};
-      }else{
-        logs[w]={noteAllenamento:'',savedAt:null,esercizi:g.esercizi.map(function(ex){
-          return{id:ex.id,nome:ex.nome,nota:'',serie:ex.serie.map(function(s){return{kg:s.kg,reps:s.reps,done:false};})};
-        })};
-      }
+      logs[w]={noteAllenamento:'',savedAt:null,esercizi:g.esercizi.map(function(ex){
+        var prevEx=prefill?(prefill.esercizi||[]).filter(function(e){return e.id===ex.id;})[0]:null;
+        return{id:ex.id,nome:ex.nome,nota:'',serie:buildWeekSerie(ex,w,prevEx)};
+      })};
     }
   }
   return logs;
@@ -617,6 +668,70 @@ function loadAllWeeks(giornoId){
 
 function getWeekNote(ex,w){
   return{base:ex.note||'',override:ex.noteW&&ex.noteW[w]?ex.noteW[w]:''};
+}
+
+// ─── PRESCRIZIONE PER SETTIMANA ──────────────────────────────────────────────
+// La prescrizione della settimana w è noteW[w] se presente, altrimenti la base.
+function prescrFor(ex,w){return (ex&&ex.noteW&&ex.noteW[w])?String(ex.noteW[w]):String(ex&&ex.note||'');}
+// Confronto "di sostanza": ignora note tra parentesi, spazi e maiuscole
+function normPrescr(p){return String(p||'').replace(/\([^)]*\)/g,'').replace(/[\u26a0\ufe0f]/g,'').replace(/\s+/g,'').toUpperCase();}
+// "3 X 7 1 X MAX-20%" -> [{reps:'7'},{reps:'7'},{reps:'7'},{reps:'MAX',max:true,drop:20}]
+function parsePrescr(note){
+  var out=[];if(!note)return out;
+  var star=/\*/.test(note);
+  String(note).split(/\s+(?=\d+\s*[Xx]\s*(?:MAX|\d))/).forEach(function(part){
+    var m=part.match(/(\d+)\s*[Xx]\s*(MAX|\d+)/i);
+    if(!m)return;
+    var n=parseInt(m[1],10);if(!n||n>12)return;
+    var isMax=/^MAX/i.test(m[2]);
+    var drop=null,pct=null;
+    if(isMax){
+      var dm=part.match(/MAX[^(]*?-\s*(\d+)\s*%/i)||part.match(/(\d+)\s*%\s*IN\s*MENO/i);
+      if(dm)drop=parseInt(dm[1],10);
+    }else{
+      var pm=part.replace(/^\s*\d+\s*[Xx]\s*\d+/,'').match(/(\d+(?:[.,]\d+)?)\s*%/);
+      if(pm)pct=parseFloat(pm[1].replace(',','.'));
+    }
+    for(var i=0;i<n;i++)out.push({reps:isMax?'MAX':m[2],max:isMax,drop:drop,pct:pct});
+  });
+  if(star){for(var j=out.length-1;j>=0;j--){if(out[j].max){out[j].strip=true;break;}}}
+  return out;
+}
+function prettyPrescr(p){
+  return String(p||'').replace(/\s*[Xx]\s*(?=MAX|\d)/g,function(m,off,str){return /\d\s*$/.test(str.slice(0,off))?' × ':m;})
+    .replace(/MAX\s*-\s*(\d+)\s*%/gi,'MAX −$1%')
+    .replace(/(\d|%)\s+(?=\d+\s×)/g,'$1 + ');
+}
+function _rKg(x){return String(Math.round(x*2)/2);}
+function _isMaxReps(r){return /MAX/i.test(String(r||''));}
+// Serie di una settimana nuova: numero e tipo dalla prescrizione, kg dalla settimana precedente
+function buildWeekSerie(ex,w,prevEx){
+  var tpl=parsePrescr(prescrFor(ex,w));
+  var prevS=(prevEx&&prevEx.serie)||[];
+  if(!tpl.length){
+    var src=prevS.length?prevS:(ex.serie||[]);
+    return src.map(function(s){return{kg:s.kg,reps:s.reps,done:false};});
+  }
+  var pW=prevS.filter(function(s){return !_isMaxReps(s.reps);}),pM=prevS.filter(function(s){return _isMaxReps(s.reps);});
+  var defS=ex.serie||[];
+  var lastW='';pW.forEach(function(s){if(s.kg!==''&&s.kg!=null)lastW=s.kg;});
+  var wi=0,mi=0,firstWorkKg='';
+  return tpl.map(function(t,i){
+    var kg='';
+    if(!t.max){
+      var src=pW[wi];wi++;
+      kg=(src&&src.kg!==''&&src.kg!=null)?src.kg:(lastW!==''?lastW:((defS[i]&&defS[i].kg)||''));
+      if(firstWorkKg===''&&kg!=='')firstWorkKg=kg;
+      return{kg:kg,reps:t.reps,done:false};
+    }
+    var pm=pM[mi];mi++;
+    if(pm&&pm.kg!==''&&pm.kg!=null)kg=pm.kg;
+    else{
+      var bk=firstWorkKg!==''?firstWorkKg:lastW;var base=parseFloat(String(bk).replace(',','.'));
+      if(base>0)kg=t.drop?_rKg(base*(1-t.drop/100)):String(bk);
+    }
+    return{kg:kg,reps:'MAX',done:false};
+  });
 }
 
 function getExLog(exId,week){
@@ -1387,7 +1502,7 @@ function buildHome(){
 
   (function(){var today=new Date(),dow=today.getDay();var mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1));var labels=['L','M','M','G','V','S','D'],todayStr=_lds(today);var trainCount=0;for(var di=0;di<7;di++){var d=new Date(mon);d.setDate(mon.getDate()+di);if(_tmap[_lds(d)])trainCount++;}html+='<div style="margin:14px 18px 0;padding:14px 16px;background:var(--bg2);border-radius:14px;border:1px solid var(--border)">';html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted)">QUESTA SETTIMANA</div><div style="font-size:11px;color:'+col+';font-weight:700">'+trainCount+'/'+sc.giorni.length+' giorni ✓</div></div>';html+='<div style="display:flex;gap:4px;">';for(var di=0;di<7;di++){var d=new Date(mon);d.setDate(mon.getDate()+di);var ds=_lds(d),isToday=ds===todayStr,tr=_tmap[ds],isFuture=d>today;var bg=tr?tr.color:(isToday?'var(--bg3)':'transparent');var brd=isToday&&!tr?'2px solid '+col:'2px solid transparent';html+='<div style="flex:1;text-align:center"><div style="font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:600">'+labels[di]+'</div><div style="width:32px;height:32px;border-radius:50%;background:'+bg+';border:'+brd+';display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:'+(tr?'pointer':'default')+'" '+(tr?'data-cal="'+tr.schedaId+'|'+tr.giornoId+'|'+tr.week+'"':'')+' title="'+(tr?tr.nome:'')+'">'+(tr?'<span style="font-size:13px;color:#fff;font-weight:700">✓</span>':'<span style="font-size:10px;font-weight:700;color:'+(isToday?col:'var(--muted)')+';opacity:'+(isFuture?0.3:1)+'">'+d.getDate()+'</span>')+'</div></div>';}html+='</div>';html+='<div style="display:flex;justify-content:center;margin-top:10px"><button id="cal-toggle-btn" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 10px;font-family:DM Sans,sans-serif;">📅 Mostra mese</button></div>';html+='<div id="cal-month-wrap" style="display:none;margin-top:12px">';var offset=S.calMonthOffset||0;var mth=today.getMonth()+offset,yr=today.getFullYear();while(mth<0){mth+=12;yr--;}while(mth>11){mth-=12;yr++;}var firstDay=new Date(yr,mth,1),dof=firstDay.getDay();var startOffset=dof===0?6:dof-1,daysInMonth=new Date(yr,mth+1,0).getDate();var mNames=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><button id="cal-prev-btn" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;padding:0 8px;">‹</button><div style="font-size:12px;font-weight:700;color:var(--text)">'+mNames[mth]+' '+yr+'</div><button id="cal-next-btn" style="background:none;border:none;cursor:pointer;font-size:20px;padding:0 8px;color:var(--muted);opacity:'+(offset>=0?0.25:1)+'">›</button></div>';html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center">';['L','M','M','G','V','S','D'].forEach(function(l){html+='<div style="font-size:9px;color:var(--muted);font-weight:700;padding-bottom:3px">'+l+'</div>';});for(var i=0;i<startOffset;i++){html+='<div></div>';}for(var day=1;day<=daysInMonth;day++){var dd=new Date(yr,mth,day),dds=_lds(dd);var isT=dds===todayStr,trnd=_tmap[dds],isFut=dd>today;var bgD=trnd?trnd.color:(isT?'var(--bg3)':'transparent');var brdD=isT&&!trnd?'1.5px solid '+col:'1.5px solid transparent';html+='<div style="aspect-ratio:1;border-radius:50%;background:'+bgD+';border:'+brdD+';display:flex;align-items:center;justify-content:center;opacity:'+(isFut?0.2:1)+';cursor:'+(trnd&&!isFut?'pointer':'default')+'" '+(trnd&&!isFut?'data-cal="'+trnd.schedaId+'|'+trnd.giornoId+'|'+trnd.week+'"':'')+' title="'+(trnd?trnd.nome:'')+'">';html+='<span style="font-size:10px;font-weight:'+(trnd||isT?700:400)+';color:'+(trnd?'#fff':(isT?col:'var(--muted)'))+'">'+(trnd?'✓':day)+'</span></div>';}html+='</div></div></div>';})();
   var cloudOk=getCloudMode()!=='none';html+='<div style="margin:10px 18px 0;display:flex;gap:8px"><button id="home-push-btn" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--green);background:rgba(61,219,122,.1);color:var(--green);font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;'+(cloudOk?'':'opacity:.35;pointer-events:none')+'">⬆️ Push</button><button id="home-pull-btn" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--accent);background:rgba(255,107,53,.1);color:var(--accent);font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;'+(cloudOk?'':'opacity:.35;pointer-events:none')+'">⬇️ Pull</button></div>';html+='<div id="cloud-status-home" style="text-align:center;font-size:11px;color:var(--muted);margin:5px 18px 0;min-height:15px"></div>';
-  html+='<div class="sec"><div class="sec-lbl">Giorni di allenamento</div>><div class="sec-lbl">Giorni di allenamento</div><div class="days-list" style="padding:0">';
+  html+='<div class="sec"><div class="sec-lbl">Giorni di allenamento</div><div class="days-list" style="padding:0">';
   sc.giorni.forEach(function(g){
     var done=dayProgress(g.id),tot=sc.settimane;
     var allDone=done>=tot,someIn=done>0&&done<tot;
@@ -1430,6 +1545,7 @@ function renderWorkout(){
     var _gymShown=(S.weekLogs[aw]&&S.weekLogs[aw].gym)||localStorage.getItem('pier_gym_last')||'';
     html+='<div style="display:flex;align-items:center;margin:8px 0 0;"><span id="gym-chip" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:14px;background:var(--bg3);border:1px solid var(--border2);font-size:11px;font-weight:600;color:var(--text);cursor:pointer;">🏋️ '+(_gymShown?htmlEsc(_gymShown):'<span style="color:var(--muted);font-weight:400;">Scegli palestra</span>')+'<span style="color:var(--muted);font-size:9px;">▾</span></span></div>';
   }
+  if(sc.noteGenerali&&sc.noteGenerali.length)html+='<div style="margin:0 0 10px;padding:10px 12px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);font-size:12px;color:var(--text);line-height:1.45;">ℹ️ '+sc.noteGenerali.map(htmlEsc).join('<br>')+'</div>';
   html+='<div class="note-card"><div class="note-card-hdr" id="toggle-note"><span style="font-size:14px">📝</span><div style="flex:1"><div style="font-size:13px;font-weight:600">Note sett. '+aw+'</div>';
   if(!S.noteOpen&&log&&log.noteAllenamento)html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">'+log.noteAllenamento+'</div>';
   else if(!S.noteOpen)html+='<div style="font-size:11px;color:var(--muted2);margin-top:1px">Tocca per aggiungere...</div>';
@@ -1460,8 +1576,9 @@ function renderWorkout(){
     var isOpen=S.openExId===ex.id;
     var activeLog=getExLog(ex.id,aw);
     var exDone=activeLog&&activeLog.serie.length>0&&activeLog.serie.every(function(s){return s.done;});
-    var weekNote=ex.noteW&&ex.noteW[aw]?ex.noteW[aw]:'';
-    html+='<div class="ex-card" style="'+(exDone?'border-color:'+col+'50':weekNote?'border-color:var(--yellow)50':'')+'"><div class="ex-hdr" data-extog="'+ex.id+'"><div class="ex-badge" style="background:'+col+'20;color:'+col+'">'+(idx+1)+'</div><div style="flex:1"><div class="ex-name">'+ex.nome+'</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px"><span style="font-family:Bebas Neue,sans-serif;font-size:14px;padding:3px 10px;border-radius:10px;background:'+col+'15;color:'+col+';letter-spacing:.5px">'+ex.note+'</span>'+(weekNote?'<span style="font-family:Bebas Neue,sans-serif;font-size:13px;padding:3px 10px;border-radius:10px;background:rgba(255,208,96,.15);color:var(--yellow);letter-spacing:.3px">'+weekNote+'</span>':'')+'</div></div>';
+    var _ap=prescrFor(ex,aw),_pp=aw>1?prescrFor(ex,aw-1):_ap,_chg=aw>1&&normPrescr(_ap)!==normPrescr(_pp);
+    var weekNote=_chg;
+    html+='<div class="ex-card" style="'+(exDone?'border-color:'+col+'50':weekNote?'border-color:rgba(255,208,96,.45)':'')+'"><div class="ex-hdr" data-extog="'+ex.id+'"><div class="ex-badge" style="background:'+col+'20;color:'+col+'">'+(idx+1)+'</div><div style="flex:1"><div class="ex-name">'+ex.nome+'</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px"><span style="font-family:Bebas Neue,sans-serif;font-size:14px;padding:3px 10px;border-radius:10px;background:'+col+'15;color:'+col+';letter-spacing:.5px;'+(_chg?'background:rgba(255,208,96,.15);color:var(--yellow);':'')+'">'+htmlEsc(prettyPrescr(_ap))+'</span>'+(_chg?'<span style="font-size:10px;font-weight:700;padding:4px 8px;border-radius:10px;background:rgba(255,208,96,.15);color:var(--yellow);letter-spacing:.5px">NOVITÀ W'+aw+'</span>':'')+'</div></div>';
     html+='<div class="ex-actions"><button class="ex-icon-btn" data-perf="'+ex.id+'" title="Progressi">📊</button>';
     if(exDone)html+='<span style="font-size:12px;color:var(--green);font-weight:700">✓</span>';
     html+='</div><span class="ex-chevron" style="color:'+(isOpen?col:'var(--muted)')+';transform:'+(isOpen?'rotate(180deg)':'none')+'">⌄</span></div>';
@@ -1469,14 +1586,22 @@ function renderWorkout(){
       html+='<div class="ex-body">';
 
       // ── 1. PRESCRIZIONE SEMPRE VISIBILE ──
-      var activeNote=ex.noteW&&ex.noteW[aw]?ex.noteW[aw]:ex.note;
-      var hasOverride=ex.noteW&&ex.noteW[aw];
+      var activeNote=_ap;
+      var hasOverride=_chg;
       html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:'+(hasOverride?'rgba(255,208,96,.1)':col+'10')+';border:1px solid '+(hasOverride?'rgba(255,208,96,.3)':col+'30')+';">';
-      html+='<div style="font-size:9px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px;">📋 Prescrizione W'+aw+'</div>';
-      html+='<div style="font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:.5px;color:'+(hasOverride?'var(--yellow)':col)+';">'+htmlEsc(activeNote)+'</div>';
-      if(hasOverride&&ex.note!==activeNote){
-        html+='<div style="font-size:10px;color:var(--muted);margin-top:3px;">Base: '+htmlEsc(ex.note)+'</div>';
+      html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📋 Prescrizione W'+aw+'</div>'+(hasOverride?'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(255,208,96,.18);color:var(--yellow);">NOVITÀ</span>':'')+'</div>';
+      html+='<div style="font-family:Bebas Neue,sans-serif;font-size:22px;letter-spacing:.5px;color:'+(hasOverride?'var(--yellow)':col)+';">'+htmlEsc(prettyPrescr(activeNote))+'</div>';
+      if(hasOverride)html+='<div style="font-size:12px;color:var(--muted);margin-top:3px;">W'+(aw-1)+': '+htmlEsc(prettyPrescr(_pp))+'</div>';
+      var _tplA=parsePrescr(activeNote),_pct=null;
+      _tplA.forEach(function(t){if(t.pct&&!_pct)_pct=t.pct;});
+      if(_pct){
+        var _b1=null;
+        for(var _w1=1;_w1<=sc.settimane;_w1++){var _l1=getExLog(ex.id,_w1);if(_l1&&S.weekLogs[_w1]&&S.weekLogs[_w1].savedAt){var _o1=getBest1RM(_l1.serie);if(_o1&&(!_b1||_o1>_b1))_b1=_o1;}}
+        if(_b1)html+='<div style="font-size:12px;color:var(--text);margin-top:4px;">'+String(_pct).replace('.',',')+'% del massimale stimato ('+String(_b1).replace('.',',')+' kg) ≈ <b>'+_rKg(_b1*_pct/100).replace('.',',')+' kg</b></div>';
       }
+      var _fns=(sc.footnotes&&sc.footnotes.length)?sc.footnotes:(g.footnotes||[]);
+      if(/\*/.test(activeNote)&&_fns.length)html+='<div style="font-size:12px;color:var(--yellow);margin-top:4px;">✱ '+htmlEsc(_fns.join(' · '))+'</div>';
+      if(ex.rec)html+='<div style="font-size:12px;color:var(--muted);margin-top:4px;">Recupero: '+htmlEsc(ex.rec)+'</div>';
       html+='</div>';
 
       // ── 1.5. NOTE SETTIMANA SCORSA (W N-1) ──
@@ -1540,6 +1665,8 @@ function renderWorkout(){
         html+='<div class="active-sets">';
         wlog.serie.forEach(function(s,si){
           var rc=col;
+          var _t=_tplA[si];
+          if(_isMaxReps(s.reps)&&_t&&_t.max&&(_t.drop||_t.strip))html+='<div style="font-size:10px;font-weight:700;color:var(--yellow);margin:4px 0 2px 21px;letter-spacing:.3px;">MAX'+(_t.drop?' −'+_t.drop+'%':'')+(_t.strip?' · poi stripping':'')+'</div>';
           var kgC=serieColor(ex.id,aw,si,'kg');
           var rpC=serieColor(ex.id,aw,si,'reps');
           html+='<div class="active-set-row">';
@@ -1684,69 +1811,120 @@ function importSchedaExcel(file){
       var wb=XLSX.read(data,{type:'array'});
       var ws=wb.Sheets[wb.SheetNames[0]];
       var rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:null});
-
-      // Metadata
-      var titleStr='',athlete='';
-      for(var ri=0;ri<Math.min(12,rows.length);ri++){
-        var rb=rows[ri]&&rows[ri][1]?rows[ri][1].toString().trim():'';
-        if(/DURATA|SETTIMAN/i.test(rb)){titleStr=rb;break;}
-      }
-      var weekMatch=titleStr.match(/(\d+)\s*SETTIM/i);
-      var settimane=weekMatch?parseInt(weekMatch[1]):7;
-
-      // Scheda ID from filename
+      var res=parseSchedaRows(rows);
+      if(!res.giorni.length){alert('Nessun giorno trovato. Verifica il file.');return;}
       var fnMatch=file.name.match(/(\d{2,3})/);
       var schedaId=fnMatch?fnMatch[1]:String(Date.now()).slice(-4);
       while(SCHEDE[schedaId])schedaId=schedaId+'b';
-
-      // Parse giorni + esercizi
-      var giorni=[],currentGiorno=null;
-      rows.forEach(function(row){
-        if(!row)return;
-        var colB=row[1]?row[1].toString().trim():'';
-        var colC=row[2]?row[2].toString().trim().toUpperCase():'';
-        if(!colB)return;
-
-        // Day header: "GIORNO X"
-        if(/^GIORNO\s+\d/i.test(colB)){
-          var dayNum=parseInt(colB.match(/\d+/)[0]);
-          currentGiorno={id:dayNum,nome:'Giorno '+dayNum,colore:DAY_COLORS[(dayNum-1)%DAY_COLORS.length],esercizi:[]};
-          giorni.push(currentGiorno);
-          return;
-        }
-
-        // Exercise row: colC === 'LIBERO'
-        if(currentGiorno&&colB.length>3&&colC==='LIBERO'){
-          // col D=index 3=W1, col E=index 4=W2, ... col J=index 9=W7
-          var prescr={};
-          for(var w=1;w<=settimane;w++){
-            var v=row[2+w]; // 2+1=3=D, 2+2=4=E, ...
-            if(v&&v.toString().trim())prescr[w]=v.toString().trim();
-          }
-          var baseNote=prescr[1]||'';
-          // Fill blanks with baseNote
-          for(var w=1;w<=settimane;w++){if(!prescr[w])prescr[w]=baseNote;}
-          // Use most-common value as base (avoids W1 parenthetical marking W2-W4 as "CAMBIA")
-          var freq={};
-          for(var w=1;w<=settimane;w++){var pv=prescr[w];if(pv)freq[pv]=(freq[pv]||0)+1;}
-          var maxF=0;
-          Object.keys(freq).forEach(function(v){if(freq[v]>maxF){maxF=freq[v];baseNote=v;}});
-          // noteW: only weeks that differ from base
-          var noteW={};
-          for(var w=1;w<=settimane;w++){
-            if(prescr[w]&&prescr[w]!==baseNote)noteW[w]=prescr[w];
-          }
-          var serie=parseNoteToSerie(baseNote);
-          var exId='g'+currentGiorno.id+'e'+(currentGiorno.esercizi.length+1);
-          currentGiorno.esercizi.push({id:exId,nome:titleCase(colB),note:baseNote,noteW:noteW,serie:serie});
-        }
-      });
-
-      if(!giorni.length){alert('Nessun giorno trovato. Verifica il file.');return;}
-      _saveScheda(schedaId,settimane,giorni,file.name);
+      showImportPreview(schedaId,res,file.name);
     }catch(err){console.error(err);alert('Errore importazione: '+err.message);}
   };
   reader.readAsArrayBuffer(file);
+}
+
+function _capFix(t){t=String(t||'');return t===t.toUpperCase()?t.charAt(0)+t.slice(1).toLowerCase().replace(/'/g,'’'):t;}
+function _cellStr(v){return v==null?'':String(v).replace(/\s+/g,' ').trim();}
+// Legge il foglio del coach: giorni, colonne settimana dall'intestazione, note generali, asterischi
+function parseSchedaRows(rows){
+  // il foglio può partire dalla colonna A o dalla B: allineo tutto alla colonna dei "GIORNO n"
+  var gc=-1;
+  for(var r0=0;r0<rows.length&&gc<0;r0++){var rr=rows[r0]||[];for(var c0=0;c0<rr.length;c0++){if(/^GIORNO\s+\d/i.test(_cellStr(rr[c0]))){gc=c0;break;}}}
+  if(gc>=0&&gc!==1)rows=rows.map(function(r){r=r||[];return gc<1?[null].concat(r):r.slice(gc-1);});
+  var titleStr='';
+  for(var ri=0;ri<Math.min(12,rows.length);ri++){var rb=rows[ri]?_cellStr(rows[ri][1]):'';if(/DURATA|SETTIMAN/i.test(rb)){titleStr=rb;break;}}
+  var wm=titleStr.match(/(\d+)\s*SETTIM/i);
+  var settimane=wm?parseInt(wm[1],10):7;
+  var giorni=[],cur=null,weekCols=null,generali=[],warnings=[],skipNext=false,pendingHead='';
+  rows.forEach(function(row){
+    if(!row)return;
+    var colB=_cellStr(row[1]);
+    if(!colB)return;
+    if(/^GIORNO\s+\d/i.test(colB)){
+      var dayNum=parseInt(colB.match(/\d+/)[0],10);
+      cur={id:dayNum,nome:'Giorno '+dayNum,colore:DAY_COLORS[(dayNum-1)%DAY_COLORS.length],esercizi:[],footnotes:[]};
+      giorni.push(cur);
+      weekCols={};var found=0;
+      for(var c=2;c<row.length;c++){var mm=_cellStr(row[c]).match(/SETTIMANA\s*(\d+)/i);if(mm){weekCols[parseInt(mm[1],10)]=c;found++;}}
+      if(!found){for(var w0=1;w0<=settimane;w0++)weekCols[w0]=2+w0;}
+      else{Object.keys(weekCols).forEach(function(k){if(parseInt(k,10)>settimane)settimane=parseInt(k,10);});}
+      return;
+    }
+    if(!cur){
+      if(colB===titleStr){skipNext=true;return;}
+      if(skipNext){skipNext=false;return;}
+      if(/^SCELTA DEL CARICO$/i.test(colB)){pendingHead='Scelta del carico';return;}
+      generali.push(pendingHead?pendingHead+': '+colB.toLowerCase():colB);pendingHead='';
+      return;
+    }
+    if(/^\*/.test(colB)){cur.footnotes.push(colB.replace(/^\*+\s*/,''));return;}
+    var prescr={};
+    Object.keys(weekCols).forEach(function(k){var v=_cellStr(row[weekCols[k]]);if(v)prescr[k]=v;});
+    var keys=Object.keys(prescr);
+    if(!keys.length||colB.length<=3)return;
+    var colC=_cellStr(row[2]);
+    var baseNote=prescr[1]||prescr[keys[0]];
+    for(var w=1;w<=settimane;w++){if(!prescr[w])prescr[w]=baseNote;}
+    var freq={},order=[];
+    for(var w2=1;w2<=settimane;w2++){var pv=prescr[w2];if(!(pv in freq)){freq[pv]=0;order.push(pv);}freq[pv]++;}
+    var maxF=0;order.forEach(function(v){if(freq[v]>maxF){maxF=freq[v];baseNote=v;}});
+    var noteW={};
+    for(var w3=1;w3<=settimane;w3++){if(prescr[w3]!==baseNote)noteW[w3]=prescr[w3];}
+    var ex={id:'g'+cur.id+'e'+(cur.esercizi.length+1),nome:titleCase(colB),note:baseNote,noteW:noteW,serie:parseNoteToSerie(baseNote)};
+    if(colC&&!/^LIBERO$/i.test(colC))ex.rec=colC;
+    cur.esercizi.push(ex);
+    for(var w4=1;w4<=settimane;w4++){
+      var tx=prescr[w4];
+      var o1=tx.match(/MAX\s*\d+\s*M+R\s*M/i),o2=tx.match(/MAX\s*(\d+)\s*RM/i);
+      if(o1||(o2&&parseInt(o2[1],10)>15)){warnings.push('«'+(o1||o2)[0].replace(/\s+/g,'')+'» in '+ex.nome+' (G'+cur.id+'): letta come MAX');break;}
+      if(!parsePrescr(tx).length){warnings.push('Prescrizione non letta: «'+tx+'» in '+ex.nome+' (G'+cur.id+', W'+w4+')');break;}
+    }
+  });
+  var footnotes=[];
+  giorni.forEach(function(g){g.footnotes=g.footnotes.map(_capFix);footnotes=footnotes.concat(g.footnotes);if(!g.footnotes.length)delete g.footnotes;});
+  return{settimane:settimane,giorni:giorni,generali:generali.map(_capFix),footnotes:footnotes,warnings:warnings};
+}
+
+// Anteprima prima di salvare la scheda importata
+function showImportPreview(schedaId,res,fname){
+  var old=document.getElementById('imp-prev');if(old)old.remove();
+  var st={g:0};
+  var ov=document.createElement('div');ov.id='imp-prev';ov.className='imp-ov';
+  function bars(p){
+    var t=parsePrescr(p);if(!t.length)return '<span class="imp-q">?</span>';
+    return t.map(function(x){return '<i class="'+(x.max?'imp-bm':'imp-bw')+'"></i>';}).join('')+(t.some(function(x){return x.strip;})?'<b class="imp-st">strip</b>':'');
+  }
+  function draw(){
+    var g=res.giorni[st.g],nW=res.settimane;
+    var tot=res.giorni.reduce(function(a,x){return a+x.esercizi.length;},0);
+    var h='<div class="imp-box"><div class="imp-eb">Controlla prima di salvare</div><div class="imp-tt">Nuova scheda #'+htmlEsc(schedaId)+'</div><div class="imp-fn">'+htmlEsc(fname)+'</div>';
+    h+='<div class="imp-chips"><span>'+res.giorni.length+' giorni</span><span>'+nW+' settimane</span><span>'+tot+' esercizi</span></div>';
+    h+='<div class="imp-days">'+res.giorni.map(function(x,i){return '<button data-impg="'+i+'" style="'+(i===st.g?'background:'+x.colore+';border-color:'+x.colore+';color:#0B0B0E':'')+'">G'+x.id+'</button>';}).join('')+'</div>';
+    h+='<div class="imp-legend"><span><i class="imp-bw"></i> lavoro</span><span><i class="imp-bm"></i> MAX</span><span><i class="imp-chg-sw"></i> cambia</span></div>';
+    h+='<div class="imp-grid" style="grid-template-columns:104px repeat('+nW+',minmax(0,1fr));"><div class="imp-h">G'+g.id+'</div>';
+    for(var w=1;w<=nW;w++)h+='<div class="imp-h c">W'+w+'</div>';
+    g.esercizi.forEach(function(ex){
+      h+='<div class="imp-n">'+htmlEsc(ex.nome)+'</div>';
+      for(var w2=1;w2<=nW;w2++){
+        var p=prescrFor(ex,w2),pp=w2>1?prescrFor(ex,w2-1):p,chg=w2>1&&normPrescr(p)!==normPrescr(pp);
+        h+='<div class="imp-c'+(chg?' chg':'')+'" data-impcell="'+htmlEsc('W'+w2+' · '+ex.nome+': '+prettyPrescr(p))+'">'+bars(p)+'</div>';
+      }
+    });
+    h+='</div><div class="imp-hint">Tocca una cella per leggere la prescrizione.</div><div id="imp-cell" class="imp-cellbox"></div>';
+    var gf=[];res.giorni.forEach(function(x){(x.footnotes||[]).forEach(function(f){gf.push('G'+x.id+': '+f);});});
+    if(gf.length)h+='<div class="imp-card"><b>Note con asterisco</b><span>'+gf.map(htmlEsc).join('<br>')+'</span></div>';
+    if(res.generali.length)h+='<div class="imp-card"><b>Note generali</b><span>'+res.generali.map(htmlEsc).join('<br>')+'</span></div>';
+    if(res.warnings.length)h+='<div class="imp-card warn"><b>Da controllare</b><span>'+res.warnings.map(htmlEsc).join('<br>')+'</span></div>';
+    h+='<div class="imp-actions"><button id="imp-cancel" class="btn btn-ghost">Annulla</button><button id="imp-ok" class="btn btn-primary">Importa scheda #'+htmlEsc(schedaId)+'</button></div></div>';
+    ov.innerHTML=h;
+  }
+  ov.addEventListener('click',function(ev){
+    ev.stopPropagation();
+    var b=ev.target.closest('[data-impg]');if(b){st.g=parseInt(b.dataset.impg,10);draw();return;}
+    var c=ev.target.closest('[data-impcell]');if(c){var box=document.getElementById('imp-cell');if(box)box.textContent=c.dataset.impcell;return;}
+    if(ev.target.closest('#imp-cancel')){ov.remove();return;}
+    if(ev.target.closest('#imp-ok')){ov.remove();_saveScheda(schedaId,res.settimane,res.giorni,fname,{generali:res.generali,footnotes:res.footnotes});return;}
+  });
+  draw();document.body.appendChild(ov);
 }
 
 function importSchedaDocx(file){
@@ -1793,8 +1971,10 @@ function importSchedaDocx(file){
   reader.readAsArrayBuffer(file);
 }
 
-function _saveScheda(schedaId,settimane,giorni,fname){
+function _saveScheda(schedaId,settimane,giorni,fname,extra){
   var scheda={id:schedaId,nome:'Scheda #'+schedaId,settimane:settimane,colore:'#FF6B35',icona:'💪',giorni:giorni};
+  if(extra&&extra.generali&&extra.generali.length)scheda.noteGenerali=extra.generali;
+  if(extra&&extra.footnotes&&extra.footnotes.length)scheda.footnotes=extra.footnotes;
   localStorage.setItem('pier_scheda_def_'+schedaId,JSON.stringify(scheda));
   SCHEDE[schedaId]=scheda;
   S.schedaId=schedaId;S.giorno=null;S.tab='home';S.showImport=false;
@@ -2424,51 +2604,46 @@ function buildProgressione(){
     html+='<div style="width:10px;height:10px;border-radius:50%;background:'+g.colore+'"></div>';
     html+='<div style="font-size:12px;font-weight:800;color:'+g.colore+';">G'+g.id+' · '+g.nome+'</div>';
     html+='</div>';
-    var colW=54,nameW=90,dW=36;
-    html+='<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">';
-    html+='<div style="min-width:'+(nameW+nW*colW+dW)+'px;">';
-    html+='<div style="display:grid;grid-template-columns:'+nameW+'px'+Array(nW+1).join(' '+colW+'px')+' '+dW+'px;background:var(--bg3);border:1px solid var(--border2);border-radius:10px 10px 0 0;">';
-    html+='<div style="padding:7px 8px;font-size:9px;font-weight:700;color:var(--muted);">ESERCIZIO</div>';
-    for(var wi=1;wi<=nW;wi++){var hs=false;g.esercizi.forEach(function(ex){var dd=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi);if(dd&&dd.savedAt)hs=true;});html+='<div style="padding:7px 2px;font-size:9px;font-weight:700;color:'+(hs?'var(--green)':'var(--muted)')+';text-align:center;">W'+wi+'</div>';}
-    html+='<div style="padding:7px 2px;font-size:9px;font-weight:700;color:var(--yellow);text-align:center;">Δ</div>';
-    html+='</div>';
-    g.esercizi.forEach(function(ex,ei){
+    var curW=nW;
+    for(var cw=1;cw<=nW;cw++){var cl=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+cw);if(!cl||!cl.savedAt){curW=cw;break;}}
+    g.esercizi.forEach(function(ex){
       var wData=[];
       for(var wi2=1;wi2<=nW;wi2++){
         var log=LS.get('pier_s'+sc.id+'_g'+g.id+'_w'+wi2);
         var exLog=log&&log.esercizi?log.esercizi.filter(function(e){return e.id===ex.id;})[0]:null;
         var kg=null,repsArr=[];
-        if(exLog&&exLog.serie){exLog.serie.forEach(function(s){if(kg===null&&s.kg!==null&&s.kg!==undefined&&s.kg!=='')kg=s.kg;if(s.reps)repsArr.push(s.reps);});}
-        var prescr=ex.noteW&&ex.noteW[wi2]?ex.noteW[wi2]:ex.note;
-        wData.push({kg:kg,reps:repsArr,isSaved:!!(log&&log.savedAt),prescr:prescr,hasData:kg!==null||repsArr.length>0});
+        if(exLog&&exLog.serie){exLog.serie.forEach(function(s){if(kg===null&&s.kg!==null&&s.kg!==undefined&&s.kg!=='')kg=s.kg;if(s.reps)repsArr.push(String(s.reps));});}
+        wData.push({kg:kg,reps:repsArr,prescr:prescrFor(ex,wi2)});
       }
       var firstKg=null,lastKg=null;
       wData.forEach(function(d){if(d.kg!==null&&!isNaN(parseFloat(d.kg))){if(firstKg===null)firstKg=parseFloat(d.kg);lastKg=parseFloat(d.kg);}});
       var delta=(firstKg!==null&&lastKg!==null&&firstKg!==lastKg)?Math.round((lastKg-firstKg)*10)/10:null;
-      html+='<div style="display:grid;grid-template-columns:'+nameW+'px'+Array(nW+1).join(' '+colW+'px')+' '+dW+'px;border:1px solid var(--border2);border-top:none;background:'+(ei%2?'rgba(255,255,255,.02)':'transparent')+';align-items:stretch;">';
-      html+='<div style="padding:6px 8px;font-size:10px;font-weight:600;color:var(--text);line-height:1.3;border-right:1px solid var(--border2);">'+htmlEsc(ex.nome)+'</div>';
+      html+='<div class="pg-card"><div class="pg-top"><div class="pg-name">'+htmlEsc(ex.nome)+'</div>';
+      if(delta!==null)html+='<span class="pg-delta '+(delta>0?'up':'down')+'">'+(delta>0?'+':'')+String(delta).replace('.',',')+' kg</span>';
+      html+='</div><div class="pg-weeks" style="grid-template-columns:repeat('+nW+',minmax(0,1fr));">';
       for(var wi3=1;wi3<=nW;wi3++){
-        var wd=wData[wi3-1];var ab=abbrevPrescr(wd.prescr);
+        var wd=wData[wi3-1];
+        var chg=wi3>1&&normPrescr(wd.prescr)!==normPrescr(wData[wi3-2].prescr);
         var prevN=null;for(var pi=wi3-2;pi>=0;pi--){if(wData[pi].kg!==null&&!isNaN(parseFloat(wData[pi].kg))){prevN=parseFloat(wData[pi].kg);break;}}
         var numK=wd.kg!==null?parseFloat(wd.kg):null;
-        var kc='var(--text)';if(numK!==null&&!isNaN(numK)&&prevN!==null){if(numK>prevN)kc='var(--green)';else if(numK<prevN)kc='#FF6B6B';}
-        html+='<div style="padding:4px 2px;text-align:center;border-left:1px solid var(--border2);">';
-        if(wd.hasData){
-          html+='<div style="font-size:11px;font-weight:700;color:'+kc+'">'+(wd.kg!==null?wd.kg+'kg':'—')+'</div>';
-          if(wd.reps.length)html+='<div style="font-size:9px;font-weight:600;color:var(--text);">'+wd.reps.join(' ')+'</div>';
-          html+='<div style="font-size:8px;color:var(--muted);margin-top:1px;">'+ab+'</div>';
-        }else{
-          html+='<div style="font-size:8px;color:var(--muted);line-height:1.3;padding-top:2px;">'+ab+'</div>';
-        }
-        html+='</div>';
+        var kc='';if(numK!==null&&!isNaN(numK)&&prevN!==null){if(numK>prevN)kc='up';else if(numK<prevN)kc='down';}
+        html+='<div class="pg-w'+(wi3===curW?' cur':'')+(chg?' chg':'')+'"><span class="pg-wl">W'+wi3+'</span>';
+        html+='<span class="pg-kg '+kc+'">'+(wd.kg!==null?htmlEsc(String(wd.kg).replace('.',',')):'')+'</span>';
+        html+='<span class="pg-rp">'+(wd.reps.length?htmlEsc(wd.reps.join('·')):(wi3===curW?'ora':''))+'</span></div>';
       }
-      var dStr=delta===null?'·':((delta>0?'+':'')+delta);
-      var dC=delta===null?'var(--muted2)':delta>0?'var(--green)':'#FF6B6B';
-      html+='<div style="padding:4px 2px;text-align:center;font-size:10px;font-weight:700;color:'+dC+';display:flex;align-items:center;justify-content:center;">'+dStr+'</div>';
       html+='</div>';
+      var groups=[];
+      for(var wg=1;wg<=nW;wg++){var pr=wData[wg-1].prescr;var lg=groups[groups.length-1];if(lg&&lg.p===pr)lg.to=wg;else groups.push({from:wg,to:wg,p:pr});}
+      html+='<div class="pg-sch"><div class="pg-sch-l">Prescrizione del coach</div>';
+      groups.forEach(function(gr,gi){
+        var chg2=gi>0&&normPrescr(gr.p)!==normPrescr(groups[gi-1].p);
+        html+='<div class="pg-row'+(chg2?' chg':'')+'"><span class="pg-rng">W'+gr.from+(gr.to>gr.from?'-'+gr.to:'')+'</span><span class="pg-txt">'+htmlEsc(prettyPrescr(gr.p)||'—')+'</span></div>';
+      });
+      var fns=(sc.footnotes&&sc.footnotes.length)?sc.footnotes:(g.footnotes||[]);
+      if(fns.length&&groups.some(function(gr){return /\*/.test(gr.p);}))html+='<div class="pg-foot">✱ '+htmlEsc(fns.join(' · '))+'</div>';
+      html+='</div></div>';
     });
-    html+='<div style="height:2px;background:var(--border2);border-radius:0 0 10px 10px;"></div>';
-    html+='</div></div></div>';
+    html+='</div>';
   });
   html+='<div style="height:20px"></div>';
   return html;
@@ -4394,7 +4569,7 @@ document.addEventListener('focusout',function(e){
 (function(){var D={"pier_s25_g1_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532451","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"12","reps":"13","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"12","done":true},{"kg":"6","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"16","reps":"8","done":true},{"kg":"16","reps":"7","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"12","done":true}]}]},"pier_s25_g1_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532820","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12","reps":"9","done":true},{"kg":"14 12","reps":"8","done":true},{"kg":"14 12","reps":"14","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"13","done":true},{"kg":"6","reps":"12,5","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"+","done":true},{"kg":"14","reps":"TUT","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"14","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"14","reps":"14","done":true},{"kg":"14","reps":"12","done":true}]}]},"pier_s25_g1_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532953","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12","reps":"9","done":true},{"kg":"14 12","reps":"8,5","done":true},{"kg":"14 12","reps":"15","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"13","done":true},{"kg":"6","reps":"14","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"8,5","done":true},{"kg":"12","reps":"12","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"15","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"11","done":true}]}]},"pier_s25_g1_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533062","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"14","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"12","done":true},{"kg":"7","reps":"11","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"9","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"14","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"10","done":true}]}]},"pier_s25_g1_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533129","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"777","done":true},{"kg":"25","reps":"10","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 - 12","reps":"99","done":true},{"kg":"14 - 12","reps":"-","done":true},{"kg":"14 - 12","reps":"15","done":true},{"kg":"14 - 12","reps":"11","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"12","done":true},{"kg":"7","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14 - 12","reps":"10","done":true},{"kg":"14 - 12","reps":"9","done":true},{"kg":"14 - 12","reps":"-","done":true},{"kg":"14 - 12","reps":"12","done":true},{"kg":"14 - 12","reps":"12","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"7","done":true},{"kg":"16","reps":"12","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"-","done":true},{"kg":"16","reps":"11-","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"12","done":true}]}]},"pier_s25_g1_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533219","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"16","done":true},{"kg":"12","reps":"13","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"13","done":true},{"kg":"7","reps":"13","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"11","done":true},{"kg":"12","reps":"13","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"8","done":true},{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"12","done":true}]}]},"pier_s25_g1_w7":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533281","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7,5","done":true},{"kg":"25","reps":"14","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"15","reps":"8","done":true},{"kg":"15","reps":"8","done":true},{"kg":"12,5","reps":"14","done":true},{"kg":"12,5","reps":"12","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7,5","reps":"12","done":true},{"kg":"7,5","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"12","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"9","done":true},{"kg":"16","reps":"14","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"13","done":true}]}]},"pier_s25_g2_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547109","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"82","reps":"6","done":true},{"kg":"82","reps":"6","done":true},{"kg":"82","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"6","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"9","done":true},{"kg":"60","reps":"8","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"8","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"9","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"10","done":true},{"kg":"55","reps":"10","done":true},{"kg":"35","reps":"12","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"50","reps":"10","done":true},{"kg":"50","reps":"9","done":true}]}]},"pier_s25_g2_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547277","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"7","done":true},{"kg":"34","reps":"7","done":true},{"kg":"34","reps":"ok","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"7","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"54","reps":"9","done":true},{"kg":"54","reps":"9","done":true},{"kg":"45","reps":"13","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"11","done":true},{"kg":"66","reps":"8","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"35","reps":"10","done":true},{"kg":"35","reps":"10","done":true},{"kg":"35","reps":"13","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"24","reps":"10","done":true},{"kg":"24","reps":"9","done":true}]}]},"pier_s25_g2_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547369","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"8","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"10","done":true},{"kg":"60","reps":"9","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8,5","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"8","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"11","done":true},{"kg":"35","reps":"17","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"59","reps":"","done":true}]}]},"pier_s25_g2_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547585","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"7","done":true},{"kg":"80","reps":"7","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"7","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"9","done":true},{"kg":"30","reps":"8","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"9","done":true},{"kg":"63","reps":"9","done":true},{"kg":"54","reps":"12","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"8,5","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"9","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"50","reps":"10","done":true},{"kg":"50","reps":"10","done":true},{"kg":"40","reps":"12","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[]}]},"pier_s25_g2_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547700","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"3","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"987","done":true},{"kg":"28","reps":"11","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"88","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"1010","done":true},{"kg":"54","reps":"13","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"77","reps":"88","done":true},{"kg":"68","reps":"9","done":true},{"kg":"68","reps":"8","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"10","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"10","done":true},{"kg":"45","reps":"9","done":true},{"kg":"45","reps":"8","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"29","reps":"","done":true}]}]},"pier_s25_g2_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547784","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"36","reps":"7","done":true},{"kg":"36","reps":"7","done":true},{"kg":"36","reps":"7","done":true},{"kg":"28","reps":"13","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"87","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"10","done":true},{"kg":"65","reps":"9","done":true},{"kg":"56","reps":"10","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"77","reps":"9","done":true},{"kg":"77","reps":"7,5","done":true},{"kg":"68","reps":"11","done":true},{"kg":"68","reps":"8","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"11","done":true},{"kg":"66","reps":"10","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"11","done":true},{"kg":"45","reps":"11","done":true},{"kg":"45","reps":"10","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"","reps":"10","done":true}]}]},"pier_s25_g2_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[]}]},"pier_s25_g3_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562176","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"180","reps":"7","done":true},{"kg":"180","reps":"7","done":true},{"kg":"180","reps":"7","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"12","reps":"10","done":true},{"kg":"12","reps":"10","done":true},{"kg":"12","reps":"10","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"104","reps":"8","done":true},{"kg":"104","reps":"8","done":true},{"kg":"86","reps":"12","done":true},{"kg":"68","reps":"9","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"50","reps":"12","done":true},{"kg":"50","reps":"12","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"11","done":true},{"kg":"31","reps":"10","done":true},{"kg":"24","reps":"15","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"8","done":true},{"kg":"27","reps":"8","done":true},{"kg":"22","reps":"13","done":true},{"kg":"22","reps":"11","done":true},{"kg":"22","reps":"10","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562480","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"7","done":true},{"kg":"200","reps":"7","done":true},{"kg":"200","reps":"7","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"11","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"104","reps":"9","done":true},{"kg":"104","reps":"8","done":true},{"kg":"86","reps":"13","done":true},{"kg":"68","reps":"12","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"24","reps":"10","done":true},{"kg":"24","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"11","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"31","reps":"8","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562611","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"8","done":true},{"kg":"200","reps":"8","done":true},{"kg":"200","reps":"8","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"60","reps":"8","done":true},{"kg":"60","reps":"8","done":true},{"kg":"50","reps":"10","done":true},{"kg":"40","reps":"13","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"24","reps":"11","done":true},{"kg":"24","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"12","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"12","done":true},{"kg":"31","reps":"12","done":true},{"kg":"27","reps":"15","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[{"kg":"13","reps":"12","done":true}]}]},"pier_s25_g3_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562769","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"7","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"59","reps":"12","done":true},{"kg":"54","reps":"","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"","done":true},{"kg":"25","reps":"","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562873","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"8889","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"10","done":true},{"kg":"30","reps":"11","done":true},{"kg":"25","reps":"18","done":true},{"kg":"25","reps":"14","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"3025","reps":"9","done":true},{"kg":"3025","reps":"9","done":true},{"kg":"3025","reps":"12","done":true},{"kg":"3025","reps":"11","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true}]}]},"pier_s25_g3_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562963","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"11","done":true},{"kg":"30","reps":"11","done":true},{"kg":"27","reps":"14","done":true},{"kg":"27","reps":"10","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"32","reps":"8","done":true},{"kg":"27","reps":"","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g4_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.577391","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"6","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"12","reps":"13","done":true},{"kg":"10","reps":"13","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"6","reps":"11","done":true},{"kg":"6","reps":"11","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"30","reps":"Vidamò","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"60","reps":"","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"8","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"11","done":true},{"kg":"12","reps":"11","done":true}]}]},"pier_s25_g4_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.577976","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"9","done":true},{"kg":"14 12 10","reps":"8","done":true},{"kg":"14 12 10","reps":"14","done":true},{"kg":"14 12 10","reps":"13","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"8","done":true},{"kg":"6","reps":"14","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"61","reps":"12","done":true},{"kg":"61","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"8,5","done":true},{"kg":"16","reps":"12","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"11","done":true},{"kg":"12","reps":"11","done":true}]}]},"pier_s25_g4_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578326","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"8.,8.,7.,","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"15","done":true},{"kg":"10","reps":"15","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"9","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"11","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"11","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"13","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"9","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true}]}]},"pier_s25_g4_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578420","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"10","done":true},{"kg":"14 12 10","reps":"9","done":true},{"kg":"14 12 10","reps":"16","done":true},{"kg":"14 12 10","reps":"16","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"","reps":"12","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"13","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"30","reps":"12","done":true},{"kg":"30","reps":"12","done":true}]}]},"pier_s25_g4_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578499","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"35","reps":"766-11","done":true},{"kg":"25","reps":"","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"1010-","done":true},{"kg":"14 12 10","reps":"16-17","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"10","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"6,8 GT","reps":"10","done":true},{"kg":"6,8 GT","reps":"10","done":true},{"kg":"6,8 GT","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"","reps":"13","done":true},{"kg":"","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18-16","reps":"11","done":true},{"kg":"18-16","reps":"11-14","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"35 GT","reps":"13","done":true},{"kg":"35 GT","reps":"11","done":true}]}]},"pier_s25_g4_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578581","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"25","reps":"12","done":true},{"kg":"25","reps":"9","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"11","done":true},{"kg":"14","reps":"10","done":true},{"kg":"12","reps":"17","done":true},{"kg":"10","reps":"17","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"","reps":"11","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"14","done":true},{"kg":"63","reps":"13","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"8","done":true},{"kg":"16","reps":"15","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"37","reps":"1312","done":true},{"kg":"37","reps":"12","done":true}]}]},"pier_s25_g4_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[]}]},"pier_s25_g5_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.605830","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"7","done":true},{"kg":"70","reps":"7","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"45","reps":"9","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"8","done":true},{"kg":"65","reps":"7","done":true},{"kg":"55","reps":"10","done":true},{"kg":"40","reps":"14","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"27","reps":"8","done":true},{"kg":"27","reps":"8","done":true},{"kg":"22","reps":"14","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"61","reps":"12","done":true},{"kg":"61","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"23","reps":"12","done":true},{"kg":"23","reps":"11","done":true}]}]},"pier_s25_g5_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606191","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"27","reps":"13","done":true},{"kg":"27","reps":"13","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[]}]},"pier_s25_g5_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606318","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"9","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"11","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"45","reps":"11","done":true},{"kg":"45","reps":"10","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"9","done":true},{"kg":"65","reps":"8","done":true},{"kg":"55","reps":"11","done":true},{"kg":"45","reps":"12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"27","reps":"10","done":true},{"kg":"27","reps":"10","done":true},{"kg":"25","reps":"13","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"11","done":true},{"kg":"63","reps":"9","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"12","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606443","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"10","done":true},{"kg":"66","reps":"13,5","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"10","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"50","reps":"10","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"9","done":true},{"kg":"65","reps":"9","done":true},{"kg":"55","reps":"12","done":true},{"kg":"45","reps":"12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"8","done":true},{"kg":"26","reps":"14","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"5","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606518","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"75-55","reps":"777-11","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75-68","reps":"88-11","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"13","done":true},{"kg":"32","reps":"12","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"50","reps":"11","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"70-60-50","reps":"98-10-12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30-25","reps":"98-9","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"11","done":true},{"kg":"65","reps":"9","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606725","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"8","done":true},{"kg":"30","reps":"11","done":true},{"kg":"30","reps":"9","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"79","reps":"8","done":true},{"kg":"79","reps":"8","done":true},{"kg":"68","reps":"12","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"13","done":true},{"kg":"32","reps":"12,5","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"","reps":"8","done":true},{"kg":"","reps":"8","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"11","done":true},{"kg":"","reps":"U","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30","reps":"9","done":true},{"kg":"30","reps":"8,5","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"11","done":true},{"kg":"65","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"13","done":true}]}]},"pier_s25_g5_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[]}]},"pier_s25_g6_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.618815","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"180","reps":"8","done":true},{"kg":"180","reps":"8","done":true},{"kg":"180","reps":"7","done":true}]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true}]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[{"kg":"105","reps":"10","done":true},{"kg":"105","reps":"10","done":true},{"kg":"86","reps":"11","done":true},{"kg":"72","reps":"10","done":true}]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"11","done":true},{"kg":"54","reps":"11","done":true}]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"10","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"29","reps":"8","done":true},{"kg":"29","reps":"8","done":true},{"kg":"24","reps":"14","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"20","reps":"12","done":true},{"kg":"20","reps":"12","done":true}]}]},"pier_s25_g6_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619138","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"18","reps":"","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619358","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"9","done":true},{"kg":"200","reps":"9","done":true},{"kg":"200","reps":"9","done":true}]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"18","reps":"12","done":true},{"kg":"18","reps":"12","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[{"kg":"24","reps":"2020","done":true}]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[{"kg":"105","reps":"12","done":true},{"kg":"105","reps":"12","done":true},{"kg":"86","reps":"13","done":true},{"kg":"72","reps":"14","done":true}]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[{"kg":"54","reps":"13","done":true},{"kg":"54","reps":"13","done":true},{"kg":"54","reps":"13","done":true}]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"13","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"8","done":true},{"kg":"31","reps":"10","done":true},{"kg":"27","reps":"","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"27","reps":"11","done":true}]}]},"pier_s25_g6_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619409","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"20","reps":"","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"8","done":true},{"kg":"16","reps":"8","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"32","reps":"8","done":true},{"kg":"32","reps":"8","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w5":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w6":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_ww_2025-W41":{"days":[69.4,70.1,70.0,68.8,68.9,68.9,68.8]},"pier_ww_2025-W43":{"days":[69.3,69.5,69.2,70.1,69.3,68.9,69.5]},"pier_ww_2025-W44":{"days":[69.9,69.0,68.9,68.9,69.7,70.1,69.4]},"pier_ww_2025-W46":{"days":[69.1,69.6,69.7,69.1,69.3,69.4,69.5]},"pier_ww_2025-W48":{"days":[69.6,70.9,70.4,69.4,70.0,70.0,69.8]},"pier_ww_2025-W49":{"days":[69.8,69.6,69.6,70.1,69.7,69.8,69.7]},"pier_ww_2025-W52":{"days":[70.1,70.0,70.5,70.1,70.9,69.8,69.9]},"pier_ww_2026-W02":{"days":[69.8,70.5,70.2,70.6,71.2,71.4,70.8]},"pier_ww_2026-W03":{"days":[71.2,71.0,70.5,70.5,70.8,71.2,71.3]},"pier_ww_2026-W04":{"days":[70.5,71.1,72.1,71.7,71.1,71.3,70.9]},"pier_ww_2026-W05":{"days":[71.2,71.2,71.2,71.4,71.6,71.6,71.8]},"pier_ww_2026-W06":{"days":[72.2,71.4,70.9,72.0,72.2,71.7,72.1]},"pier_ww_2026-W08":{"days":[71.6,71.5,71.8,71.5,71.6,71.7,72.3]},"pier_ww_2026-W09":{"days":[72.2,72.0,71.8,71.5,71.5,72.0,null]}};Object.keys(D).forEach(function(k){if(localStorage.getItem(k)===null)localStorage.setItem(k,typeof D[k]=="string"?D[k]:JSON.stringify(D[k]));});})();
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v50";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v51";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
