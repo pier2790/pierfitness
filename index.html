@@ -58,7 +58,7 @@ input[type=number]{-moz-appearance:textfield;}
 .pip{width:20px;height:4px;border-radius:2px;background:var(--border);}
 .pip.done{background:var(--green);}
 .pip.active{background:var(--dc,var(--accent));opacity:.55;}
-.wk-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 18px 140px;}
+.wk-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 18px calc(230px + env(safe-area-inset-bottom));}
 .active-week-bar{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 13px;background:color-mix(in srgb,var(--dc,var(--accent)) 8%,transparent);border:1px solid color-mix(in srgb,var(--dc,var(--accent)) 30%,transparent);border-radius:11px;}
 .aw-lbl{font-size:11px;color:var(--muted);flex:1;}
 .aw-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;letter-spacing:1px;color:var(--dc,var(--accent));}
@@ -78,26 +78,26 @@ input[type=number]{-moz-appearance:textfield;}
 .note-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;resize:none;min-height:72px;line-height:1.6;}
 .note-inp:focus{outline:none;border-color:var(--yellow);}
 .note-inp::placeholder{color:var(--muted2);}
-.save-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;padding:8px 18px 18px;background:linear-gradient(transparent,var(--bg) 35%);display:flex;gap:8px;z-index:55;}
+.save-bar{position:fixed;bottom:calc(82px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:100%;max-width:430px;padding:14px 18px 8px;background:linear-gradient(transparent,var(--bg) 40%);display:flex;gap:8px;z-index:55;}
 .btn{flex:1;padding:13px;border-radius:13px;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;}
 .btn-primary{background:var(--accent);color:#fff;}
 .btn-ghost{background:var(--bg3);color:var(--text);border:1px solid var(--border);}
 .active-sets{display:flex;flex-direction:column;gap:5px;}
-.active-set-row{display:grid;grid-template-columns:18px 1fr 1fr 40px 32px;gap:6px;align-items:center;}
+.active-set-row{display:grid;grid-template-columns:24px minmax(0,1fr) 60px 44px;gap:6px;align-items:center;}
 .s-n{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--muted);text-align:center;}
 .s-inp{background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:11px 4px;color:var(--text);font-size:16px;font-family:'DM Sans',sans-serif;width:100%;text-align:center;transition:border-color .2s,background .2s;}
 .s-inp:focus{outline:none;border-color:var(--dc,var(--accent));}
 .save-bar .btn-primary{background:var(--dc,var(--accent));color:#0B0B0E;font-weight:700;}
 .s-inp::placeholder{color:var(--muted2);font-size:10px;}
-.chk-btn{width:40px;height:44px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;}
+.chk-btn{width:44px;height:44px;border-radius:12px;font-size:18px;font-weight:700;border:1px solid var(--border);background:var(--bg3);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;}
 .chk-btn.done{background:rgba(61,219,122,.15);border-color:var(--green);color:var(--green);}
 .chk-btn:active{transform:scale(.88);}
 .add-serie-btn{margin-top:6px;width:100%;padding:7px;background:transparent;border:1px dashed var(--border);border-radius:7px;color:var(--muted);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;}
 .ex-nota-inp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;resize:none;min-height:48px;line-height:1.5;}
 .ex-nota-inp:focus{outline:none;border-color:var(--yellow);}
 .ex-nota-inp::placeholder{color:var(--muted2);}
-.perf-wrap{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:flex;align-items:flex-end;}
-.perf-sheet{width:100%;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;border-top:1px solid var(--border);height:90vh;display:flex;flex-direction:column;}
+.perf-wrap{position:fixed;inset:0;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;}
+.perf-sheet{width:100%;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:26px 26px 0 0;animation:sheetUp .28s cubic-bezier(.2,.9,.3,1);border-top:1px solid var(--border);height:90vh;display:flex;flex-direction:column;}
 .perf-handle{width:34px;height:4px;background:var(--border);border-radius:2px;margin:11px auto 0;}
 .perf-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
 .perf-ttl{font-weight:600;font-size:14px;flex:1;}
@@ -110,14 +110,14 @@ input[type=number]{-moz-appearance:textfield;}
 .perf-set{padding:3px 8px;background:var(--bg3);border-radius:6px;font-size:11px;}
 .perf-max{font-family:'Barlow Condensed',sans-serif;font-size:16px;text-align:right;flex-shrink:0;width:52px;}
 .delta-up{color:var(--green);}.delta-dn{color:var(--red);}.delta-eq{color:var(--muted);}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:300;display:flex;align-items:center;justify-content:center;}
-.timer-box{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:28px 36px;display:flex;flex-direction:column;align-items:center;gap:16px;min-width:260px;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:300;display:flex;align-items:flex-end;justify-content:center;}
+.timer-box{background:var(--bg2);border:1px solid var(--border);border-bottom:none;border-radius:26px 26px 0 0;width:100%;max-width:430px;box-sizing:border-box;padding:22px 22px calc(28px + env(safe-area-inset-bottom));animation:sheetUp .28s cubic-bezier(.2,.9,.3,1);display:flex;flex-direction:column;align-items:center;gap:16px;min-width:260px;}
 .timer-big{font-family:'Barlow Condensed',sans-serif;font-size:72px;letter-spacing:4px;line-height:1;}
 .timer-presets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
 .t-pre{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;}
 .t-btns{display:flex;gap:8px;}
 .t-btn{padding:10px 18px;border-radius:11px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
-.ai-wrap{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:flex;align-items:flex-end;}
+.ai-wrap{position:fixed;inset:0;background:rgba(0,0,0,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:flex-end;}
 .ai-sheet{width:100%;max-width:430px;margin:0 auto;background:var(--bg2);border-radius:24px 24px 0 0;border-top:1px solid var(--border);height:72vh;display:flex;flex-direction:column;}
 .ai-handle{width:34px;height:4px;background:var(--border);border-radius:2px;margin:11px auto 0;}
 .ai-hdr{padding:10px 18px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
@@ -205,7 +205,7 @@ input[type=number]{-moz-appearance:textfield;}
 .s-inp.smart-hint{border-color:var(--yellow) !important;background:rgba(255,208,96,.08) !important;}
 .s-inp.validated{border-color:var(--green) !important;}
 /* UNDO TOAST */
-.undo-toast{position:fixed;bottom:calc(100px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:13px;padding:10px 16px;display:flex;align-items:center;gap:10px;z-index:300;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideUp .3s ease;}
+.undo-toast{position:fixed;bottom:calc(160px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--border);border-radius:13px;padding:10px 16px;display:flex;align-items:center;gap:10px;z-index:300;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:slideUp .3s ease;}
 .undo-toast-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--accent);background:rgba(255,107,53,.12);color:var(--accent);font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;}
 @keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 /* 1RM badge */
@@ -327,6 +327,43 @@ input[type=number]{-moz-appearance:textfield;}
 .pgt .kgl.up b{color:var(--green);}
 .pgt .kgl.down b{color:#FF7A8A;}
 .pg-rp2{font-size:10px;color:var(--muted);white-space:nowrap;}
+.kg-step{display:grid;grid-template-columns:34px minmax(0,1fr) 34px;gap:4px;align-items:center;}
+.kst{height:44px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:20px;line-height:1;cursor:pointer;padding:0;font-family:'DM Sans',sans-serif;}
+.kst:active{transform:scale(.92);background:var(--bg4);}
+.active-set-row .s-inp{height:44px;font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;}
+button.s-n{background:none;border:none;padding:0;height:44px;font-size:16px;cursor:pointer;}
+.chk-btn.done{animation:chkPop .28s ease;}
+@keyframes chkPop{0%{transform:scale(.8)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+.ex-body{animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.sb-ic{flex:0 0 52px !important;display:flex;align-items:center;justify-content:center;gap:6px;}
+.sb-tm{flex:0 0 auto !important;padding:13px 16px !important;display:flex;align-items:center;gap:6px;}
+.resume-pill{position:absolute;left:6px;right:6px;bottom:calc(100% + 8px);height:46px;border-radius:23px;border:1px solid color-mix(in srgb,var(--dc) 55%,transparent);background:rgba(24,24,30,.82);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);color:var(--text);display:flex;align-items:center;gap:10px;padding:0 16px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.45);}
+.resume-pill i{width:9px;height:9px;border-radius:50%;background:var(--dc);box-shadow:0 0 0 4px color-mix(in srgb,var(--dc) 25%,transparent);animation:pulse 1.6s infinite;}
+.resume-pill b{margin-left:auto;color:var(--dc);font-weight:700;}
+@keyframes pulse{50%{opacity:.45}}
+.more-ov{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:flex;align-items:flex-end;justify-content:center;}
+.more-sheet{width:100%;max-width:430px;background:var(--bg2);border-radius:26px 26px 0 0;padding:10px 16px calc(24px + env(safe-area-inset-bottom));animation:sheetUp .28s cubic-bezier(.2,.9,.3,1);}
+.more-sheet .hd{width:36px;height:5px;border-radius:3px;background:var(--border);margin:0 auto 12px;}
+.more-sheet button{width:100%;display:flex;align-items:center;gap:12px;padding:15px 14px;margin-bottom:6px;border-radius:14px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;text-align:left;}
+.more-sheet button.danger{color:#FF7A8A;}
+#cerca-input{width:calc(100% - 32px) !important;margin:12px 16px 8px !important;font-size:16px !important;}
+#cerca-overlay .perf-sheet>div:not(.perf-hdr):not(.perf-handle){padding:0 16px;}
+#cerca-back{margin-top:12px;}
+.cx-count{font-size:12px;color:var(--muted);margin:2px 4px 8px;}
+.cx-row{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;padding:12px 6px;border:none;border-bottom:1px solid var(--border2);background:transparent;color:var(--text);text-align:left;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.cx-n{font-size:15px;font-weight:600;line-height:1.3;}
+.cx-s{font-size:12px;color:var(--muted);}
+.cx-alias{font-size:11px;color:var(--muted2);font-style:italic;}
+.cx-sec{margin:14px 0 6px;padding:8px 10px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;}
+.cx-sec i{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+.cx-w{display:grid;grid-template-columns:34px 1fr;gap:2px 10px;width:100%;padding:9px 6px;border:none;border-bottom:1px solid var(--border2);background:transparent;color:var(--text);text-align:left;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.cx-w .wl{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:var(--muted);grid-row:span 2;}
+.cx-w .pr{font-size:12px;color:var(--muted);}
+.cx-w .kv{font-size:14px;}
+.cx-w .kv b{font-family:'Barlow Condensed',sans-serif;font-size:18px;}
+.cx-w .kv span{color:#C4C4D2;margin-right:12px;}
 .qa-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 18px 0;}
 .qa-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;height:66px;border-radius:15px;border:1px solid var(--border);background:var(--bg2);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;}
 .qa-btn svg{width:22px;height:22px;color:var(--accent);}
@@ -1604,12 +1641,13 @@ function render(){
     var on=S.tab===t.id;
     return '<button class="nav-btn'+(on?' active':'')+'" data-nav="'+t.id+'" aria-label="'+t.lbl+'"><svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+t.ic+'</svg><span class="nav-lbl">'+t.lbl+'</span></button>';
   }).join('');
-  nav.style.display=S.giorno?'none':'';
+  nav.style.display='';
+  if(!S.giorno&&S.sessHold){var _h=S.sessHold;nav.innerHTML+='<button class="resume-pill" id="sess-resume" style="--dc:'+(_h.giorno.colore||'#FF6B35')+'"><i></i>Seduta in corso · G'+_h.giorno.id+' · W'+_h.aw+'<b>Riprendi</b></button>';}
   if(S.giorno){
     screen.style.cssText='flex:1;overflow:hidden;padding:0;display:flex;flex-direction:column;--dc:'+(S.giorno&&S.giorno.colore||'#FF6B35')+';';
     try{renderWorkout();}catch(err){screen.innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><div style="font-size:14px;font-weight:600;">Errore rendering workout</div><div style="font-size:12px;color:var(--muted);margin-top:4px;">'+htmlEsc(err.message)+'</div><button onclick="S.giorno=null;render();" style="margin-top:12px;padding:10px 20px;border-radius:10px;border:none;background:var(--accent);color:#fff;font-size:13px;cursor:pointer;">← Torna alla home</button></div>';console.error(err);}
   }else{
-    screen.style.cssText='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(104px + env(safe-area-inset-bottom));';
+    screen.style.cssText='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc('+(S.sessHold?160:104)+'px + env(safe-area-inset-bottom));';
     try{
     if(S.tab==='home')screen.innerHTML=buildHome();
     else if(S.tab==='progressione')screen.innerHTML=buildProgressione();
@@ -1626,6 +1664,21 @@ function render(){
 
 // ─── HOME ─────────────────────────────────────────────────────────────────────
 // ─── PROSSIMA SEDUTA (Home) ──────────────────────────────────────────────────
+// Peso di oggi in Home
+function buildHomeWeight(){
+  var td=new Date(),wk=getISOWeekKey(td),di=(td.getDay()+6)%7,v=loadWeightWeek(wk).days[di],has=v!==null&&v!==undefined&&!isNaN(v);
+  var vals=[];for(var i=0;i<7;i++){var x=new Date(td);x.setDate(td.getDate()-i);var vv=loadWeightWeek(getISOWeekKey(x)).days[(x.getDay()+6)%7];if(vv!==null&&vv!==undefined&&!isNaN(vv))vals.push(parseFloat(vv));}
+  var avg=vals.length?(vals.reduce(function(a,b){return a+b;},0)/vals.length):null;
+  var h='<div style="margin:10px 18px 0;padding:14px 16px;border-radius:16px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;gap:12px;">';
+  h+='<div style="flex:1;min-width:0;"><div style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);">Peso di oggi</div>';
+  if(has)h+='<div style="font-family:Barlow Condensed,sans-serif;font-size:30px;font-weight:700;line-height:1.1;">'+String(v).replace('.',',')+' <span style="font-size:15px;color:var(--muted);font-weight:500;">kg</span></div>';
+  else h+='<input id="w-today-inp" type="number" inputmode="decimal" step="0.1" placeholder="kg" style="margin-top:6px;width:100%;min-width:0;box-sizing:border-box;height:44px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:Barlow Condensed,sans-serif;font-size:22px;font-weight:700;padding:0 12px;">';
+  h+=(avg!==null?'<div style="font-size:12px;color:var(--muted);margin-top:2px;">media 7 giorni '+avg.toFixed(1).replace('.',',')+' kg</div>':'')+'</div>';
+  h+=has?'<button data-nav="weight" style="height:40px;padding:0 14px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:DM Sans,sans-serif;font-size:13px;font-weight:600;cursor:pointer;">Dettagli</button>'
+        :'<button id="w-save-today" style="height:44px;padding:0 16px;border-radius:11px;border:none;background:var(--green);color:#0B0B0E;font-family:DM Sans,sans-serif;font-size:14px;font-weight:700;cursor:pointer;align-self:flex-end;">Salva</button>';
+  return h+'</div>';
+}
+
 function buildNextSession(sid){
   var sc=SCHEDE[sid];if(!sc||!sc.giorni||!sc.giorni.length)return '';
   var best=null;
@@ -1756,17 +1809,13 @@ function buildHome(){
   html+=buildNextSession(S.schedaId);
   html+=quickActionsHtml();
   if(showBanner)html+='<div class="install-banner"><span style="font-size:20px">'+(isIOS?'📱':'📲')+'</span><div class="install-txt"><strong>📲 Installa PierFitness!</strong>'+(isIOS?'Tocca Condividi → Aggiungi a schermata Home':'Tocca ⋮ → Aggiungi a schermata Home')+'<br><span style="color:var(--muted);">Funziona anche offline!</span></div></div>';
-  html+='<div class="stat-grid">'
-    +'<div class="stat-card" style="cursor:pointer;" id="scheda-picker-btn"><div class="stat-val" style="color:'+col+'">'+sc.icona+' #'+sc.id+'</div><div class="stat-lbl">SCHEDA ATTIVA</div><div style="font-size:11px;color:var(--muted);margin-top:6px">'+sc.settimane+' sett. · '+sc.giorni.length+' giorni</div><div style="font-size:10px;color:var(--accent);margin-top:5px;font-weight:600;">Cambia ›</div></div>'
-    +'<div class="stat-card"><div class="stat-val">'+(lwAvg?lwAvg:'—')+'<span style="font-size:14px;color:var(--muted)">kg</span></div><div class="stat-lbl">PESO MEDIO</div>'+(wh.length&&wh.length>1?'<div style="font-size:11px;color:'+(wh[wh.length-1].avg>=wh[wh.length-2].avg?'var(--red)':'var(--green)')+';margin-top:4px">'+(wh[wh.length-1].avg>=wh[wh.length-2].avg?'↑':'↓')+(Math.abs(wh[wh.length-1].avg-wh[wh.length-2].avg).toFixed(1))+'kg vs prev</div>':'')+'</div></div>';
-  html+='<div style="margin:10px 18px 0;display:flex;gap:8px;"><button style="flex:1;padding:11px;border-radius:11px;border:1px solid var(--accent);background:rgba(255,107,53,.08);color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;" data-nav="dashboard">📊 Dashboard</button><button style="flex:1;padding:11px;border-radius:11px;border:1px dashed var(--border);background:var(--bg2);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;" id="btn-import-scheda">📥 Importa scheda</button></div>';
+  html+=buildHomeWeight();
   function _lds(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   function _ldsFromISO(iso){var d=new Date(iso);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   var _tmap={};
   Object.keys(SCHEDE).forEach(function(sId){var sc2=SCHEDE[sId];sc2.giorni.forEach(function(g){for(var w=1;w<=sc2.settimane;w++){var log=LS.get(K.session(sId,g.id,w));if(!log||!log.savedAt)continue;var ds=(log.trainedDate&&log.trainedDate.length===10?log.trainedDate:(function(){var d=new Date(log.savedAt);return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);})());if(ds&&!_tmap[ds])_tmap[ds]={color:g.colore,schedaId:sId,giornoId:g.id,week:w,nome:g.nome};}});});
 
   (function(){var today=new Date(),dow=today.getDay();var mon=new Date(today);mon.setDate(today.getDate()-(dow===0?6:dow-1));var labels=['L','M','M','G','V','S','D'],todayStr=_lds(today);var trainCount=0;for(var di=0;di<7;di++){var d=new Date(mon);d.setDate(mon.getDate()+di);if(_tmap[_lds(d)])trainCount++;}html+='<div style="margin:14px 18px 0;padding:14px 16px;background:var(--bg2);border-radius:14px;border:1px solid var(--border)">';html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:11px;font-weight:700;letter-spacing:1.5px;color:var(--muted)">QUESTA SETTIMANA</div><div style="font-size:11px;color:'+col+';font-weight:700">'+trainCount+'/'+sc.giorni.length+' giorni ✓</div></div>';html+='<div style="display:flex;gap:4px;">';for(var di=0;di<7;di++){var d=new Date(mon);d.setDate(mon.getDate()+di);var ds=_lds(d),isToday=ds===todayStr,tr=_tmap[ds],isFuture=d>today;var bg=tr?tr.color:(isToday?'var(--bg3)':'transparent');var brd=isToday&&!tr?'2px solid '+col:'2px solid transparent';html+='<div style="flex:1;text-align:center"><div style="font-size:10px;color:var(--muted);margin-bottom:5px;font-weight:600">'+labels[di]+'</div><div style="width:32px;height:32px;border-radius:50%;background:'+bg+';border:'+brd+';display:flex;align-items:center;justify-content:center;margin:0 auto;cursor:'+(tr?'pointer':'default')+'" '+(tr?'data-cal="'+tr.schedaId+'|'+tr.giornoId+'|'+tr.week+'"':'')+' title="'+(tr?tr.nome:'')+'">'+(tr?'<span style="font-size:13px;color:#fff;font-weight:700">✓</span>':'<span style="font-size:10px;font-weight:700;color:'+(isToday?col:'var(--muted)')+';opacity:'+(isFuture?0.3:1)+'">'+d.getDate()+'</span>')+'</div></div>';}html+='</div>';html+='<div style="display:flex;justify-content:center;margin-top:10px"><button id="cal-toggle-btn" style="font-size:11px;color:var(--muted);background:none;border:none;cursor:pointer;padding:4px 10px;font-family:DM Sans,sans-serif;">📅 Mostra mese</button></div>';html+='<div id="cal-month-wrap" style="display:none;margin-top:12px">';var offset=S.calMonthOffset||0;var mth=today.getMonth()+offset,yr=today.getFullYear();while(mth<0){mth+=12;yr--;}while(mth>11){mth-=12;yr++;}var firstDay=new Date(yr,mth,1),dof=firstDay.getDay();var startOffset=dof===0?6:dof-1,daysInMonth=new Date(yr,mth+1,0).getDate();var mNames=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px"><button id="cal-prev-btn" style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:20px;padding:0 8px;">‹</button><div style="font-size:12px;font-weight:700;color:var(--text)">'+mNames[mth]+' '+yr+'</div><button id="cal-next-btn" style="background:none;border:none;cursor:pointer;font-size:20px;padding:0 8px;color:var(--muted);opacity:'+(offset>=0?0.25:1)+'">›</button></div>';html+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center">';['L','M','M','G','V','S','D'].forEach(function(l){html+='<div style="font-size:10px;color:var(--muted);font-weight:700;padding-bottom:3px">'+l+'</div>';});for(var i=0;i<startOffset;i++){html+='<div></div>';}for(var day=1;day<=daysInMonth;day++){var dd=new Date(yr,mth,day),dds=_lds(dd);var isT=dds===todayStr,trnd=_tmap[dds],isFut=dd>today;var bgD=trnd?trnd.color:(isT?'var(--bg3)':'transparent');var brdD=isT&&!trnd?'1.5px solid '+col:'1.5px solid transparent';html+='<div style="aspect-ratio:1;border-radius:50%;background:'+bgD+';border:'+brdD+';display:flex;align-items:center;justify-content:center;opacity:'+(isFut?0.2:1)+';cursor:'+(trnd&&!isFut?'pointer':'default')+'" '+(trnd&&!isFut?'data-cal="'+trnd.schedaId+'|'+trnd.giornoId+'|'+trnd.week+'"':'')+' title="'+(trnd?trnd.nome:'')+'">';html+='<span style="font-size:10px;font-weight:'+(trnd||isT?700:400)+';color:'+(trnd?'#fff':(isT?col:'var(--muted)'))+'">'+(trnd?'✓':day)+'</span></div>';}html+='</div></div></div>';})();
-  var cloudOk=getCloudMode()!=='none';html+='<div style="margin:10px 18px 0;display:flex;gap:8px"><button id="home-push-btn" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--green);background:rgba(61,219,122,.1);color:var(--green);font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;'+(cloudOk?'':'opacity:.35;pointer-events:none')+'">⬆️ Push</button><button id="home-pull-btn" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--accent);background:rgba(255,107,53,.1);color:var(--accent);font-size:14px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;'+(cloudOk?'':'opacity:.35;pointer-events:none')+'">⬇️ Pull</button></div>';html+='<div id="cloud-status-home" style="text-align:center;font-size:11px;color:var(--muted);margin:5px 18px 0;min-height:15px"></div>';
   html+='<div class="sec"><div class="sec-lbl">Giorni di allenamento</div><div class="days-list" style="padding:0">';
   sc.giorni.forEach(function(g){
     var done=dayProgress(g.id),tot=sc.settimane;
@@ -1811,7 +1860,7 @@ function renderWorkout(){
     html+='<div style="display:flex;align-items:center;margin:8px 0 0;"><span id="gym-chip" style="display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:14px;background:var(--bg3);border:1px solid var(--border2);font-size:11px;font-weight:600;color:var(--text);cursor:pointer;">🏋️ '+(_gymShown?htmlEsc(_gymShown):'<span style="color:var(--muted);font-weight:400;">Scegli palestra</span>')+'<span style="color:var(--muted);font-size:10px;">▾</span></span></div>';
   }
   if(sc.noteGenerali&&sc.noteGenerali.length)html+='<div style="margin:0 0 10px;padding:10px 12px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);font-size:12px;color:var(--text);line-height:1.45;">ℹ️ '+sc.noteGenerali.map(htmlEsc).join('<br>')+'</div>';
-  html+='<div class="note-card"><div class="note-card-hdr" id="toggle-note"><span style="font-size:14px">📝</span><div style="flex:1"><div style="font-size:13px;font-weight:600">Note sett. '+aw+'</div>';
+  html+='<div class="note-card"><div class="note-card-hdr" id="toggle-note"><span style="color:var(--muted);display:flex"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h5"/></svg></span><div style="flex:1"><div style="font-size:13px;font-weight:600">Note sett. '+aw+'</div>';
   if(!S.noteOpen&&log&&log.noteAllenamento)html+='<div style="font-size:11px;color:var(--muted);font-style:italic;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:200px">'+log.noteAllenamento+'</div>';
   else if(!S.noteOpen)html+='<div style="font-size:11px;color:var(--muted2);margin-top:1px">Tocca per aggiungere...</div>';
   html+='</div><span style="color:var(--muted);font-size:16px;transform:'+(S.noteOpen?'rotate(180deg)':'none')+'">⌄</span></div>';
@@ -1844,7 +1893,7 @@ function renderWorkout(){
     var _ap=prescrFor(ex,aw),_pp=aw>1?prescrFor(ex,aw-1):_ap,_chg=aw>1&&normPrescr(_ap)!==normPrescr(_pp);
     var weekNote=_chg;
     html+='<div class="ex-card" style="'+(exDone?'border-color:'+col+'50':weekNote?'border-color:rgba(255,208,96,.45)':'')+'"><div class="ex-hdr" data-extog="'+ex.id+'"><div class="ex-badge" style="background:'+col+'20;color:'+col+'">'+(idx+1)+'</div><div style="flex:1"><div class="ex-name">'+ex.nome+'</div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:5px"><span style="font-family:Barlow Condensed,sans-serif;font-size:14px;padding:3px 10px;border-radius:10px;background:'+col+'15;color:'+col+';letter-spacing:.5px;'+(_chg?'background:rgba(255,208,96,.15);color:var(--yellow);':'')+'">'+htmlEsc(prettyPrescr(_ap))+'</span>'+(_chg?'<span style="font-size:10px;font-weight:700;padding:4px 8px;border-radius:10px;background:rgba(255,208,96,.15);color:var(--yellow);letter-spacing:.5px">NOVITÀ W'+aw+'</span>':'')+'</div></div>';
-    html+='<div class="ex-actions"><button class="ex-icon-btn" data-perf="'+ex.id+'" title="Progressi">📊</button>';
+    html+='<div class="ex-actions"><button class="ex-icon-btn" data-perf="'+ex.id+'" title="Progressi" aria-label="Grafico esercizio" style="color:var(--muted)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19h16"/><path d="M7 15l4-4 3 3 5-6"/></svg></button>';
     if(exDone)html+='<span style="font-size:12px;color:var(--green);font-weight:700">✓</span>';
     html+='</div><span class="ex-chevron" style="color:'+(isOpen?col:'var(--muted)')+';transform:'+(isOpen?'rotate(180deg)':'none')+'">⌄</span></div>';
     if(isOpen){
@@ -1854,7 +1903,7 @@ function renderWorkout(){
       var activeNote=_ap;
       var hasOverride=_chg;
       html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:'+(hasOverride?'rgba(255,208,96,.1)':col+'10')+';border:1px solid '+(hasOverride?'rgba(255,208,96,.3)':col+'30')+';">';
-      html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📋 Prescrizione W'+aw+'</div>'+(hasOverride?'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(255,208,96,.18);color:var(--yellow);">NOVITÀ</span>':'')+'</div>';
+      html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;"><div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">Prescrizione W'+aw+'</div>'+(hasOverride?'<span style="font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:rgba(255,208,96,.18);color:var(--yellow);">NOVITÀ</span>':'')+'</div>';
       html+='<div style="font-family:Barlow Condensed,sans-serif;font-size:22px;letter-spacing:.5px;color:'+(hasOverride?'var(--yellow)':col)+';">'+htmlEsc(prettyPrescr(activeNote))+'</div>';
       if(hasOverride)html+='<div style="font-size:12px;color:var(--muted);margin-top:3px;">W'+(aw-1)+': '+htmlEsc(prettyPrescr(_pp))+'</div>';
       var _tplA=parsePrescr(activeNote),_pct=null;
@@ -1874,9 +1923,9 @@ function renderWorkout(){
         var prevNotaLog=getExLog(ex.id,aw-1);
         var prevNotaTesto=prevNotaLog&&prevNotaLog.nota?prevNotaLog.nota:'';
         var prevRpe=prevNotaLog&&prevNotaLog.rpe?({1:'😫 dura',2:'😐 ok',3:'💪 facile'})[prevNotaLog.rpe]||'':'';
-        if(prevNotaTesto||prevRpe){
+        if(prevNotaTesto){
           html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:var(--bg3);border:1px dashed var(--border2);">';
-          html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;">📝 Note settimana scorsa (W'+(aw-1)+')</div>';
+          html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;">Note settimana scorsa (W'+(aw-1)+')</div>';
           html+='<div style="font-size:12px;color:var(--text);font-style:italic;">'+(prevRpe?'<span style="font-style:normal;margin-right:6px;">'+prevRpe+'</span>':'')+htmlEsc(prevNotaTesto)+'</div>';
           html+='</div>';
         }
@@ -1892,14 +1941,14 @@ function renderWorkout(){
           html+='<div style="padding:10px 12px;margin-bottom:10px;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);">';
           html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">';
           var _pwGym=S.weekLogs[prevW]&&S.weekLogs[prevW].gym;
-          html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">📊 W'+prevW+' · Ultima settimana allenata'+(_pwGym?' · 🏋️ '+htmlEsc(_pwGym):'')+'</div>';
+          html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;">W'+prevW+' · ultima settimana allenata'+(_pwGym?' · 🏋️ '+htmlEsc(_pwGym):'')+'</div>';
           html+='<span style="font-size:10px;color:var(--green);">✓</span>';
           html+='</div>';
           // Compact view of prev week's sets
           html+='<div style="display:flex;flex-wrap:wrap;gap:4px;">';
           prevLog.serie.forEach(function(ps,psi){
             if(!ps.kg&&!ps.reps)return;
-            var pkgStr=ps.kg||'?';
+            var pkgStr=ps.kg?String(ps.kg).replace('.',','):'?';
             var prepsStr=ps.reps||'?';
             html+='<div style="display:flex;align-items:baseline;gap:3px;padding:4px 8px;border-radius:8px;background:var(--bg4);border:1px solid var(--border2);font-size:12px;">';
             html+='<span style="font-family:Barlow Condensed,sans-serif;font-size:15px;color:var(--text);">'+htmlEsc(pkgStr)+'</span>';
@@ -1935,30 +1984,29 @@ function renderWorkout(){
           var kgC=serieColor(ex.id,aw,si,'kg');
           var rpC=serieColor(ex.id,aw,si,'reps');
           html+='<div class="active-set-row">';
-          html+='<div class="s-n" style="color:'+(s.done?rc:'var(--muted2)')+';">'+(si+1)+'</div>';
+          html+='<button class="s-n" title="Tocca per eliminare la serie" data-delserie="'+ex.id+'" data-delseriew="'+aw+'" data-delsi="'+si+'" style="color:'+(s.done?rc:'var(--muted)')+';">'+(si+1)+'</button>';
           var kgStyle=(s.done?'border-color:'+rc+';':'')+(kgC.bc&&!s.done?'border-color:'+kgC.bc+';background:'+kgC.bg+';':'');
-          html+='<input class="s-inp" type="number" inputmode="decimal" value="'+s.kg+'" placeholder="kg" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" data-f="kg" style="'+kgStyle+'">';
+          html+='<div class="kg-step"><button class="kst" data-kgstep="-2.5" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" aria-label="Meno 2,5 kg">−</button><input class="s-inp" type="number" inputmode="decimal" value="'+s.kg+'" placeholder="kg" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" data-f="kg" style="'+kgStyle+'"><button class="kst" data-kgstep="2.5" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" aria-label="Più 2,5 kg">+</button></div>';
           var rpStyle=(s.done?'border-color:'+rc+';':'')+(rpC.bc&&!s.done?'border-color:'+rpC.bc+';background:'+rpC.bg+';':'');
-          html+='<input class="s-inp" type="text" inputmode="text" value="'+s.reps+'" placeholder="reps" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" data-f="reps" style="'+rpStyle+'">';
-          html+='<button class="chk-btn'+(s.done?' done':'')+'" data-chk="'+ex.id+'" data-chkw="'+aw+'" data-chksi="'+si+'">'+(s.done?'✓':'○')+'</button>';
-          html+='<button style="width:26px;height:36px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:#ff4d6a;font-size:18px;cursor:pointer;line-height:1;" data-delserie="'+ex.id+'" data-delseriew="'+aw+'" data-delsi="'+si+'">×</button>';
+          html+='<input class="s-inp" type="text" inputmode="text" value="'+s.reps+'" placeholder="'+(_t&&_t.reps?_t.reps:'reps')+'" data-ex="'+ex.id+'" data-w="'+aw+'" data-si="'+si+'" data-f="reps" style="'+rpStyle+'">';
+          html+='<button class="chk-btn'+(s.done?' done':'')+'" data-chk="'+ex.id+'" data-chkw="'+aw+'" data-chksi="'+si+'" aria-label="Serie fatta">'+(s.done?'✓':'')+'</button>';
           html+='</div>';
         });
         html+='</div>';
       }
       html+='<button class="add-serie-btn" data-addserie="'+ex.id+'" data-addseriew="'+aw+'">+ Serie</button>';
       var prevNotesHtml='';
-      for(var pnw=1;pnw<aw;pnw++){var pnLog=getExLog(ex.id,pnw);if(pnLog&&(pnLog.nota||pnLog.rpe)){var _pnR=pnLog.rpe?({1:'😫 ',2:'😐 ',3:'💪 '})[pnLog.rpe]||'':'';prevNotesHtml+='<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border2);"><span style="color:var(--accent);font-family:Barlow Condensed,sans-serif;font-size:10px;flex-shrink:0;">W'+pnw+'</span><span style="color:var(--muted);font-size:10px;font-style:italic;">'+_pnR+htmlEsc(pnLog.nota||'')+'</span></div>';}}
+      for(var pnw=1;pnw<aw;pnw++){var pnLog=getExLog(ex.id,pnw);if(pnLog&&pnLog.nota){var _pnR=pnLog.rpe?({1:'😫 ',2:'😐 ',3:'💪 '})[pnLog.rpe]||'':'';prevNotesHtml+='<div style="display:flex;gap:6px;padding:3px 0;border-bottom:1px solid var(--border2);"><span style="color:var(--accent);font-family:Barlow Condensed,sans-serif;font-size:10px;flex-shrink:0;">W'+pnw+'</span><span style="color:var(--muted);font-size:10px;font-style:italic;">'+_pnR+htmlEsc(pnLog.nota||'')+'</span></div>';}}
       html+='<div style="margin-top:8px;">';
-      if(prevNotesHtml){html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">📋 Note sett. precedenti</div>';html+='<div style="margin-bottom:8px;padding:6px 8px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);">'+prevNotesHtml+'</div>';}
+      if(prevNotesHtml){html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Note settimane precedenti</div>';html+='<div style="margin-bottom:8px;padding:6px 8px;background:var(--bg3);border-radius:8px;border:1px solid var(--border2);">'+prevNotesHtml+'</div>';}
       var _rpeCur=wlog&&wlog.rpe;
       html+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;"><span style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;">Com\'è andata?</span>';
-      [[1,'😫'],[2,'😐'],[3,'💪']].forEach(function(_r){
+      [[1,'Dura'],[2,'Giusta'],[3,'Facile']].forEach(function(_r){
         var _on=_rpeCur===_r[0];
-        html+='<button data-rpeex="'+ex.id+'" data-rpew="'+aw+'" data-rpeval="'+_r[0]+'" style="padding:5px 11px;border-radius:10px;border:1px solid '+(_on?col:'var(--border2)')+';background:'+(_on?col+'20':'var(--bg3)')+';font-size:15px;cursor:pointer;line-height:1;">'+_r[1]+'</button>';
+        html+='<button data-rpeex="'+ex.id+'" data-rpew="'+aw+'" data-rpeval="'+_r[0]+'" style="padding:5px 11px;border-radius:10px;border:1px solid '+(_on?col:'var(--border2)')+';background:'+(_on?col+'20':'var(--bg3)')+';color:'+(_on?col:'var(--text)')+';font-size:13px;font-weight:600;padding:9px 14px;cursor:pointer;line-height:1;font-family:DM Sans,sans-serif;">'+_r[1]+'</button>';
       });
       html+='</div>';
-      html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">💬 Nota W'+aw+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+aw+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog&&wlog.nota||'')+'</textarea></div>';
+      html+='<div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Nota W'+aw+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+aw+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog&&wlog.nota||'')+'</textarea></div>';
       html+='</div>';
 
       // ── 4. STORICO ALTRE SETTIMANE (collassabile) ──
@@ -2014,19 +2062,18 @@ function renderWorkout(){
                   var kgC=serieColor(ex.id,w,si,'kg');
                   var rpC=serieColor(ex.id,w,si,'reps');
                   html+='<div class="active-set-row">';
-                  html+='<div class="s-n" style="color:'+(s.done?rc:'var(--muted2)')+';">'+(si+1)+'</div>';
-                  var kgStyle=(s.done?'border-color:'+rc+';':'')+(kgC.bc&&!s.done?'border-color:'+kgC.bc+';background:'+kgC.bg+';':'');
-                  html+='<input class="s-inp" type="number" inputmode="decimal" value="'+s.kg+'" placeholder="kg" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" data-f="kg" style="'+kgStyle+'">';
-                  var rpStyle=(s.done?'border-color:'+rc+';':'')+(rpC.bc&&!s.done?'border-color:'+rpC.bc+';background:'+rpC.bg+';':'');
-                  html+='<input class="s-inp" type="text" inputmode="text" value="'+s.reps+'" placeholder="reps" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" data-f="reps" style="'+rpStyle+'">';
-                  html+='<button class="chk-btn'+(s.done?' done':'')+'" data-chk="'+ex.id+'" data-chkw="'+w+'" data-chksi="'+si+'">'+(s.done?'✓':'○')+'</button>';
-                  html+='<button style="width:26px;height:36px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:#ff4d6a;font-size:18px;cursor:pointer;line-height:1;" data-delserie="'+ex.id+'" data-delseriew="'+w+'" data-delsi="'+si+'">×</button>';
-                  html+='</div>';
+          html+='<button class="s-n" title="Tocca per eliminare la serie" data-delserie="'+ex.id+'" data-delseriew="'+w+'" data-delsi="'+si+'" style="color:'+(s.done?rc:'var(--muted)')+';">'+(si+1)+'</button>';
+          var kgStyle=(s.done?'border-color:'+rc+';':'')+(kgC.bc&&!s.done?'border-color:'+kgC.bc+';background:'+kgC.bg+';':'');
+          html+='<div class="kg-step"><button class="kst" data-kgstep="-2.5" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" aria-label="Meno 2,5 kg">−</button><input class="s-inp" type="number" inputmode="decimal" value="'+s.kg+'" placeholder="kg" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" data-f="kg" style="'+kgStyle+'"><button class="kst" data-kgstep="2.5" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" aria-label="Più 2,5 kg">+</button></div>';
+          var rpStyle=(s.done?'border-color:'+rc+';':'')+(rpC.bc&&!s.done?'border-color:'+rpC.bc+';background:'+rpC.bg+';':'');
+          html+='<input class="s-inp" type="text" inputmode="text" value="'+s.reps+'" placeholder="'+'reps'+'" data-ex="'+ex.id+'" data-w="'+w+'" data-si="'+si+'" data-f="reps" style="'+rpStyle+'">';
+          html+='<button class="chk-btn'+(s.done?' done':'')+'" data-chk="'+ex.id+'" data-chkw="'+w+'" data-chksi="'+si+'" aria-label="Serie fatta">'+(s.done?'✓':'')+'</button>';
+          html+='</div>';
                 });
                 html+='</div>';
               }
               html+='<button class="add-serie-btn" data-addserie="'+ex.id+'" data-addseriew="'+w+'">+ Serie</button>';
-              html+='<div style="margin-top:8px;"><div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">💬 Nota W'+w+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+w+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog2&&wlog2.nota||'')+'</textarea></div>';
+              html+='<div style="margin-top:8px;"><div style="font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Nota W'+w+'</div><textarea class="ex-nota-inp" data-notaex="'+ex.id+'" data-notaexw="'+w+'" rows="2" placeholder="Sensazioni, tecnica...">'+(wlog2&&wlog2.nota||'')+'</textarea></div>';
               html+='<button style="margin-top:8px;width:100%;padding:9px;border-radius:10px;border:none;background:var(--bg3);color:var(--text);font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);" data-savew="'+w+'">Salva W'+w+'</button>';
             }
             html+='</div>';
@@ -2042,11 +2089,12 @@ function renderWorkout(){
     }
     html+='</div>';
   });
-  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost" id="btn-export">💾</button><button class="btn btn-ghost" id="btn-calc-open">🧮</button><button class="btn btn-ghost" id="btn-tmr-open">⏱</button><button class="btn btn-ghost" id="btn-coach">🤖</button><button class=\"btn btn-ghost\" id=\"btn-cerca\">🔍</button>'+(S.weekLogs[aw]&&S.weekLogs[aw].savedAt?'<button class="btn btn-ghost" id="btn-unsave" style="color:var(--red);border-color:rgba(255,77,106,.3);font-size:12px;flex:0.6;">✕ W'+aw+'</button>':'')+'<button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
+  html+='<div class="save-bar"><input type="file" id="import-file" accept=".json" style="display:none"><button class="btn btn-ghost sb-ic" id="btn-more" aria-label="Altro"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="19" cy="12" r="1.9"/></svg></button><button class="btn btn-ghost sb-tm" id="btn-tmr-open"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 3h6"/></svg>Timer</button><button class="btn btn-primary" id="btn-save">Salva W'+aw+'</button></div>';
   html+='</div>';
   screen.innerHTML=html;
   var ws=document.getElementById('wk-scroll');
   if(ws){ws.scrollTop=S.scrollY;}
+  if(S._scrollToEx){var _te=document.querySelector('[data-extog="'+S._scrollToEx+'"]');S._scrollToEx=null;if(_te&&ws){setTimeout(function(){ws.scrollTo({top:_te.getBoundingClientRect().top-ws.getBoundingClientRect().top+ws.scrollTop-12,behavior:'smooth'});},120);}}
   // PR search: re-attach listener and restore focus
   var prSrInput=document.getElementById('pr-search');
   if(prSrInput){
@@ -2326,8 +2374,7 @@ function buildWeight(){
   allDailyEntries.sort(function(a,b){return b.date.localeCompare(a.date);});
 
   var html='<div style="padding:18px 18px 0;">';
-  html+='<div class="eyebrow">Tracciamento Peso</div>';
-  html+=buildWeightExportPanel();
+  html+='<div class="home-title" style="margin:4px 0 6px;">Peso</div>';
   // ── DAILY WEIGHT INPUT ──────────────────────────────────────────────────
   var todayDate=new Date();
   var dayNamesLong=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
@@ -2347,7 +2394,7 @@ function buildWeight(){
   var prevEntry=allDailyEntries.filter(function(e){return e.date<todayStr;})[0];
   var todayDelta=hasTodayVal&&prevEntry?Math.round((todayVal-prevEntry.kg)*100)/100:null;
 
-  html+='<div style="margin:14px 18px 0;background:var(--bg2);border:1px solid '+(hasTodayVal?'var(--green)':'var(--accent)')+';border-radius:16px;padding:18px;position:relative;overflow:hidden;">';
+  html+='<div style="margin:12px 0 0;background:var(--bg2);border:1px solid '+(hasTodayVal?'var(--green)':'var(--border)')+';border-radius:18px;padding:18px;position:relative;overflow:hidden;">';
   // Accent strip top
   html+='<div style="position:absolute;top:0;left:0;right:0;height:3px;background:'+(hasTodayVal?'var(--green)':'var(--accent)')+';"></div>';
 
@@ -2370,7 +2417,7 @@ function buildWeight(){
 
   // Big input for today
   html+='<div style="display:flex;align-items:center;gap:10px;">';
-  html+='<input id="w-today-inp" type="number" inputmode="decimal" step="0.1" placeholder="es. 71.5" value="'+(hasTodayVal?todayVal:'')+'" style="flex:1;background:var(--bg4);border:2px solid '+(hasTodayVal?'var(--green)':'var(--border)')+';border-radius:14px;padding:16px;color:var(--text);font-size:28px;font-family:Barlow Condensed,sans-serif;letter-spacing:2px;text-align:center;outline:none;" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\''+(hasTodayVal?'var(--green)':'var(--border)')+'\'"/>';
+  html+='<input id="w-today-inp" type="number" inputmode="decimal" step="0.1" placeholder="es. 71.5" value="'+(hasTodayVal?todayVal:'')+'" style="flex:1;min-width:0;width:100%;box-sizing:border-box;background:var(--bg4);border:2px solid '+(hasTodayVal?'var(--green)':'var(--border)')+';border-radius:14px;padding:16px;color:var(--text);font-size:28px;font-family:Barlow Condensed,sans-serif;letter-spacing:2px;text-align:center;outline:none;" onfocus="this.style.borderColor=\'var(--accent)\'" onblur="this.style.borderColor=\''+(hasTodayVal?'var(--green)':'var(--border)')+'\'"/>';
   html+='<span style="font-size:18px;color:var(--muted);font-weight:600;">kg</span>';
   html+='</div>';
 
@@ -2407,7 +2454,7 @@ function buildWeight(){
   var macEditOpen=!!S.macEditOpen;
 
   // Card principale — valori attuali in grande
-  html+='<div style="margin:0 18px 12px;">';
+  html+='<div style="margin:12px 0;">';
   html+='<div style="background:var(--bg2);border:2px solid var(--border);border-radius:18px;overflow:hidden;">';
   // Header con titolo e bottone modifica
   html+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid var(--border2);">';
@@ -2489,14 +2536,14 @@ function buildWeight(){
     });
     html+='</div></div>';
   }
-  html+='<div style="height:40px"></div>';
+  html+='<div style="height:18px"></div>';
 
   // Show last entry weight prominently
   var lastEntry=allDailyEntries.length?allDailyEntries[0]:null;
   var lastKg=lastEntry?lastEntry.kg:null;
   var lastDate=lastEntry?lastEntry.dateDisp:'';
   var lastDay=lastEntry?lastEntry.dayName:'';
-  html+='<div class="big-title">⚖️ <span style="color:var(--accent)">'+(lastKg?lastKg+'<span style="font-size:24px;font-weight:400;color:var(--muted)">kg</span>':'—')+'</span></div>';
+  html+='<div style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);">Ultima pesata</div><div class="big-title" style="font-size:52px;"><span style="color:var(--text)">'+(lastKg?String(lastKg).replace('.',',')+'<span style="font-size:22px;font-weight:400;color:var(--muted)"> kg</span>':'—')+'</span></div>';
   if(lastEntry){
     var secondEntry=allDailyEntries.length>1?allDailyEntries[1]:null;
     var lastDelta=secondEntry?Math.round((lastKg-secondEntry.kg)*100)/100:null;
@@ -2548,11 +2595,11 @@ function buildWeight(){
     html+='<polygon points="'+areaFill+'" fill="rgba(255,107,53,.08)"/>';
     html+='<polyline points="'+polyLine+'" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linejoin="round"/>';
     // First and last labels
-    html+='<text x="'+pts20[0].x+'" y="'+(pts20[0].y-4)+'" fill="#EEEEF2" font-size="7" text-anchor="start">'+(pts20[0].kg)+'</text>';
-    html+='<text x="'+pts20[pts20.length-1].x+'" y="'+(pts20[pts20.length-1].y-4)+'" fill="#EEEEF2" font-size="7" text-anchor="end">'+(pts20[pts20.length-1].kg)+'</text>';
+    html+='<text x="'+pts20[0].x+'" y="'+(pts20[0].y-4)+'" fill="#EEEEF2" font-size="7" text-anchor="start">'+String(Math.round(pts20[0].kg*10)/10).replace('.',',')+'</text>';
+    html+='<text x="'+pts20[pts20.length-1].x+'" y="'+(pts20[pts20.length-1].y-4)+'" fill="#EEEEF2" font-size="7" text-anchor="end">'+String(Math.round(pts20[pts20.length-1].kg*10)/10).replace('.',',')+'</text>';
     html+='</svg>';
-    // Grid of days
-    html+='<div style="display:flex;flex-wrap:wrap;gap:4px;">';
+    // Grid of days (compresso, si apre al tocco)
+    html+='<details><summary style="font-size:13px;color:var(--muted);cursor:pointer;padding:6px 0;">Giorno per giorno</summary><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;">';
     last20.forEach(function(entry,i){
       var prev=i<last20.length-1?last20[i+1]:null;
       var dlt=prev?Math.round((entry.kg-prev.kg)*10)/10:null;
@@ -2565,8 +2612,9 @@ function buildWeight(){
       if(dlt!==null)html+='<div style="font-size:10px;color:'+col+';">'+(dlt>0?'+':'')+dlt+'</div>';
       html+='</div>';
     });
-    html+='</div></div>';
+    html+='</div></details></div>';
   }
+  html+='<div style="margin:14px 18px 0;">'+buildWeightExportPanel()+'</div>';
 
   // ── DATE RANGE SELECTOR ───────────────────────────────────────────────────
   html+='<div style="margin:14px 18px 0;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px;">';
@@ -2760,6 +2808,79 @@ function buildWeight(){
 
 
 // ─── EXERCISE PERFORMANCE LOOKUP ─────────────────────────────────────────────
+// ─── NOMI DEGLI ESERCIZI UNIFICATI ───────────────────────────────────────────
+// Chiave normalizzata: minuscole, senza accenti, punteggiatura, note tra parentesi, parole vuote; refusi corretti.
+var EX_STOP={al:1,ai:1,a:1,o:1,con:1,su:1,in:1,di:1,e:1,il:1,la:1,le:1,alle:1,allo:1,agli:1,del:1,della:1,dei:1,per:1,un:1,una:1,da:1};
+var EX_ALIAS={
+  'affondi dietro mp':'affondi dietro mp bilanciere',
+  'alzate posteriori cavo basso 90':'alzate posteriori singole cavo basso 90',
+  'french press piana':'french press manubri piana',
+  'lat maniglia singola':'lat maniglia',
+  'leg curl sdraiato':'leg curl steso',
+  'push down corda cavo alto':'push down corda',
+  'push down cavo alto':'push down',
+  'rematore tbar':'rematore tbar triangolo',
+  'shoulder press mp':'shoulder press lento avanti mp',
+  'spinte manubri fermo 2sec max stretch':'spinte manubri piana',
+  'spinte manubri piana fermo 2 max stretch':'spinte manubri piana',
+  'spinte manubri piana max fermo basso 2':'spinte manubri piana'
+};
+function exNorm(n){
+  var t=String(n||'').toLowerCase();
+  try{t=t.normalize('NFD').replace(/[\u0300-\u036f]/g,'');}catch(e){}
+  t=t.replace(/manubbri|manurbi/g,'manubri').replace(/\btrazoni\b/g,'trazioni').replace(/\bpres\b/g,'press').replace(/\bsdraito\b/g,'sdraiato')
+     .replace(/multi\s*power/g,'mp').replace(/\bt[\s-]?bar\b/g,'tbar').replace(/\blat\s+machine\b/g,'lat').replace(/\bsu\s+panca\s+piana\b/g,'su piana');
+  t=t.replace(/[^a-z0-9]+/g,' ').trim();
+  return t.split(' ').filter(function(w){return w&&!EX_STOP[w];}).join(' ');
+}
+function exKey(n){
+  var t=String(n||'').replace(/\([^)]*\)?/g,' ');
+  var k=exNorm(t);
+  return EX_ALIAS[k]||k;
+}
+function exPretty(n){return String(n||'').replace(/\s*\(.*$/,'').trim()||String(n||'');}
+function _defById(sid,gid,eid){var sc=SCHEDE[sid];if(!sc)return null;var g=sc.giorni.filter(function(x){return x.id===gid;})[0];if(!g)return null;return g.esercizi.filter(function(e){return e.id===eid;})[0]||null;}
+var _exIdx=null,_exIdxAt=0;
+function exIndex(){
+  if(_exIdx&&Date.now()-_exIdxAt<4000)return _exIdx;
+  var idx={};
+  function item(k,nome){return idx[k]||(idx[k]={key:k,nome:nome,schede:[],names:{},last:null});}
+  Object.keys(SCHEDE).sort(function(a,b){return (parseInt(a,10)||0)-(parseInt(b,10)||0);}).forEach(function(id){
+    (SCHEDE[id].giorni||[]).forEach(function(g){(g.esercizi||[]).forEach(function(e){
+      var k=exKey(e.nome);if(!k)return;var it=item(k,e.nome);it.nome=e.nome;it.names[exPretty(e.nome)]=1;if(it.schede.indexOf(id)<0)it.schede.push(id);
+    });});
+  });
+  LS.keys('pier_s').forEach(function(key){
+    var m=key.match(/^pier_s(\w+?)_g(\d+)_w(\d+)$/);if(!m)return;
+    var d=LS.get(key);if(!d||!d.savedAt||!d.esercizi)return;var ds=_sessDate(d);
+    d.esercizi.forEach(function(e){
+      var def=_defById(m[1],parseInt(m[2],10),e.id);var nome=e.nome||(def&&def.nome);if(!nome)return;
+      var k=exKey(nome);if(!k)return;var it=item(k,nome);it.names[exPretty(nome)]=1;if(it.schede.indexOf(m[1])<0)it.schede.push(m[1]);
+      var gr=kgGroups(e.serie);if(gr.length&&(!it.last||ds>it.last.date))it.last={date:ds,kg:gr[0].kg,sid:m[1],w:parseInt(m[3],10)};
+    });
+  });
+  _exIdx=idx;_exIdxAt=Date.now();return idx;
+}
+function exDisplay(key){var it=exIndex()[key];return it?exPretty(it.nome):key;}
+function _lev1(a,b){if(a===b)return true;if(Math.abs(a.length-b.length)>1)return false;var i=0,j=0,d=0;while(i<a.length&&j<b.length){if(a[i]===b[j]){i++;j++;continue;}if(++d>1)return false;if(a.length>b.length)i++;else if(b.length>a.length)j++;else{i++;j++;}}return d+(a.length-i)+(b.length-j)<=1;}
+// Punteggio di ricerca: ogni parola cercata deve trovare una parola del nome (inizio parola, o con un errore di battitura)
+function exScore(it,q){
+  var qt=exNorm(q).split(' ').filter(Boolean);if(!qt.length)return 1;
+  var kt=(it.key+' '+exNorm(Object.keys(it.names||{}).join(' '))).split(' ');
+  var sc=0;
+  for(var i=0;i<qt.length;i++){
+    var w=qt[i],best=0;
+    for(var j=0;j<kt.length;j++){var t=kt[j];if(!t)continue;
+      if(t===w){best=3;break;}
+      if(t.indexOf(w)===0)best=Math.max(best,2);
+      else if(w.length>=4&&_lev1(w,t.slice(0,w.length)))best=Math.max(best,1);
+      else if(w.length>=4&&_lev1(w,t))best=Math.max(best,1);
+    }
+    if(!best)return 0;sc+=best;
+  }
+  return sc;
+}
+
 function getExPerf(exName){
   var allKeys=LS.keys('pier_s').filter(function(k){return /pier_s\w+_g\d+_w\d+/.test(k);});
   var results={};
@@ -2769,9 +2890,7 @@ function getExPerf(exName){
     var d=LS.get(k);if(!d||!d.esercizi)return;
     d.esercizi.forEach(function(ex){
       if(!ex.nome)return;
-      var n1=ex.nome.toLowerCase().replace(/[^a-z0-9]/g,'');
-      var n2=exName.toLowerCase().replace(/[^a-z0-9]/g,'');
-      if(n1.indexOf(n2)<0&&n2.indexOf(n1)<0)return;
+      if(exKey(ex.nome)!==exKey(exName))return;
       if(!results[sid])results[sid]={nome:'Scheda #'+sid};
       if(!results[sid][gid])results[sid][gid]={};
       if(ex.serie&&ex.serie.length){
@@ -2807,7 +2926,7 @@ function getAllExData(){
       if(!ex.nome||!ex.serie||!ex.serie.length)return;
       var bk=getBestKg(ex.serie);
       if(!bk)return;
-      var nome=ex.nome;
+      var _it=exIndex()[exKey(ex.nome)];var nome=_it?exPretty(_it.nome):ex.nome;
       if(!exMap[nome])exMap[nome]=[];
       exMap[nome].push({sid:sid,schedaNome:sc?sc.nome:'Scheda #'+sid,giornoNome:gObj?gObj.nome:'G'+m[2],w:wnum,serie:ex.serie,bestKg:bk});
     });
@@ -2815,14 +2934,9 @@ function getAllExData(){
   return exMap;
 }
 function searchEx(exMap,q){
-  if(!q||q.length<2)return [];
-  var ql=q.toLowerCase();
-  return Object.keys(exMap).filter(function(n){return n.toLowerCase().indexOf(ql)>=0;}).sort(function(a,b){
-    var al=a.toLowerCase(),bl=b.toLowerCase();
-    var as=al===ql?0:al.indexOf(ql)===0?1:2;
-    var bs=bl===ql?0:bl.indexOf(ql)===0?1:2;
-    return as-bs||a.localeCompare(b);
-  });
+  if(!q||q.trim().length<2)return [];
+  return Object.keys(exMap).map(function(n){return{n:n,s:exScore({key:exKey(n),names:{}},q)};}).filter(function(x){return x.s>0;})
+    .sort(function(a,b){return b.s-a.s||a.n.localeCompare(b.n);}).map(function(x){return x.n;});
 }
 
 
@@ -3680,7 +3794,7 @@ function buildSchedaCompleta(){
           // Delta KG
           if(kgChanged){
             var delta=Math.abs(kgList[0]-(parseFloat(prevKgKey.split('-')[0])||0));
-            html+='<span style="font-size:10px;font-weight:700;color:'+(kgUp?'var(--green)':'var(--red)')+'">'+(kgUp?'+':'-')+delta+'</span>';
+            html+='<span style="font-size:10px;font-weight:700;color:'+(kgUp?'var(--green)':'var(--red)')+'">'+(kgUp?'▲ ':'▼ ')+String(delta).replace('.',',')+'</span>';
           }
 
           // Nota
@@ -3790,58 +3904,52 @@ function exportPDFCoach(mode){
 // ─── MODAL ────────────────────────────────────────────────────────────────────
 // ─── CERCA STORICO ────────────────────────────────────
 function buildCercaListHTML(q){
-  var allEx={};
-  Object.values(SCHEDE).forEach(function(sc){sc.giorni.forEach(function(g){g.esercizi.forEach(function(e){allEx[e.nome]=true;});});});
-  var names=Object.keys(allEx).sort();
-  if(q&&q.trim()){var ql=q.trim().toLowerCase();names=names.filter(function(n){return n.toLowerCase().indexOf(ql)!==-1;});}
-  if(!names.length)return '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Nessun esercizio trovato</div>';
-  return names.map(function(n){
-    return '<div data-cercanome="'+encodeURIComponent(n)+'" style="padding:13px 6px;border-bottom:1px solid var(--border);cursor:pointer;font-size:14px;font-weight:500;display:flex;align-items:center;justify-content:space-between;">'+htmlEsc(n)+'<span style="color:var(--muted);font-size:18px;">›</span></div>';
+  var idx=exIndex();var items=Object.keys(idx).map(function(k){return idx[k];});
+  if(q&&q.trim()){
+    items=items.map(function(it){return{it:it,s:exScore(it,q)};}).filter(function(x){return x.s>0;})
+      .sort(function(a,b){return b.s-a.s||exPretty(a.it.nome).localeCompare(exPretty(b.it.nome));}).map(function(x){return x.it;});
+  }else items.sort(function(a,b){return exPretty(a.nome).localeCompare(exPretty(b.nome));});
+  if(!items.length)return '<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;">Nessun esercizio trovato</div>';
+  return '<div class="cx-count">'+items.length+' esercizi</div>'+items.map(function(it){
+    var sch=it.schede.slice().sort(function(a,b){return (parseInt(a,10)||0)-(parseInt(b,10)||0);}).map(function(x){return '#'+x;}).join(' · ');
+    var alts=Object.keys(it.names).filter(function(n){return exKey(n)===it.key&&n.toLowerCase()!==exPretty(it.nome).toLowerCase();});
+    var uniq={};alts=alts.filter(function(n){var l=n.toLowerCase();if(uniq[l])return false;uniq[l]=1;return true;});
+    return '<button class="cx-row" data-cercanome="'+encodeURIComponent(it.key)+'"><span class="cx-n">'+htmlEsc(exPretty(it.nome))+'</span>'
+      +'<span class="cx-s">Schede '+sch+(it.last?' · ultimo '+htmlEsc(_kgTxt(it.last.kg))+' kg':'')+'</span>'
+      +(alts.length?'<span class="cx-alias">anche: '+htmlEsc(alts.slice(0,3).join(' · '))+'</span>':'')+'</button>';
   }).join('');
 }
-function buildCercaHistory(nome){
-  var allKeys=LS.keys('pier_s').filter(function(k){return /pier_s\w+_g\d+_w\d+/.test(k);});
-  var byScheda={};
-  allKeys.forEach(function(k){
-    var m=k.match(/pier_s(\w+)_g(\d+)_w(\d+)/);if(!m)return;
-    var sid=m[1],gid=parseInt(m[2]),wk=parseInt(m[3]);
+function buildCercaHistory(key){
+  var rows={};
+  LS.keys('pier_s').forEach(function(k){
+    var m=k.match(/^pier_s(\w+?)_g(\d+)_w(\d+)$/);if(!m)return;
+    var sid=m[1],gid=parseInt(m[2],10),wk=parseInt(m[3],10);
     var data=LS.get(k);if(!data||!data.esercizi)return;
     data.esercizi.forEach(function(ex){
-      if(!ex||!ex.nome||ex.nome.toLowerCase()!==nome.toLowerCase())return;
-      if(!ex.serie||!ex.serie.some(function(s){return s&&s.reps;}))return;
-      var sc=SCHEDE[sid];
-      var giorno=sc?sc.giorni.filter(function(g){return g.id===gid;})[0]:null;
-      var exDef=giorno?giorno.esercizi.filter(function(e){return e.nome===ex.nome;})[0]:null;
-      var prescr=exDef?(exDef.noteW&&exDef.noteW[wk]?exDef.noteW[wk]:exDef.note):'';
-      if(!byScheda[sid])byScheda[sid]={};
-      byScheda[sid][wk]={prescr:prescr,serie:ex.serie};
+      var def=_defById(sid,gid,ex.id);var nome=ex.nome||(def&&def.nome);
+      if(!nome||exKey(nome)!==key)return;
+      if(!ex.serie||!ex.serie.some(function(s){return s&&(s.reps||s.kg);}))return;
+      var gk=sid+'|'+gid;if(!rows[gk])rows[gk]={sid:sid,gid:gid,weeks:{}};
+      rows[gk].weeks[wk]={prescr:def?prescrFor(def,wk):'',serie:ex.serie,date:data.savedAt?_sessDate(data):''};
     });
   });
-  return byScheda;
+  return rows;
 }
-function buildCercaHistoryHTML(nome){
-  var history=buildCercaHistory(nome);
-  var sids=Object.keys(history).sort(function(a,b){return parseInt(a)-parseInt(b);});
-  if(!sids.length)return '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Nessun dato registrato</div>';
+function buildCercaHistoryHTML(key){
+  var rows=buildCercaHistory(key);
+  var ks=Object.keys(rows).sort(function(a,b){var A=rows[a],B=rows[b];return (parseInt(B.sid,10)||0)-(parseInt(A.sid,10)||0)||A.gid-B.gid;});
+  if(!ks.length)return '<div style="text-align:center;padding:32px;color:var(--muted);font-size:13px;">Nessun dato registrato</div>';
   var html='';
-  sids.forEach(function(sid){
-    var sc=SCHEDE[sid];var scNome=sc?sc.nome:'Scheda #'+sid;var scCol=sc?sc.colore:'var(--accent)';
-    var weeks=history[sid];
-    var wNums=Object.keys(weeks).map(Number).sort(function(a,b){return a-b;});
-    html+='<div style="margin-bottom:18px;">';
-    html+='<div style="font-size:12px;font-weight:700;color:'+scCol+';padding:7px 10px;background:'+scCol+'22;border-radius:8px;border-left:3px solid '+scCol+';margin-bottom:2px;">📋 '+htmlEsc(scNome)+'</div>';
-    wNums.forEach(function(wk){
-      var wd=weeks[wk];var serie=wd.serie;var firstKg='';var repsArr=[];
-      serie.forEach(function(s){if(s&&!firstKg&&s.kg)firstKg=s.kg;if(s&&s.reps)repsArr.push(s.reps);});
-      if(!repsArr.length)return;
-      html+='<div style="display:grid;grid-template-columns:30px 55px 1fr auto;gap:4px 8px;align-items:baseline;padding:8px 10px;border-bottom:1px solid var(--border);">';
-      html+='<span style="color:var(--accent);font-size:12px;font-weight:700;">W'+wk+'</span>';
-      html+='<span style="font-size:13px;color:var(--text);">'+(firstKg?firstKg+'kg':'—')+'</span>';
-      html+='<span style="font-size:14px;font-weight:700;color:var(--text);letter-spacing:1px;">'+repsArr.join(' ')+'</span>';
-      html+='<span style="font-size:10px;color:var(--muted);text-align:right;">'+(wd.prescr?htmlEsc(wd.prescr):'')+'</span>';
-      html+='</div>';
+  ks.forEach(function(k){
+    var r=rows[k],sc=SCHEDE[r.sid],g=sc?sc.giorni.filter(function(x){return x.id===r.gid;})[0]:null;
+    var col=g?g.colore:'var(--accent)';
+    html+='<div class="cx-sec"><i style="background:'+col+'"></i>Scheda #'+htmlEsc(r.sid)+' · G'+r.gid+(g?' · '+htmlEsc(g.nome):'')+'</div>';
+    Object.keys(r.weeks).map(Number).sort(function(a,b){return a-b;}).forEach(function(wk){
+      var wd=r.weeks[wk];
+      html+='<button class="cx-w" data-sess="'+htmlEsc(r.sid)+'|'+r.gid+'|'+wk+'"><span class="wl">W'+wk+'</span>';
+      html+='<span class="pr">'+(wd.date?_shortDate(wd.date)+' · ':'')+htmlEsc(prettyPrescr(wd.prescr)||'')+'</span>';
+      html+='<span class="kv">'+kgGroups(wd.serie).map(function(gr){return '<b>'+htmlEsc(_kgTxt(gr.kg))+'</b> <span>'+htmlEsc(gr.reps.join('·'))+'</span>';}).join('')+'</span></button>';
     });
-    html+='</div>';
   });
   return html;
 }
@@ -3853,14 +3961,14 @@ function renderModal(){
   if(S.cercaOpen){
     var cHtml='<div class="perf-wrap" id="cerca-overlay"><div class="perf-sheet" style="height:88vh;display:flex;flex-direction:column;">';
     cHtml+='<div class="perf-handle"></div>';
-    cHtml+='<div class="perf-hdr"><div class="perf-ttl">🔍 Cerca Esercizio</div><button class="perf-x" id="cerca-close">✕</button></div>';
+    cHtml+='<div class="perf-hdr"><div class="perf-ttl">Cerca esercizio</div><button class="perf-x" id="cerca-close">✕</button></div>';
     if(!S.cercaEx){
-      cHtml+='<input id="cerca-input" type="text" autocomplete="off" placeholder="Es. Panca Piana…" value="'+htmlEsc(S.cercaQ)+'" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:15px;box-sizing:border-box;margin-bottom:10px;font-family:DM Sans,sans-serif;">';
+      cHtml+='<input id="cerca-input" type="text" autocomplete="off" placeholder="Es. curl panca 30, lat triangolo…" value="'+htmlEsc(S.cercaQ)+'" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:15px;box-sizing:border-box;margin-bottom:10px;font-family:DM Sans,sans-serif;">';
       cHtml+='<div id="cerca-list" style="overflow-y:auto;flex:1;">'+buildCercaListHTML(S.cercaQ)+'</div>';
     }else{
       cHtml+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">';
       cHtml+='<button id="cerca-back" style="background:none;border:none;color:var(--accent);font-size:14px;cursor:pointer;padding:0;">← Indietro</button>';
-      cHtml+='<div style="flex:1;font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+htmlEsc(S.cercaEx)+'</div>';
+      cHtml+='<div style="flex:1;font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+htmlEsc(exDisplay(S.cercaEx))+'</div>';
       cHtml+='</div>';
       cHtml+='<div style="overflow-y:auto;flex:1;">'+buildCercaHistoryHTML(S.cercaEx)+'</div>';
     }
@@ -3886,6 +3994,7 @@ function renderModal(){
       html+='</div>';
     });
     html+='<button id="btn-new-scheda" style="width:100%;margin-top:10px;padding:12px;border-radius:11px;border:1px dashed var(--accent);background:rgba(255,107,53,.06);color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;">＋ Crea nuova scheda</button>';
+    html+='<button id="btn-import-scheda" style="width:100%;margin-top:8px;padding:12px;border-radius:11px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;">Importa scheda da Excel</button>';
     html+='</div></div>';
     m.innerHTML=html;return;
   }
@@ -4137,54 +4246,18 @@ function renderModal(){
         var isSaved=!!(S.weekLogs[w]&&S.weekLogs[w].savedAt);
         var isActive=(w===S.activeWeek);
 
-        // Prescrizione settimana (mostra solo la nota della settimana corrente)
-        var baseNote=ex.note||'';
-        var weekNote=ex.noteW&&ex.noteW[w]?ex.noteW[w]:'';
-        var prescr=weekNote?weekNote.replace(/^⚠️\s*/,''):baseNote;
-        var prescrChanged=(prevPrescr!==''&&prescr!==prevPrescr);
-
-        // Dati kg+reps -> stringa inline "30kg 7 6 6  |  24kg 13"
-        // Solo per settimane effettivamente salvate
-        var kgGroups={};
-        if(isSaved&&wl&&wl.serie){
-          wl.serie.forEach(function(s){
-            if(!s.done)return; // solo serie completate
-            var kg=s.kg||'?';
-            if(!kgGroups[kg])kgGroups[kg]=[];
-            if(s.reps)kgGroups[kg].push(s.reps);
-          });
+        var prescr=prescrFor(ex,w);
+        var prescrChanged=(w>1&&normPrescr(prescr)!==normPrescr(prescrFor(ex,w-1)));
+        var _grp=(isSaved&&wl)?kgGroups((wl.serie||[]).filter(function(x){return x.done||x.kg||x.reps;})):[];
+        var _wc=isActive?col2:(prescrChanged?'var(--yellow)':'var(--muted)');
+        html+='<div style="padding:9px 18px;border-left:3px solid '+(isActive?col2:prescrChanged?'var(--yellow)':'transparent')+';background:'+(isActive?col2+'14':'transparent')+';">';
+        html+='<div style="display:flex;align-items:baseline;gap:10px;"><span style="font-family:Barlow Condensed,sans-serif;font-size:16px;font-weight:700;min-width:28px;color:'+_wc+';">W'+w+'</span><span style="font-size:13px;color:'+(prescrChanged?'var(--yellow)':'#C4C4D2')+';">'+htmlEsc(prettyPrescr(prescr))+'</span></div>';
+        if(_grp.length){
+          html+='<div style="margin:4px 0 0 38px;display:flex;flex-wrap:wrap;gap:4px 14px;">'+_grp.map(function(gr){return '<span><b style="font-family:Barlow Condensed,sans-serif;font-size:18px;">'+htmlEsc(_kgTxt(gr.kg))+'</b><span style="font-size:11px;color:var(--muted);"> kg </span><span style="font-size:14px;color:#C4C4D2;">'+htmlEsc(gr.reps.join('·'))+'</span></span>';}).join('');
+          var _pmGym=S.weekLogs[w]&&S.weekLogs[w].gym;if(_pmGym)html+='<span style="font-size:11px;color:var(--muted);">'+htmlEsc(_pmGym)+'</span>';
+          html+='</div>';
         }
-        var kgSorted=Object.keys(kgGroups).map(parseFloat).filter(Boolean).sort(function(a,b){return b-a;});
-        var hasData=kgSorted.length>0;
-
-        // Componi stringa dati
-        var dataStr='';
-        if(hasData){
-          dataStr=kgSorted.map(function(kg){
-            var reps=kgGroups[String(kg)]||kgGroups[kg]||[];
-            return kg+'kg '+(reps.join(' ')||'');
-          }).join('  |  ');
-        }
-
-        // Colori riga - mostra TUTTE le settimane W1-W7
-        var rowBg2=isActive?'rgba(255,107,53,.10)':prescrChanged?'rgba(255,208,96,.06)':'';
-        var borderCol=isActive?'var(--accent)':prescrChanged?'var(--yellow)':isSaved?col2+'50':'transparent';
-        var wLabelCol=isActive?'var(--accent)':isSaved?'var(--green)':'var(--muted2)';
-        var prescrCol=isSaved?(prescrChanged?'var(--yellow)':col2):'var(--muted)';
-        html+='<div style="display:flex;align-items:baseline;gap:0;padding:7px 18px;background:'+rowBg2+';border-left:3px solid '+borderCol+';white-space:nowrap;overflow:hidden;">';
-        html+='<span style="font-family:Barlow Condensed,sans-serif;font-size:13px;min-width:26px;color:'+wLabelCol+';">W'+w+'</span>';
-        html+='<span style="font-family:Barlow Condensed,sans-serif;font-size:14px;color:'+prescrCol+';min-width:80px;">'+htmlEsc(prescr)+'</span>';
-        if(isSaved&&hasData){
-          html+='<span style="color:var(--muted2);margin:0 6px;font-size:11px;">·</span>';
-          html+='<span style="font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;">'+htmlEsc(dataStr)+'</span>';
-          var _pmGym=S.weekLogs[w]&&S.weekLogs[w].gym;
-          if(_pmGym)html+='<span style="font-size:10px;color:var(--muted2);margin-left:6px;flex-shrink:0;">🏋️ '+htmlEsc(_pmGym)+'</span>';
-        }
-
-        html+='</div>';
-        // linea sottile tra righe
-        html+='<div style="height:1px;background:var(--border2);margin:0 18px;"></div>';
-
+        html+='</div><div style="height:1px;background:var(--border2);margin:0 18px;"></div>';
         prevPrescr=prescr;
       }
       html+='</div></div></div>';
@@ -4530,9 +4603,12 @@ function exportLogbookCompleto(){
 // ─── EVENTS ───────────────────────────────────────────────────────────────────
 document.addEventListener('click',function(e){
   // nav
-  var nav=e.target.closest('[data-nav]');if(nav){S.tab=nav.dataset.nav;S.giorno=null;render();return;}
+  var nav=e.target.closest('[data-nav]');if(nav){if(S.giorno){var _ws=document.getElementById('wk-scroll');if(_ws)S.scrollY=_ws.scrollTop;saveDraft();stopAutoSave();S.sessHold={sid:S.schedaId,giorno:S.giorno,aw:S.activeWeek,logs:S.weekLogs,openEx:S.openExId,scrollY:S.scrollY};S.giorno=null;}S.tab=nav.dataset.nav;render();var _sc=document.getElementById('screen');if(_sc)_sc.scrollTop=0;return;}
+  if(e.target.closest('#sess-resume')&&S.sessHold){var _r=S.sessHold;S.sessHold=null;S.schedaId=_r.sid;S.giorno=_r.giorno;S.activeWeek=_r.aw;S.weekLogs=_r.logs;S.openExId=_r.openEx;S.scrollY=_r.scrollY||0;startAutoSave();render();return;}
   // day card
-  var dc=e.target.closest('[data-day]');if(dc){var gid=parseInt(dc.dataset.day);var sc=SCHEDE[S.schedaId];var g=sc.giorni.filter(function(x){return x.id===gid;})[0];if(g){S.giorno=g;S.activeWeek=autoDetectWeek(g.id);S.weekLogs=loadAllWeeks(g.id);S.openExId=null;S.openWeeks={};S.openAllWeeks={};S.openWeeksEdit={};S.aiMsgs=[];S.scrollY=0;
+  var dc=e.target.closest('[data-day]');if(dc&&S.sessHold&&S.sessHold.sid===S.schedaId&&S.sessHold.giorno.id===parseInt(dc.dataset.day)){var _r2=S.sessHold;S.sessHold=null;S.giorno=_r2.giorno;S.activeWeek=_r2.aw;S.weekLogs=_r2.logs;S.openExId=_r2.openEx;S.scrollY=_r2.scrollY||0;startAutoSave();render();return;}
+  if(dc)S.sessHold=null;
+  if(dc){var gid=parseInt(dc.dataset.day);var sc=SCHEDE[S.schedaId];var g=sc.giorni.filter(function(x){return x.id===gid;})[0];if(g){S.giorno=g;S.activeWeek=autoDetectWeek(g.id);S.weekLogs=loadAllWeeks(g.id);S.openExId=null;S.openWeeks={};S.openAllWeeks={};S.openWeeksEdit={};S.aiMsgs=[];S.scrollY=0;
     // Check for auto-saved draft
     var draft=loadDraft(S.schedaId,g.id);
     if(draft&&draft.weekLogs){
@@ -4543,7 +4619,7 @@ document.addEventListener('click',function(e){
     }
     startAutoSave();render();}return;}
   // back
-  if(e.target.closest('#back-btn')){saveDraft();stopAutoSave();S.giorno=null;if(S._retScheda){S.schedaId=S._retScheda;S._retScheda=null;}render();return;}
+  if(e.target.closest('#back-btn')){saveDraft();stopAutoSave();S.giorno=null;S.sessHold=null;if(S._retScheda){S.schedaId=S._retScheda;S._retScheda=null;}render();return;}
   // week nav
   if(e.target.closest('#aw-prev')){if(S.activeWeek>1){S.activeWeek--;var ws=document.getElementById('wk-scroll');if(ws)S.scrollY=ws.scrollTop;renderWorkout();renderModal();}return;}
   if(e.target.closest('#aw-next')){if(S.activeWeek<SCHEDE[S.schedaId].settimane){S.activeWeek++;var ws=document.getElementById('wk-scroll');if(ws)S.scrollY=ws.scrollTop;renderWorkout();renderModal();}return;}
@@ -4575,13 +4651,16 @@ document.addEventListener('click',function(e){
   var cb=e.target.closest('[data-chk]');if(cb){
     var exId=cb.dataset.chk,w=parseInt(cb.dataset.chkw),si=parseInt(cb.dataset.chksi);
     var exl=S.weekLogs[w]&&S.weekLogs[w].esercizi.filter(function(e2){return e2.id===exId;})[0];
-    if(exl){exl.serie[si].done=!exl.serie[si].done;if(exl.serie[si].done){var exPref=getExTimerPref(exId);timerStart(exPref);S.showTimer=true;}}
+    if(exl){exl.serie[si].done=!exl.serie[si].done;if(exl.serie[si].done){var exPref=getExTimerPref(exId);timerStart(exPref);S.showTimer=true;try{if(navigator.vibrate)navigator.vibrate(12);}catch(_v){}
+      if(w===S.activeWeek&&exl.serie.every(function(x){return x.done;})&&S.giorno){var _ids=S.giorno.esercizi.map(function(x){return x.id;});var _pos=_ids.indexOf(exId);
+        for(var _q=_pos+1;_q<_ids.length;_q++){var _nl=S.weekLogs[w].esercizi.filter(function(x){return x.id===_ids[_q];})[0];if(!_nl||!_nl.serie.every(function(x){return x.done;})){S.openExId=_ids[_q];S._scrollToEx=_ids[_q];break;}}}}}
     var ws=document.getElementById('wk-scroll');if(ws)S.scrollY=ws.scrollTop;
     renderWorkout();renderModal();return;
   }
   // delete serie
   var ds=e.target.closest('[data-delserie]');if(ds){
     var exId3=ds.dataset.delserie,w3=parseInt(ds.dataset.delseriew),si3=parseInt(ds.dataset.delsi);
+    if(!confirm('Eliminare la serie '+(si3+1)+'?'))return;
     var exl3=S.weekLogs[w3]&&S.weekLogs[w3].esercizi.filter(function(e2){return e2.id===exId3;})[0];
     if(exl3&&exl3.serie.length>1){exl3.serie.splice(si3,1);}
     var ws=document.getElementById('wk-scroll');if(ws)S.scrollY=ws.scrollTop;
@@ -4660,7 +4739,7 @@ document.addEventListener('click',function(e){
         var twk=getISOWeekKey(td);
         var tdi=(td.getDay()+6)%7; // 0=Mon..6=Sun
         saveWeightDay(twk,tdi,v);
-        S.tab='weight';render();
+        render();
       } else if(inp.value===''){
         // Clear today
         var td=new Date();
@@ -4696,7 +4775,7 @@ document.addEventListener('click',function(e){
   // esercizi filter
   // scheda completa day filter
   var sdt=e.target.closest('[data-schedaday]');if(sdt){S.schedaDay=parseInt(sdt.dataset.schedaday)||0;render();return;}
-  if(e.target.closest('#btn-import-scheda')){S.showImport=true;renderModal();return;}
+  if(e.target.closest('#btn-import-scheda')){S.showSchedaPicker=false;S.showImport=true;renderModal();return;}
   if(e.target.closest('#import-modal-close')){S.showImport=false;renderModal();return;}
   if(e.target.id==='import-overlay'){S.showImport=false;renderModal();return;}
   // exercise suggest
@@ -4833,7 +4912,7 @@ document.addEventListener('focusout',function(e){
 (function(){var D={"pier_s25_g1_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532451","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"12","reps":"13","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"12","done":true},{"kg":"6","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"16","reps":"8","done":true},{"kg":"16","reps":"7","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"12","done":true}]}]},"pier_s25_g1_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532820","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12","reps":"9","done":true},{"kg":"14 12","reps":"8","done":true},{"kg":"14 12","reps":"14","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"13","done":true},{"kg":"6","reps":"12,5","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"+","done":true},{"kg":"14","reps":"TUT","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"14","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"14","reps":"14","done":true},{"kg":"14","reps":"12","done":true}]}]},"pier_s25_g1_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.532953","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12","reps":"9","done":true},{"kg":"14 12","reps":"8,5","done":true},{"kg":"14 12","reps":"15","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"6","reps":"13","done":true},{"kg":"6","reps":"14","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"8,5","done":true},{"kg":"12","reps":"12","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"15","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"11","done":true}]}]},"pier_s25_g1_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533062","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"6","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"14","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"12","done":true},{"kg":"7","reps":"11","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"9","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"14","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"10","done":true}]}]},"pier_s25_g1_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533129","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"777","done":true},{"kg":"25","reps":"10","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 - 12","reps":"99","done":true},{"kg":"14 - 12","reps":"-","done":true},{"kg":"14 - 12","reps":"15","done":true},{"kg":"14 - 12","reps":"11","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"12","done":true},{"kg":"7","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14 - 12","reps":"10","done":true},{"kg":"14 - 12","reps":"9","done":true},{"kg":"14 - 12","reps":"-","done":true},{"kg":"14 - 12","reps":"12","done":true},{"kg":"14 - 12","reps":"12","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"7","done":true},{"kg":"16","reps":"12","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"-","done":true},{"kg":"16","reps":"11-","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"12","done":true},{"kg":"16","reps":"12","done":true}]}]},"pier_s25_g1_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533219","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"16","done":true},{"kg":"12","reps":"13","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7","reps":"13","done":true},{"kg":"7","reps":"13","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"11","done":true},{"kg":"12","reps":"13","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"8","done":true},{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"12","done":true}]}]},"pier_s25_g1_w7":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.533281","esercizi":[{"id":"g1e1","nome":"SPINTE IN ALTO MANUBRI SEDUTO","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7,5","done":true},{"kg":"25","reps":"14","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g1e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"15","reps":"8","done":true},{"kg":"15","reps":"8","done":true},{"kg":"12,5","reps":"14","done":true},{"kg":"12,5","reps":"12","done":true}]},{"id":"g1e3","nome":"ALZATE A Y SU PANCA 30°","nota":"","serie":[{"kg":"7,5","reps":"12","done":true},{"kg":"7,5","reps":"12","done":true}]},{"id":"g1e4","nome":"ALZATE LATERALI AL CAVO MEDIO","nota":"","serie":[{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"12","done":true},{"kg":"12","reps":"11","done":true}]},{"id":"g1e5","nome":"CURL MANUBRI IN PIEDI","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"9","done":true},{"kg":"16","reps":"14","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e6","nome":"CURL MANUBRI SU PANCA 30° GOMITI AVANZATI","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g1e7","nome":"CURL MANUBRI SU PANCA 45°","nota":"","serie":[{"kg":"16","reps":"13","done":true},{"kg":"16","reps":"13","done":true}]}]},"pier_s25_g2_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547109","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"82","reps":"6","done":true},{"kg":"82","reps":"6","done":true},{"kg":"82","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"6","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"7","done":true},{"kg":"30","reps":"7","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"9","done":true},{"kg":"60","reps":"8","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"8","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"9","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"10","done":true},{"kg":"55","reps":"10","done":true},{"kg":"35","reps":"12","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"50","reps":"10","done":true},{"kg":"50","reps":"9","done":true}]}]},"pier_s25_g2_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547277","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"7","done":true},{"kg":"34","reps":"7","done":true},{"kg":"34","reps":"ok","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"7","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"54","reps":"9","done":true},{"kg":"54","reps":"9","done":true},{"kg":"45","reps":"13","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"11","done":true},{"kg":"66","reps":"8","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"35","reps":"10","done":true},{"kg":"35","reps":"10","done":true},{"kg":"35","reps":"13","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"24","reps":"10","done":true},{"kg":"24","reps":"9","done":true}]}]},"pier_s25_g2_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547369","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"8","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"10","done":true},{"kg":"60","reps":"9","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8,5","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"8","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"11","done":true},{"kg":"35","reps":"17","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"59","reps":"","done":true}]}]},"pier_s25_g2_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547585","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"80","reps":"7","done":true},{"kg":"80","reps":"7","done":true},{"kg":"80","reps":"6","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"8","done":true},{"kg":"34","reps":"7","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"9","done":true},{"kg":"30","reps":"8","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"9","done":true},{"kg":"63","reps":"9","done":true},{"kg":"54","reps":"12","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"8,5","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"9","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"50","reps":"10","done":true},{"kg":"50","reps":"10","done":true},{"kg":"40","reps":"12","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[]}]},"pier_s25_g2_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547700","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"3","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"34","reps":"987","done":true},{"kg":"28","reps":"11","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"88","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"1010","done":true},{"kg":"54","reps":"13","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"77","reps":"88","done":true},{"kg":"68","reps":"9","done":true},{"kg":"68","reps":"8","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"10","done":true},{"kg":"66","reps":"10","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"10","done":true},{"kg":"45","reps":"9","done":true},{"kg":"45","reps":"8","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"29","reps":"","done":true}]}]},"pier_s25_g2_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.547784","esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true},{"kg":"85","reps":"4","done":true}]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[{"kg":"36","reps":"7","done":true},{"kg":"36","reps":"7","done":true},{"kg":"36","reps":"7","done":true},{"kg":"28","reps":"13","done":true}]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[{"kg":"30","reps":"87","done":true}]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"10","done":true},{"kg":"65","reps":"9","done":true},{"kg":"56","reps":"10","done":true}]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"77","reps":"9","done":true},{"kg":"77","reps":"7,5","done":true},{"kg":"68","reps":"11","done":true},{"kg":"68","reps":"8","done":true}]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[{"kg":"66","reps":"11","done":true},{"kg":"66","reps":"10","done":true}]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[{"kg":"55","reps":"11","done":true},{"kg":"55","reps":"11","done":true},{"kg":"45","reps":"11","done":true},{"kg":"45","reps":"10","done":true}]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[{"kg":"","reps":"10","done":true}]}]},"pier_s25_g2_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g2e1","nome":"PANCA PIANA","nota":"","serie":[]},{"id":"g2e2","nome":"SPINTE MANUBRI SU PIANA","nota":"","serie":[]},{"id":"g2e3","nome":"SPINTE MANUBRI SU PIANA CON FERMO 2\" IN MAX STRETCH","nota":"","serie":[]},{"id":"g2e4","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g2e5","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g2e6","nome":"LAT MACHINE PRESA LARGA","nota":"","serie":[]},{"id":"g2e7","nome":"REMATORE TBAR TRIANGOLO","nota":"","serie":[]},{"id":"g2e8","nome":"PULL OVER CON CORDA AL CAVO ALTO (RICERCA MAX ALLUNGAMENTO IN ECCENTRICA)","nota":"","serie":[]}]},"pier_s25_g3_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562176","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"180","reps":"7","done":true},{"kg":"180","reps":"7","done":true},{"kg":"180","reps":"7","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"12","reps":"10","done":true},{"kg":"12","reps":"10","done":true},{"kg":"12","reps":"10","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"104","reps":"8","done":true},{"kg":"104","reps":"8","done":true},{"kg":"86","reps":"12","done":true},{"kg":"68","reps":"9","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"50","reps":"12","done":true},{"kg":"50","reps":"12","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"11","done":true},{"kg":"31","reps":"10","done":true},{"kg":"24","reps":"15","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"8","done":true},{"kg":"27","reps":"8","done":true},{"kg":"22","reps":"13","done":true},{"kg":"22","reps":"11","done":true},{"kg":"22","reps":"10","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562480","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"7","done":true},{"kg":"200","reps":"7","done":true},{"kg":"200","reps":"7","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"11","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"104","reps":"9","done":true},{"kg":"104","reps":"8","done":true},{"kg":"86","reps":"13","done":true},{"kg":"68","reps":"12","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"24","reps":"10","done":true},{"kg":"24","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"11","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"31","reps":"8","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562611","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"8","done":true},{"kg":"200","reps":"8","done":true},{"kg":"200","reps":"8","done":true}]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"60","reps":"8","done":true},{"kg":"60","reps":"8","done":true},{"kg":"50","reps":"10","done":true},{"kg":"40","reps":"13","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[{"kg":"24","reps":"11","done":true},{"kg":"24","reps":"10","done":true}]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"12","done":true}]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"12","done":true},{"kg":"31","reps":"12","done":true},{"kg":"27","reps":"15","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[{"kg":"13","reps":"12","done":true}]}]},"pier_s25_g3_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562769","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"8","done":true},{"kg":"117","reps":"7","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"59","reps":"12","done":true},{"kg":"54","reps":"","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"","done":true},{"kg":"25","reps":"","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562873","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"8889","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"10","done":true},{"kg":"30","reps":"11","done":true},{"kg":"25","reps":"18","done":true},{"kg":"25","reps":"14","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"3025","reps":"9","done":true},{"kg":"3025","reps":"9","done":true},{"kg":"3025","reps":"12","done":true},{"kg":"3025","reps":"11","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true}]}]},"pier_s25_g3_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.562963","esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[{"kg":"117","reps":"","done":true}]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"30","reps":"11","done":true},{"kg":"30","reps":"11","done":true},{"kg":"27","reps":"14","done":true},{"kg":"27","reps":"10","done":true}]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"32","reps":"8","done":true},{"kg":"27","reps":"","done":true}]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g3_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g3e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g3e2","nome":"AFFONDO BULGARO","nota":"","serie":[]},{"id":"g3e3","nome":"LEG EXTENSION (SPOSTA IL SELLINO TUTTO INDIETRO)","nota":"","serie":[]},{"id":"g3e4","nome":"STACCO RUMENO MANUBRI","nota":"","serie":[]},{"id":"g3e5","nome":"LEG CURL STESO","nota":"","serie":[]},{"id":"g3e6","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g3e7","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]},{"id":"g3e8","nome":"KICKBACK CAVO ALTO SINGOLO BUSTO INCLINATO","nota":"","serie":[]}]},"pier_s25_g4_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.577391","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"6","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"8","done":true},{"kg":"14","reps":"8","done":true},{"kg":"12","reps":"13","done":true},{"kg":"10","reps":"13","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"6","reps":"11","done":true},{"kg":"6","reps":"11","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"30","reps":"Vidamò","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"60","reps":"","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"8","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"11","done":true},{"kg":"12","reps":"11","done":true}]}]},"pier_s25_g4_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.577976","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"9","done":true},{"kg":"14 12 10","reps":"8","done":true},{"kg":"14 12 10","reps":"14","done":true},{"kg":"14 12 10","reps":"13","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"8","done":true},{"kg":"6","reps":"14","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"12","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"61","reps":"12","done":true},{"kg":"61","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"8,5","done":true},{"kg":"16","reps":"12","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true},{"kg":"18","reps":"8","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"12","reps":"12","done":true},{"kg":"12","reps":"11","done":true},{"kg":"12","reps":"11","done":true}]}]},"pier_s25_g4_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578326","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"8.,8.,7.,","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"9","done":true},{"kg":"14","reps":"9","done":true},{"kg":"12","reps":"15","done":true},{"kg":"10","reps":"15","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"9","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"11","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"11","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"9","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"13","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"9","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true}]}]},"pier_s25_g4_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578420","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"7","done":true},{"kg":"40","reps":"7","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"10","done":true},{"kg":"14 12 10","reps":"9","done":true},{"kg":"14 12 10","reps":"16","done":true},{"kg":"14 12 10","reps":"16","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true},{"kg":"8","reps":"10","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"","reps":"12","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"18","reps":"9","done":true},{"kg":"16","reps":"13","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"30","reps":"12","done":true},{"kg":"30","reps":"12","done":true}]}]},"pier_s25_g4_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578499","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"35","reps":"766-11","done":true},{"kg":"25","reps":"","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14 12 10","reps":"1010-","done":true},{"kg":"14 12 10","reps":"16-17","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"10","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"6,8 GT","reps":"10","done":true},{"kg":"6,8 GT","reps":"10","done":true},{"kg":"6,8 GT","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"","reps":"13","done":true},{"kg":"","reps":"12","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"18-16","reps":"11","done":true},{"kg":"18-16","reps":"11-14","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"35 GT","reps":"13","done":true},{"kg":"35 GT","reps":"11","done":true}]}]},"pier_s25_g4_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.578581","esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"35","reps":"7","done":true},{"kg":"25","reps":"12","done":true},{"kg":"25","reps":"9","done":true}]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[{"kg":"14","reps":"11","done":true},{"kg":"14","reps":"10","done":true},{"kg":"12","reps":"17","done":true},{"kg":"10","reps":"17","done":true}]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true},{"kg":"8","reps":"11","done":true}]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[{"kg":"","reps":"11","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"10","done":true}]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[{"kg":"63","reps":"14","done":true},{"kg":"63","reps":"13","done":true}]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[{"kg":"20","reps":"8","done":true},{"kg":"20","reps":"8","done":true},{"kg":"16","reps":"15","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[{"kg":"18","reps":"10","done":true},{"kg":"16","reps":"11","done":true}]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[{"kg":"37","reps":"1312","done":true},{"kg":"37","reps":"12","done":true}]}]},"pier_s25_g4_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g4e1","nome":"SHOULDER PRESS O LENTO AVANTI AL MP","nota":"","serie":[]},{"id":"g4e2","nome":"ALZATE LATERALI MANUBRI IN PIEDI","nota":"","serie":[]},{"id":"g4e3","nome":"ALZATE LATERALI SUL LATO SU PANCA 30°","nota":"","serie":[]},{"id":"g4e4","nome":"ALZATE POSTERIORI SINGOLE AL CAVO BASSO A 90°","nota":"","serie":[]},{"id":"g4e5","nome":"ALZATE POSTERIORI MANUBRI A 90°","nota":"","serie":[]},{"id":"g4e6","nome":"CURL MANUBRI SEDUTO","nota":"","serie":[]},{"id":"g4e7","nome":"CURL MANUBRI SU PANCA 60°","nota":"","serie":[]},{"id":"g4e8","nome":"CURL MANUBRI SU PANCA SCOTT","nota":"","serie":[]}]},"pier_s25_g5_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.605830","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"7","done":true},{"kg":"70","reps":"7","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"9","done":true},{"kg":"75","reps":"8","done":true},{"kg":"66","reps":"12","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"45","reps":"9","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"8","done":true},{"kg":"65","reps":"7","done":true},{"kg":"55","reps":"10","done":true},{"kg":"40","reps":"14","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"27","reps":"8","done":true},{"kg":"27","reps":"8","done":true},{"kg":"22","reps":"14","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"61","reps":"12","done":true},{"kg":"61","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"23","reps":"12","done":true},{"kg":"23","reps":"11","done":true}]}]},"pier_s25_g5_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606191","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"27","reps":"13","done":true},{"kg":"27","reps":"13","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[]}]},"pier_s25_g5_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606318","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"9","done":true},{"kg":"66","reps":"13","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"11","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"45","reps":"11","done":true},{"kg":"45","reps":"10","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"9","done":true},{"kg":"65","reps":"8","done":true},{"kg":"55","reps":"11","done":true},{"kg":"45","reps":"12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"27","reps":"10","done":true},{"kg":"27","reps":"10","done":true},{"kg":"25","reps":"13","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"11","done":true},{"kg":"63","reps":"9","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"12","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606443","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"8","done":true},{"kg":"70","reps":"7","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75","reps":"10","done":true},{"kg":"75","reps":"10","done":true},{"kg":"66","reps":"13,5","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"12","done":true},{"kg":"32","reps":"10","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"50","reps":"10","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"65","reps":"9","done":true},{"kg":"65","reps":"9","done":true},{"kg":"55","reps":"12","done":true},{"kg":"45","reps":"12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30","reps":"8","done":true},{"kg":"30","reps":"8","done":true},{"kg":"26","reps":"14","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"63","reps":"12","done":true},{"kg":"63","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"5","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w5":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606518","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"75-55","reps":"777-11","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"75-68","reps":"88-11","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"13","done":true},{"kg":"32","reps":"12","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[{"kg":"50","reps":"11","done":true}]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"70-60-50","reps":"98-10-12","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30-25","reps":"98-9","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"11","done":true},{"kg":"65","reps":"9","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"12","done":true}]}]},"pier_s25_g5_w6":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.606725","esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"8","done":true},{"kg":"40","reps":"8","done":true},{"kg":"30","reps":"11","done":true},{"kg":"30","reps":"9","done":true}]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[{"kg":"79","reps":"8","done":true},{"kg":"79","reps":"8","done":true},{"kg":"68","reps":"12","done":true}]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[{"kg":"32","reps":"13","done":true},{"kg":"32","reps":"12,5","done":true}]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[{"kg":"","reps":"8","done":true},{"kg":"","reps":"8","done":true},{"kg":"","reps":"10","done":true},{"kg":"","reps":"11","done":true},{"kg":"","reps":"U","done":true}]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[{"kg":"30","reps":"9","done":true},{"kg":"30","reps":"8,5","done":true},{"kg":"25","reps":"11","done":true}]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[{"kg":"65","reps":"11","done":true},{"kg":"65","reps":"10","done":true}]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[{"kg":"25","reps":"13","done":true},{"kg":"25","reps":"13","done":true}]}]},"pier_s25_g5_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g5e1","nome":"REMATORE T BAR","nota":"","serie":[]},{"id":"g5e2","nome":"LAT MACHINE TRIANGOLO","nota":"","serie":[]},{"id":"g5e3","nome":"LAT MACHINE MANIGLIA SINGOLA","nota":"","serie":[]},{"id":"g5e4","nome":"PULL OVER CON CORDA AL CAVO ALTO","nota":"","serie":[]},{"id":"g5e5","nome":"CHEST PRESS","nota":"","serie":[]},{"id":"g5e6","nome":"SPINTE MANUBRI SU PANCA 30°","nota":"","serie":[]},{"id":"g5e7","nome":"CROCI AI CAVI ALTI A 90°","nota":"","serie":[]},{"id":"g5e8","nome":"CROCI AI CAVI BASSI IN PIEDI","nota":"","serie":[]}]},"pier_s25_g6_w1":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.618815","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"180","reps":"8","done":true},{"kg":"180","reps":"8","done":true},{"kg":"180","reps":"7","done":true}]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"10","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true},{"kg":"20","reps":"10","done":true}]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[{"kg":"105","reps":"10","done":true},{"kg":"105","reps":"10","done":true},{"kg":"86","reps":"11","done":true},{"kg":"72","reps":"10","done":true}]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[{"kg":"54","reps":"12","done":true},{"kg":"54","reps":"11","done":true},{"kg":"54","reps":"11","done":true}]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"14","reps":"10","done":true},{"kg":"14","reps":"10","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"29","reps":"8","done":true},{"kg":"29","reps":"8","done":true},{"kg":"24","reps":"14","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"20","reps":"12","done":true},{"kg":"20","reps":"12","done":true}]}]},"pier_s25_g6_w2":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619138","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"18","reps":"","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w3":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619358","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[{"kg":"200","reps":"9","done":true},{"kg":"200","reps":"9","done":true},{"kg":"200","reps":"9","done":true}]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"18","reps":"12","done":true},{"kg":"18","reps":"12","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[{"kg":"24","reps":"2020","done":true}]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[{"kg":"105","reps":"12","done":true},{"kg":"105","reps":"12","done":true},{"kg":"86","reps":"13","done":true},{"kg":"72","reps":"14","done":true}]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[{"kg":"54","reps":"13","done":true},{"kg":"54","reps":"13","done":true},{"kg":"54","reps":"13","done":true}]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"14","reps":"12","done":true},{"kg":"14","reps":"13","done":true},{"kg":"14","reps":"13","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"31","reps":"8","done":true},{"kg":"31","reps":"10","done":true},{"kg":"27","reps":"","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[{"kg":"27","reps":"12","done":true},{"kg":"27","reps":"11","done":true}]}]},"pier_s25_g6_w4":{"noteAllenamento":"","savedAt":"2026-03-01T16:43:10.619409","esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[{"kg":"20","reps":"","done":true}]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[{"kg":"16","reps":"10","done":true},{"kg":"16","reps":"8","done":true},{"kg":"16","reps":"8","done":true}]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[{"kg":"32","reps":"8","done":true},{"kg":"32","reps":"8","done":true},{"kg":"27","reps":"12","done":true}]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w5":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w6":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_s25_g6_w7":{"noteAllenamento":"","savedAt":null,"esercizi":[{"id":"g6e1","nome":"LEG PRESS","nota":"","serie":[]},{"id":"g6e2","nome":"AFFONDI DIETRO AL MP O CON BILANCIERE","nota":"","serie":[]},{"id":"g6e3","nome":"AFFONDO IN CAMMINATA","nota":"","serie":[]},{"id":"g6e4","nome":"LEG EXTENSION","nota":"","serie":[]},{"id":"g6e5","nome":"LEG CURL SDRAITO","nota":"","serie":[]},{"id":"g6e6","nome":"FRENCH PRESS SU PIANA","nota":"","serie":[]},{"id":"g6e7","nome":"FRENCH PRESS CAVO ALTO","nota":"","serie":[]},{"id":"g6e8","nome":"PUSH DOWN CORDA CAVO ALTO","nota":"","serie":[]}]},"pier_ww_2025-W41":{"days":[69.4,70.1,70.0,68.8,68.9,68.9,68.8]},"pier_ww_2025-W43":{"days":[69.3,69.5,69.2,70.1,69.3,68.9,69.5]},"pier_ww_2025-W44":{"days":[69.9,69.0,68.9,68.9,69.7,70.1,69.4]},"pier_ww_2025-W46":{"days":[69.1,69.6,69.7,69.1,69.3,69.4,69.5]},"pier_ww_2025-W48":{"days":[69.6,70.9,70.4,69.4,70.0,70.0,69.8]},"pier_ww_2025-W49":{"days":[69.8,69.6,69.6,70.1,69.7,69.8,69.7]},"pier_ww_2025-W52":{"days":[70.1,70.0,70.5,70.1,70.9,69.8,69.9]},"pier_ww_2026-W02":{"days":[69.8,70.5,70.2,70.6,71.2,71.4,70.8]},"pier_ww_2026-W03":{"days":[71.2,71.0,70.5,70.5,70.8,71.2,71.3]},"pier_ww_2026-W04":{"days":[70.5,71.1,72.1,71.7,71.1,71.3,70.9]},"pier_ww_2026-W05":{"days":[71.2,71.2,71.2,71.4,71.6,71.6,71.8]},"pier_ww_2026-W06":{"days":[72.2,71.4,70.9,72.0,72.2,71.7,72.1]},"pier_ww_2026-W08":{"days":[71.6,71.5,71.8,71.5,71.6,71.7,72.3]},"pier_ww_2026-W09":{"days":[72.2,72.0,71.8,71.5,71.5,72.0,null]}};Object.keys(D).forEach(function(k){if(localStorage.getItem(k)===null)localStorage.setItem(k,typeof D[k]=="string"?D[k]:JSON.stringify(D[k]));});})();
 // ─── PWA SERVICE WORKER ───────────────────────────────────────────────────────
 if('serviceWorker' in navigator){
-  var swCode='var CACHE="pierfitness-v56";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
+  var swCode='var CACHE="pierfitness-v57";self.addEventListener("install",function(e){self.skipWaiting();e.waitUntil(caches.open(CACHE).then(function(c){return c.addAll(["./"])}))});self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(names){return Promise.all(names.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});self.addEventListener("fetch",function(e){if(e.request.url.indexOf("api.")>=0||e.request.url.indexOf("jsonbin")>=0||e.request.url.indexOf("script.google")>=0)return;e.respondWith(fetch(e.request).then(function(res){if(res.ok){var rc=res.clone();caches.open(CACHE).then(function(c){c.put(e.request,rc)})}return res}).catch(function(){return caches.match(e.request)}))});';
   try{var swBlob=new Blob([swCode],{type:'application/javascript'});var swUrl=URL.createObjectURL(swBlob);navigator.serviceWorker.register(swUrl).catch(function(){});}catch(e){}
 }
 // Save draft when app closes
@@ -5170,6 +5249,33 @@ document.addEventListener('click',function(e){
 
 // v56: palette unica per i giorni anche sulle schede incorporate
 (function(){try{Object.keys(SCHEDE).forEach(function(id){var sc4=SCHEDE[id];if(!sc4||!sc4.giorni||localStorage.getItem('pier_scheda_def_'+id))return;sc4.giorni.forEach(function(g4){g4.colore=DAY_COLORS[(g4.id-1)%DAY_COLORS.length];});});}catch(e){}})();
+
+// v57: menu «Altro» della seduta
+function showMoreSheet(){
+  var old=document.getElementById('more-ov');if(old)old.remove();
+  var saved=S.giorno&&S.weekLogs[S.activeWeek]&&S.weekLogs[S.activeWeek].savedAt;
+  var ov=document.createElement('div');ov.id='more-ov';ov.className='more-ov';
+  ov.innerHTML='<div class="more-sheet"><div class="hd"></div>'
+    +'<button id="btn-cerca">Cerca esercizio</button>'
+    +'<button id="btn-calc-open">Calcolatrice</button>'
+    +'<button id="btn-coach">Coach</button>'
+    +'<button id="btn-export">Backup dei dati</button>'
+    +(saved?'<button id="btn-unsave" class="danger">Annulla salvataggio W'+S.activeWeek+'</button>':'')
+    +'</div>';
+  ov.addEventListener('click',function(ev){if(!ev.target.closest('.more-sheet')||ev.target.closest('button'))setTimeout(function(){ov.remove();},0);});
+  document.body.appendChild(ov);
+}
+document.addEventListener('click',function(e){
+  if(e.target.closest('#btn-more')){showMoreSheet();return;}
+  var ks=e.target.closest('[data-kgstep]');if(ks){
+    var w=parseInt(ks.dataset.w,10),si=parseInt(ks.dataset.si,10);
+    var exl=S.weekLogs[w]&&S.weekLogs[w].esercizi.filter(function(x){return x.id===ks.dataset.ex;})[0];if(!exl||!exl.serie[si])return;
+    var v=parseFloat(String(exl.serie[si].kg||'0').replace(',','.'))||0;v=Math.max(0,Math.round((v+parseFloat(ks.dataset.kgstep))*100)/100);
+    exl.serie[si].kg=String(v);var inp=ks.parentNode.querySelector('input');if(inp)inp.value=exl.serie[si].kg;
+    try{if(navigator.vibrate)navigator.vibrate(6);}catch(_v){}
+    saveDraft();return;
+  }
+});
 
 // v52: sedute dallo storico e dalla griglia Progressi, viste e filtri
 document.addEventListener('click',function(e){
